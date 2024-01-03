@@ -1,0 +1,24 @@
+.custom-background {
+    background-color: #FFF; /* Set your desired background color for the page */
+    position: absolute;
+    height: 100%;
+}
+  
+.custom-card {
+    background-color: #F5F5F5; /* Set your desired background color for IonCard */
+    border-radius: 30px;
+    box-shadow: 6px 9px 2px 0px rgba(0, 0, 0, 0.25);
+    height: 27%;
+    margin: 30px;
+}
+
+.custom-text p {
+    font-size: 18px !important;
+}
+
+.custom-title {
+    color: #000;
+    font-weight: 900;
+    font-size: 32px;
+
+}  
