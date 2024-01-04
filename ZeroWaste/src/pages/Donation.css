@@ -1,5 +1,6 @@
 * {
     margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .donation-map {
@@ -50,15 +51,31 @@ img {
     transform: translateX(-100%);
 }
 
-#modalP {
+p, h5 {
     padding: 1rem;
     display: flex;
     text-align: justify;
     justify-content: safe;
 }
 
+p {
+    margin-top: -1.5em;
+}
+
+h5 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.ion-title {
+    font-size: 1.5em;
+}
+
 #modalContent {
-    min-height: 10rem;
+    height: 30em;
+    display: flex;
+    text-align: justify;
+    justify-content: safe;
 }
 
 @media only screen and (max-width: 768px) {
