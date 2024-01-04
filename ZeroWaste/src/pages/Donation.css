@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+}
+
+.custom-background {
+    background-image: url("https://developers.google.com/static/codelabs/maps-platform/full-stack-store-locator/img/58a6680e9c8e7396.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+}
+
+img {
+    max-height: 7em;
+    max-width: 5em;
+    position: fixed;
+    display: inline;
+}
+
+.location1,
+.location2,
+.location3 {
+    content: url("../../public/assets/red-location-icon.png");
+}
+
+.your-location {
+    max-height: 6em;
+    max-width: 6em;
+    margin-top: 5em;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    content: url("https://www.freeiconspng.com/thumbs/location-icon-png/blue-location-icon-26.png");
+}
+
+.location1 {
+    margin-top: 10em;
+    margin-left: 10%;
+}
+
+.location2 {
+    margin-top: 20em;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.location3 {
+    margin-top: 15em;
+    margin-left: 90%;
+    transform: translateX(-100%);
+}
+
+#modalP {
+    padding: 1rem;
+    display: flex;
+    text-align: justify;
+    justify-content: safe;
+}
+
+#modalContent {
+    min-height: 10rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .ion-padding {
+        padding: 10%;
+    }
+
+    img {
+        max-height: 5em;
+        max-width: 3em;
+    }
+
+    .your-location {
+        max-height: 5em;
+        max-width: 5em;
+    }
+}
