@@ -21,6 +21,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Donation from './pages/Donation';
 
 setupIonicReact();
 
@@ -33,6 +34,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+        </Route>
+        <Route exact path="/donation">
+          <Donation />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

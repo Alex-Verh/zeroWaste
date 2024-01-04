@@ -29,9 +29,9 @@ const Donation: React.FC = () => {
 				<img className="location2" onClick={() => setOpen(true, 2)}></img>
 				<img className="location3" onClick={() => setOpen(true, 3)}></img>
 
-				<img  className="your-location"></img>
+				<img className="your-location"></img>
 
-				<div className='custom-background'>
+				<div className='donation-map'>
 					<IonModal isOpen={isModalOpen}>
 						<div>
 							<IonHeader>

@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonCard, IonImg, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonCard, IonImg, IonCardHeader, IonCardTitle, IonCardContent, IonRouterLink } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 
@@ -35,7 +35,9 @@ const Home: React.FC = () => {
         </IonCard>
 
         <IonCard className="custom-card">
-          <IonImg src="/assets/main_3.jpg"></IonImg>
+          <IonRouterLink href="/donation">
+            <IonImg src="/assets/main_3.jpg"></IonImg>
+          </IonRouterLink>
           <IonCardHeader>
             <IonCardTitle className="custom-title">Donate Food</IonCardTitle>
           </IonCardHeader>
