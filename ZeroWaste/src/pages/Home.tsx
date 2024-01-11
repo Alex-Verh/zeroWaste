@@ -38,7 +38,7 @@ const Home: React.FC = () => {
           </IonCard>
         </IonRouterLink>
 
-        <IonRouterLink href="/camera">
+        <IonRouterLink href="/donation">
           <IonCard className="custom-card">
             <IonImg src="/assets/main_3.jpg"></IonImg>
             <IonCardHeader>

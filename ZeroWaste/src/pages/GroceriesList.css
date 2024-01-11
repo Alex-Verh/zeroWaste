@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+}
+
+.body {
+    padding: 0 0.9rem;
+    height: 100dvh;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+p {
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+    font-size: 15px;
+}
+
+.button-next {
+    font-size: small;
+    position: absolute; /* Hardcoded, might move around */
+    right: 0;
+    top: 2.8rem;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0.5rem;
+    border: 1px solid darkgray;
+    border-radius: 0.7rem;
+    box-shadow: 1px 2px 1px lightgray;
+}
+
+.item-name {
+    font-size: 1rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.item-info {
+    font-size: 0.8rem;
+}
+
+.item-risk {
+    color: red;
+}
+
+.item-warning {
+    color: darkgoldenrod;
+}
+
+.item-icon {
+    font-size: 24px;
+    color: rgb(61, 224, 61);
+}
+
+.item-selected {
+    border: 2px solid rgb(61, 224, 61);
+}
+
+footer {
+    z-index: 100;
+    /* Does not work */
+    position: sticky; 
+    /* top: 60%; 
+    margin: */
+}
+
+.button-add, .button-stat {
+    padding: 0 0.5rem;
+    border: 2px solid gray;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: 1px 4px 2px lightgray;
+    color: black;
+    font-size: 18px;
+}
+
+.button-add {
+    margin-bottom: 0.5rem;
+}
