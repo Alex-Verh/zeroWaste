@@ -1,9 +1,27 @@
 import React from 'react';
 import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
 import './GroceriesList.css';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
+const takePicture = async () => {
+    try {
+      const result = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
+
+      // Handle the captured image data (result.dataUrl)
+      console.log('Captured image data:', result.dataUrl);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    }
+  };
+
 const CurrentProducts: React.FC = () => (
+    
     <IonPage className='body'>
         <IonContent>
             <h2 style={{ margin: "1em 0" }}><b>Current Products</b></h2>
@@ -78,7 +96,7 @@ const CurrentProducts: React.FC = () => (
         </IonContent>
 
         <footer>
-            <IonButton href="/camera" fill="clear" expand="full" className='button-add'>Add Product</IonButton>
+            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add'>Add Product</IonButton>
             <IonButton href="/statistics" fill="clear" expand="full" className='button-stat'>See Statistics</IonButton>
         </footer>
     </IonPage>

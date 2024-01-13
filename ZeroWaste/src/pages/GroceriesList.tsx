@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
 import './GroceriesList.css';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
 if (window.location.href.endsWith("/groceries-list")) {
@@ -44,6 +45,22 @@ if (window.location.href.endsWith("/groceries-list")) {
         sessionStorage.setItem("selectedItems", JSON.stringify(items));
     }
 }
+
+const takePicture = async () => {
+    try {
+      const result = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
+
+      // Handle the captured image data (result.dataUrl)
+      console.log('Captured image data:', result.dataUrl);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    }
+  };
 
 const GroceriesList: React.FC = () => (
     <IonPage className='body'>
@@ -122,7 +139,7 @@ const GroceriesList: React.FC = () => (
         </IonContent>
 
         <footer>
-            <IonButton href="/camera" fill="clear" expand="full" className='button-add'>Add Product</IonButton>
+            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add'>Add Product</IonButton>
             <IonButton href="/suggestions" fill="clear" expand="full" className='button-stat'>Add Suggestions</IonButton>
         </footer>
     </IonPage>

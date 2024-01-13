@@ -1,6 +1,23 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonModal, IonButtons } from '@ionic/react';
 import React, { useState } from 'react';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
+
+const takePicture = async () => {
+    try {
+      const result = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
+
+      // Handle the captured image data (result.dataUrl)
+      console.log('Captured image data:', result.dataUrl);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    }
+  };
 
 const Donation: React.FC = () => {
 	const locations = ["", "Sustain Serve", "Nourish Network", "Harvest Heroes"]
@@ -99,6 +116,7 @@ const Donation: React.FC = () => {
 						</div>
 					</IonModal>
 				</div>
+				<IonButton onClick={takePicture}>Scan Product</IonButton>
 			</IonContent>
 		</IonPage>
 	);

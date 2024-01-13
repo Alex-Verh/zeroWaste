@@ -21,15 +21,18 @@ ion-img {
 }
 
 ion-card-header {
-    padding-bottom: 5px !important;
+    padding-bottom: 0 !important;
 }
 
 .custom-text p {
     font-size: 14px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .custom-title {
     color: #000;
     font-weight: 900;
     font-size: 22px;
+    
 }  
