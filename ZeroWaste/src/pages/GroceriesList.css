@@ -1,27 +1,38 @@
 * {
-    margin: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    color: #000;
 }
 
-.body {
-    padding: 0 0.9rem;
-    min-height: fit-content;
+*::-webkit-scrollbar {
+    display: none;
+}
+
+.custom-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
 sub {
     margin: 0 0 1.5rem 0;
     padding: 0;
     display: flex;
+    margin-inline: 5px;
 }
+
 
 #button-next {
     font-size: small;
-    position: absolute; /* Hardcoded, might move around */
+    position: absolute;
     right: 0;
-    top: 4.85%;
+    top: 5.9%;
+    color: #005420;
 }
 
-.items-list {
-    width: 100%;
+#items-list {
+    overflow: scroll;
+    height: 500px;
 }
 
 .item {
@@ -33,6 +44,7 @@ sub {
     border: 1px solid darkgray;
     border-radius: 0.7rem;
     box-shadow: 1px 2px 1px lightgray;
+    margin-inline: 5px;
 }
 
 .item-name {
@@ -68,24 +80,18 @@ sub {
     box-shadow: 1px 2px 1px lightgray;
 }
 
-
-/* Sticky stuff */
-footer {
-    position: absolute;
-    left: 3.75%;
-    top: 60%;
-    width: 92.5%;
+.foot-buttons {
     z-index: 1;
+    position:fixed;
+    width: 90%;
+    bottom: 0;
+    cursor: pointer;
+    left: 5%;
 }
 
-.sticky {
-    position: fixed;
-    width: 92.5%;
-    top: 62.5%;
-}
-/* --- */
-
-.button-add, .button-stat {
+.foot-btn {
+    margin: 5px auto;
+    width: 90%;
     padding: 0 0.5rem;
     border: 2px solid gray;
     border-radius: 1rem;
@@ -93,8 +99,4 @@ footer {
     box-shadow: 1px 4px 2px lightgray;
     color: black;
     font-size: 18px;
-}
-
-.button-add {
-    margin-bottom: 0.5rem;
 }

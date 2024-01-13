@@ -4,7 +4,7 @@
 }
 
 .donation-map {
-    background-image: url("https://developers.google.com/static/codelabs/maps-platform/full-stack-store-locator/img/58a6680e9c8e7396.png");
+    background-image: url("../../dist/assets/map.png");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
@@ -97,6 +97,20 @@ h5 {
     display: flex;
     text-align: justify;
     justify-content: safe;
+}
+
+.donate-btn {
+    position: absolute;
+    bottom: 1%;
+    width: 80%;
+    left: 10%;
+    padding: 0 0.5rem;
+    border: 2px solid gray;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: 1px 4px 2px lightgray;
+    color: black;
+    font-size: 18px;
 }
 
 @media only screen and (max-width: 768px) {

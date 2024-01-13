@@ -60,7 +60,7 @@ const Donation: React.FC = () => {
 
 			<IonContent fullscreen>
 				<div className="your-location">
-					<img src='https://www.freeiconspng.com/thumbs/location-icon-png/blue-location-icon-26.png'></img>
+					<img src='../../dist/assets/person.png'></img>
 					<div className="your-caption">You are here</div>
 				</div>
 
@@ -83,40 +83,46 @@ const Donation: React.FC = () => {
 					<IonModal isOpen={isModalOpen}>
 						<div>
 							<IonHeader>
-								<IonToolbar>
+
+								<IonToolbar color="dark">
+
 									<IonTitle className='ion-title'>{locationName}</IonTitle>
 
 									<IonButtons slot="end">
 										<IonButton onClick={() => setOpen(false, 0)}>Close</IonButton>
 									</IonButtons>
+
 								</IonToolbar>
 							</IonHeader>
 
 							<IonContent id="modalContent">
+							<div className='custom-background'>
+
 								{/* Description, Address, Telephone Number, Email */}
-								<h5>Description</h5>
+								<h5><b>Description</b></h5>
 								<p>{description}</p>
 
-								<h5>Address</h5>
+								<h5><b>Address</b></h5>
 								<p>{address}</p>
 
-								<h5>Telephone Number</h5>
+								<h5><b>Telephone Number</b></h5>
 								<p>{phone}</p>
 
-								<h5>Email</h5>
+								<h5><b>Email</b></h5>
 								<p>{email}</p>
 
-								<h5>Distance</h5>
+								<h5><b>Distance</b></h5>
 								<p>Approximately {distance} km away.</p>
 
-								<h5>Reward</h5>
+								<h5><b>Reward</b></h5>
 								<p>{reward}</p>
+							</div>
 							</IonContent>
 
 						</div>
 					</IonModal>
 				</div>
-				<IonButton onClick={takePicture}>Scan Product</IonButton>
+				<IonButton fill="clear" expand="full" onClick={takePicture} className="donate-btn">Scan Product</IonButton>
 			</IonContent>
 		</IonPage>
 	);

@@ -24,7 +24,10 @@ const CurrentProducts: React.FC = () => (
     
     <IonPage className='body'>
         <IonContent>
-            <h2 style={{ margin: "1em 0" }}><b>Current Products</b></h2>
+        <div className='custom-background'>
+
+            <h2><b style={{ marginLeft: '5px' }}>Current Products</b></h2>
+            <sub style={{ fontSize: '15px'}}>Manage your current product list</sub>
 
             <section id="items-list">
                 <div className="item">
@@ -93,35 +96,15 @@ const CurrentProducts: React.FC = () => (
                     <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
                 </div>
             </section>
+            </div>
         </IonContent>
 
-        <footer>
-            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add'>Add Product</IonButton>
-            <IonButton href="/statistics" fill="clear" expand="full" className='button-stat'>See Statistics</IonButton>
+        <footer className='foot-buttons'>
+            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
+            <IonButton href="/donation" fill="clear" expand="full" className='button-add foot-btn'>Donate</IonButton>
+            <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>See Statistics</IonButton>
         </footer>
     </IonPage>
 );
 
 export default CurrentProducts;
-
-
-// An attempt to make the sticky magic with JS; did not work \\
-
-// window.onload = function () {
-//     const footer = document.getElementsByTagName("footer")[0];
-//     const sticky = footer.offsetTop;
-
-//     function stickFooterButtons() {
-//         if (window.pageYOffset > sticky) {
-//             footer.classList.add("sticky");
-//         } else {
-//             footer.classList.remove("sticky");
-//         }
-//     }
-
-//     window.onscroll = function () {
-//         stickFooterButtons();
-//     }
-
-//     document.addEventListener("click", selectCard);
-// }

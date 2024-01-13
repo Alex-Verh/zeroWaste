@@ -1,13 +1,13 @@
 import React from 'react';
-import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
+import { IonContent, IonPage, IonIcon, IonButton, IonHeader } from '@ionic/react';
 import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
 if (window.location.href.endsWith("/groceries-list")) {
     window.onload = function () {
-        (document.getElementById("items-list") as HTMLElement).addEventListener("click", selectCard);
-        (document.getElementById("button-next") as HTMLElement).addEventListener("click", storeItems);
+        (document.getElementById("items-list") as HTMLElement).addEventListener("pointerup", selectCard);
+        (document.getElementById("button-next") as HTMLElement).addEventListener("pointerup", storeItems);
     }
 
     function selectCard(event: Event) {
@@ -27,7 +27,7 @@ if (window.location.href.endsWith("/groceries-list")) {
             return;
         }
         item.classList.remove("item-selected");
-        item.classList.add("item-deselected");
+        item.getAttribute("id") != "items-list" && item.classList.add("item-deselected");
         if (tick !== null) {
             tick.style.display = "none";
         }
@@ -64,10 +64,15 @@ const takePicture = async () => {
 
 const GroceriesList: React.FC = () => (
     <IonPage className='body'>
-        <IonContent>
-            <h2><b>Grocery List</b></h2>
-            <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
-            <IonButton href="/final-grocery-list" fill="clear" id='button-next'>Next &#8594;</IonButton>
+        <IonHeader>
+
+        </IonHeader>
+        <IonContent fullscreen>
+        <div className='custom-background'>
+
+            <h2><b  style={{ marginLeft: '5px' }}>Grocery List</b></h2>
+            <sub style={{ fontSize: '15px'}}>Press to select the items you want to add</sub>
+            <IonButton href="/final-grocery-list" fill="clear" id='button-next'>Next</IonButton>
 
             <section id="items-list">
                 <div className="item item-selected">
@@ -135,36 +140,72 @@ const GroceriesList: React.FC = () => (
                     <div className="item-info"></div>
                     <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
                 </div>
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+
+                <div className="item">
+                    <div className="item-name">Onions</div>
+                    <div className="item-info"></div>
+                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                </div>
+                
             </section>
+            </div>
         </IonContent>
 
-        <footer>
-            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add'>Add Product</IonButton>
-            <IonButton href="/suggestions" fill="clear" expand="full" className='button-stat'>Add Suggestions</IonButton>
+        <footer className="foot-buttons">
+            <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
+            <IonButton fill="clear" expand="full" className='button-stat foot-btn'>Get Suggestions</IonButton>
+            <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>See Statistics</IonButton>
         </footer>
     </IonPage>
 );
 
 export default GroceriesList;
-
-
-// An attempt to make the sticky magic work with JS; did not work \\
-
-// window.onload = function () {
-//     const footer = document.getElementsByTagName("footer")[0];
-//     const sticky = footer.offsetTop;
-
-//     function stickFooterButtons() {
-//         if (window.pageYOffset > sticky) {
-//             footer.classList.add("sticky");
-//         } else {
-//             footer.classList.remove("sticky");
-//         }
-//     }
-
-//     window.onscroll = function () {
-//         stickFooterButtons();
-//     }
-
-//     document.addEventListener("click", selectCard);
-// }
