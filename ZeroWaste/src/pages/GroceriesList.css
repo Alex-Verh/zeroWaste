@@ -4,7 +4,8 @@
 
 .body {
     padding: 0 0.9rem;
-    height: 100dvh;
+    min-height: fit-content;
+    overflow-x: visible;
 }
 
 h2 {
@@ -21,7 +22,11 @@ p {
     font-size: small;
     position: absolute; /* Hardcoded, might move around */
     right: 0;
-    top: 2.8rem;
+    top: 5.35%;
+}
+
+.items-list {
+    width: 100%;
 }
 
 .item {
@@ -60,15 +65,30 @@ p {
 
 .item-selected {
     border: 2px solid rgb(61, 224, 61);
+    box-shadow: 1px 1.5px 1px rgb(160, 231, 160);
 }
 
-footer {
-    z-index: 100;
-    /* Does not work */
-    position: sticky; 
-    /* top: 60%; 
-    margin: */
+.item-deselected {
+    border: 1px solid darkgray;
+    box-shadow: 1px 2px 1px lightgray;
 }
+
+
+/* Sticky stuff */
+footer {
+    position: absolute;
+    left: 3.75%;
+    top: 60%;
+    width: 92.5%;
+    z-index: 1;
+}
+
+.sticky {
+    position: fixed;
+    width: 92.5%;
+    top: 62.5%;
+}
+/* --- */
 
 .button-add, .button-stat {
     padding: 0 0.5rem;

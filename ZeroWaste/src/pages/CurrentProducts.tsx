@@ -34,9 +34,9 @@ function selectCard(event: Event) {
 const GroceriesList: React.FC = () => (
     <IonPage className='body'>
         <IonContent>
-            <h2><b>Groceries List</b></h2>
+            <h2><b>Current Products</b></h2>
             <p>Press to select the items you want to add</p>
-            <IonButton href="/final" fill="clear" className='button-next'>Next &#8594;</IonButton>
+            <IonButton href="#" fill="clear" className='button-next'>Next &#8594;</IonButton>
 
             <section id="items-list">
                 <div className="item item-selected">
@@ -109,7 +109,7 @@ const GroceriesList: React.FC = () => (
 
         <footer>
             <IonButton href="/camera" fill="clear" expand="full" className='button-add'>Add Product</IonButton>
-            <IonButton href="/suggestions" fill="clear" expand="full" className='button-stat'>Add Suggestions</IonButton>
+            <IonButton href="/statistics" fill="clear" expand="full" className='button-stat'>See Statistics</IonButton>
         </footer>
     </IonPage>
 );

@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import CameraPage from './pages/CameraPage';
 import Donation from './pages/Donation';
 import GroceriesList from './pages/GroceriesList';
+import CurrentProducts from './pages/CurrentProducts';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -49,7 +50,7 @@ const App: React.FC = () => (
           <GroceriesList />
         </Route>
         <Route exact path="/current-products">
-          <CameraPage />
+          <CurrentProducts />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
