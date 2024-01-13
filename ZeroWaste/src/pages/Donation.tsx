@@ -11,6 +11,7 @@ const Donation: React.FC = () => {
 	const phones = ["", "+1 (555) 123-4567", "+1 (555) 987-6543", "+1 (555) 789-0123"];
 	const emails = ["", "info@sustainserve.org", "contact@nourishnetwork.org", "support@harvestheroes.com"];
 	const distances = ["", "0.5", "1.1", "0.85"];
+	const rewards = ["", "5% of the product's price", "A one-time 3% discount voucher for all Nourish Network shops", "7% of the product's price"];
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [locationName, setLocationName] = useState("");
@@ -19,6 +20,7 @@ const Donation: React.FC = () => {
 	const [phone, setPhone] = useState("");
 	const [email, setEmail] = useState("");
 	const [distance, setDistance] = useState("");
+	const [reward, setReward] = useState("");
 
 	const setOpen = (isOpen: boolean, id: number) => {
 		if (isOpen) {
@@ -28,6 +30,7 @@ const Donation: React.FC = () => {
 			setPhone(`${phones[id]}`);
 			setEmail(`${emails[id]}`);
 			setDistance(`${distances[id]}`);
+			setReward(`${rewards[id]}`);
 		}
 		setIsModalOpen(isOpen);
 	};
@@ -88,6 +91,9 @@ const Donation: React.FC = () => {
 
 								<h5>Distance</h5>
 								<p>Approximately {distance} km away.</p>
+
+								<h5>Reward</h5>
+								<p>{reward}</p>
 							</IonContent>
 
 						</div>

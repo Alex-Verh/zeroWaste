@@ -8,6 +8,7 @@ import CameraPage from './pages/CameraPage';
 import Donation from './pages/Donation';
 import GroceriesList from './pages/GroceriesList';
 import CurrentProducts from './pages/CurrentProducts';
+import FinalGroceryList from './pages/FinalGroceryList';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,6 +52,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/current-products">
           <CurrentProducts />
+        </Route>
+        <Route exact path="/final-grocery-list">
+          <FinalGroceryList />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

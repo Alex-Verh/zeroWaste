@@ -3,40 +3,54 @@ import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
 import './GroceriesList.css';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
-window.onload = function () {
-    (document.getElementById("items-list") as HTMLElement).addEventListener("click", selectCard);
-}
-
-function selectCard(event: Event) {
-    let item: HTMLElement | null = event.target as HTMLElement;
-    if (item.parentElement !== null && item.parentElement !== undefined && item.parentElement.classList.contains("item")) {
-        item = item.parentElement;
+if (window.location.href.endsWith("/groceries-list")) {
+    window.onload = function () {
+        (document.getElementById("items-list") as HTMLElement).addEventListener("click", selectCard);
+        (document.getElementById("button-next") as HTMLElement).addEventListener("click", storeItems);
     }
 
-    const tick: HTMLElement | null = item.getElementsByClassName("item-icon")[0] as HTMLElement;
-    if (item.classList.contains("item") && !item.classList.contains("item-selected")) {
-        item.classList.remove("item-deselected");
-        item.classList.add("item-selected");
-        if (tick !== null) {
-            tick.style.display = "block";
+    function selectCard(event: Event) {
+        let item: HTMLElement | null = event.target as HTMLElement;
+        if (item.parentElement !== null && item.parentElement !== undefined && item.parentElement.classList.contains("item")) {
+            item = item.parentElement;
         }
-        console.log("SELECTED");
-        return;
+
+        const tick: HTMLElement | null = item.getElementsByClassName("item-icon")[0] as HTMLElement;
+        if (item.classList.contains("item") && !item.classList.contains("item-selected")) {
+            item.classList.remove("item-deselected");
+            item.classList.add("item-selected");
+            if (tick !== null) {
+                tick.style.display = "block";
+            }
+            console.log("SELECTED");
+            return;
+        }
+        item.classList.remove("item-selected");
+        item.classList.add("item-deselected");
+        if (tick !== null) {
+            tick.style.display = "none";
+        }
+        console.log("NOT");
     }
-    item.classList.remove("item-selected");
-    item.classList.add("item-deselected");
-    if (tick !== null) {
-        tick.style.display = "none";
+
+    function storeItems() {
+        const selectedItems = document.getElementsByClassName("item-selected");
+        const items = [];
+        for (const item of selectedItems) {
+            const name = item.getElementsByClassName("item-name")[0].textContent;
+            const info = item.getElementsByClassName("item-info")[0].textContent;
+            items.push([name, info]);
+        }
+        sessionStorage.setItem("selectedItems", JSON.stringify(items));
     }
-    console.log("NOT");
 }
 
 const GroceriesList: React.FC = () => (
     <IonPage className='body'>
         <IonContent>
-            <h2><b>Groceries List</b></h2>
-            <p>Press to select the items you want to add</p>
-            <IonButton href="/final" fill="clear" className='button-next'>Next &#8594;</IonButton>
+            <h2><b>Grocery List</b></h2>
+            <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
+            <IonButton href="/final-grocery-list" fill="clear" id='button-next'>Next &#8594;</IonButton>
 
             <section id="items-list">
                 <div className="item item-selected">
@@ -117,7 +131,7 @@ const GroceriesList: React.FC = () => (
 export default GroceriesList;
 
 
-// An attempt to make the sticky magic with JS; did not work \\
+// An attempt to make the sticky magic work with JS; did not work \\
 
 // window.onload = function () {
 //     const footer = document.getElementsByTagName("footer")[0];

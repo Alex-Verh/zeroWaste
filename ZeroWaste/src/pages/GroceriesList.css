@@ -5,24 +5,19 @@
 .body {
     padding: 0 0.9rem;
     min-height: fit-content;
-    overflow-x: visible;
 }
 
-h2 {
-    font-weight: bold;
-}
-
-p {
+sub {
     margin: 0 0 1.5rem 0;
     padding: 0;
-    font-size: 15px;
+    display: flex;
 }
 
-.button-next {
+#button-next {
     font-size: small;
     position: absolute; /* Hardcoded, might move around */
     right: 0;
-    top: 5.35%;
+    top: 4.85%;
 }
 
 .items-list {
