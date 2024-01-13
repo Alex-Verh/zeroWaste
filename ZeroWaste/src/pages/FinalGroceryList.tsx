@@ -31,22 +31,15 @@ if (window.location.href.endsWith("/final-grocery-list")) {
 const FinalGroceryList: React.FC = () => (
     <IonPage className='body'>
         <IonContent>
-            <h2 style={{ margin: "1em 0" }}><b>Final Grocery List</b></h2>
+        <div className='custom-background'>
+
+            <h2><b  style={{ marginLeft: '5px' }}>Final Grocery List</b></h2>
+            <sub style={{ fontSize: '15px'}}>Here is your final shopping list.</sub>    
             <IonButton href="/groceries-list" fill="clear" id='button-next' style={{ top: "1.1em", fontSize: "1em" }}>&#8592; Back</IonButton>
 
             <section id="items-list">
-                {/* <div className="item">
-                    <div className="item-name">Onions</div>
-                    <div className="item-info"></div>
-                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                </div>
-
-                <div className="item">
-                    <div className="item-name">Carrots</div>
-                    <div className="item-info item-risk">High Risk of Wastage!</div>
-                    <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                </div> */}
             </section>
+            </div>
         </IonContent>
     </IonPage>
 );

@@ -1,7 +1,9 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonModal, IonButtons } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton, IonModal, IonButtons } from '@ionic/react';
 import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
+import myImage from '../../dist/assets/person.png';
+
 
 const takePicture = async () => {
     try {
@@ -60,7 +62,7 @@ const Donation: React.FC = () => {
 
 			<IonContent fullscreen>
 				<div className="your-location">
-					<img src='../../dist/assets/person.png'></img>
+					<IonImg src={myImage}></IonImg>
 					<div className="your-caption">You are here</div>
 				</div>
 
