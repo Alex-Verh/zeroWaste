@@ -19,7 +19,7 @@ const takePicture = async () => {
 
 		const randomNumber: number = Math.floor(Math.random() * 3) + 1;
 		sessionStorage.setItem("randomNumber", randomNumber.toString());
-		window.location.href = "/recommended-location"
+		window.location.href = "/recommended-location";
 	} catch (error) {
 		console.error('Error taking picture:', error);
 	}
@@ -139,7 +139,6 @@ export const RecommendedLocation: React.FC = () => {
 	const email: string = emails[randomNumber];
 	const distance: string = distances[randomNumber];
 	const reward: string = rewards[randomNumber];
-	console.log(reward);
 
 	const [isRecommendationOpen, setRecommendationOpen] = useState(true);
 

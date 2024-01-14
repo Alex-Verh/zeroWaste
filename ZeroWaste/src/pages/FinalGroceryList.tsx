@@ -16,7 +16,7 @@ if (window.location.href.endsWith("/final-grocery-list")) {
             let infoStyle = "item-info";
             if (item[1] !== undefined && item[1] !== null) infoStyle += " item-risk";
             parsedItems.push(
-                <div key={item[0]} className="item">
+                <div className="item">
                     <div className="item-name">{item[0]}</div>
                     <div className={infoStyle}>{item[1]}</div>
                     <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
@@ -37,7 +37,7 @@ const FinalGroceryList: React.FC = () => (
                 <IonButton href="/groceries-list" fill="clear" id='button-next' style={{ top: "1.1em", fontSize: "1em" }}>&#8592; Back</IonButton>
 
                 <section id="items-list">
-                    
+
                 </section>
             </div>
         </IonContent>
