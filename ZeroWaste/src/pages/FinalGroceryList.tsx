@@ -31,14 +31,14 @@ if (window.location.href.endsWith("/final-grocery-list")) {
 const FinalGroceryList: React.FC = () => (
     <IonPage className='body'>
         <IonContent>
-        <div className='custom-background'>
+            <div className='custom-background'>
+                <h2><b style={{ marginLeft: '5px' }}>Final Grocery List</b></h2>
+                <sub style={{ fontSize: '15px' }}>Here is your final shopping list.</sub>
+                <IonButton href="/groceries-list" fill="clear" id='button-next' style={{ top: "1.1em", fontSize: "1em" }}>&#8592; Back</IonButton>
 
-            <h2><b  style={{ marginLeft: '5px' }}>Final Grocery List</b></h2>
-            <sub style={{ fontSize: '15px'}}>Here is your final shopping list.</sub>    
-            <IonButton href="/groceries-list" fill="clear" id='button-next' style={{ top: "1.1em", fontSize: "1em" }}>&#8592; Back</IonButton>
-
-            <section id="items-list">
-            </section>
+                <section id="items-list">
+                    
+                </section>
             </div>
         </IonContent>
     </IonPage>
