@@ -5,7 +5,11 @@
     height: 100%;
 }
 
+<<<<<<< Updated upstream
 .custom-card-stat {
+=======
+.card {
+>>>>>>> Stashed changes
     background-color: #F5F5F5;
     /* Set your desired background color for IonCard */
     border-radius: 10px 10px 15px 15px;
@@ -46,4 +50,13 @@ ion-card-header {
 
 #favourites-list, #wasted-list {
     margin-bottom: -1rem;
+}
+
+#input-item-name {
+    margin: 0 auto;
+    width: 90%;
+}
+
+#add-product {
+    margin-top: 2em;
 }
