@@ -7,7 +7,7 @@ import { checkmarkCircleOutline } from 'ionicons/icons';
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
-let model, maxPredictions;
+let model:any, maxPredictions:any;
 
 function storeItems() {
     const selectedItems = document.getElementsByClassName("item-selected");
@@ -54,9 +54,12 @@ const initAI = async () => {
   maxPredictions = model.getTotalClasses();
   console.log('Teachable Machine model loaded:', model);
 };
-await initAI(); // bad code
+(async () => {
+    await initAI();
+    // Other code
+  })();
 
-const predict = async (imageData) => {
+const predict = async (imageData:any) => {
     // Ensure model is loaded before making predictions
     if (!model) {
         console.error('Model not loaded.');
@@ -80,7 +83,6 @@ const predict = async (imageData) => {
 
 const takePicture = async () => {
     try {
-//         await initAI();
         const result = await Camera.getPhoto({
             quality: 90,
             allowEditing: false,
@@ -107,7 +109,7 @@ const takePicture = async () => {
         console.log('Final: ' + maxString);
         console.log('Prob: ' + max);
 
-        return maxString;
+        addListElement(maxString);
     } catch (error) {
         console.error('Error taking picture: ', error);
     }
