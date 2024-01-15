@@ -38,7 +38,7 @@ const Statistics: React.FC = () => {
         <IonPage className='body'>
             <IonContent>
                 <div className='custom-background'>
-                    <IonCard className="custom-card">
+                    <IonCard className="custom-card-stat">
                         <IonImg src="/assets/main_1.jpg"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
                             <IonCardTitle className="custom-title">Favourites</IonCardTitle>
@@ -70,7 +70,7 @@ const Statistics: React.FC = () => {
                         </IonCardContent>
                     </IonCard>
 
-                    <IonCard className="custom-card">
+                    <IonCard className="custom-card-stat">
                         <IonImg src="/assets/zero-waste.png"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
                             <IonCardTitle className="custom-title">Wasted Food</IonCardTitle>

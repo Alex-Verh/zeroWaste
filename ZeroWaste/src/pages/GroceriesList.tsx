@@ -45,12 +45,31 @@ const takePicture = async () => {
             source: CameraSource.Camera,
         });
 
-        // Handle the captured image data (result.dataUrl)
         console.log('Captured image data: ', result.dataUrl);
     } catch (error) {
         console.error('Error taking picture: ', error);
     }
 };
+
+const addSuggestion = () => {
+    const itemsList = document.querySelector("#items-list");
+    const productsDB = ["Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes", "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal", "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers", "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon", "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips", "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds", "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli", "Detergent", "Paper Towels", "Toilet Paper", "Shampoo", "Conditioner", "Soap", "Toothpaste", "Dish Soap", "Trash Bags", "Aluminum Foil", "Plastic Wrap", "Tissues", "Bleach", "Disinfectant Wipes", "Hand Sanitizer", "Cat Food", "Dog Food", "Pet Treats", "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup", "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple", "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"];
+
+    const newItem = document.createElement('div');
+    newItem.className = 'item';
+    newItem.addEventListener('click', (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        setSelected(event);
+    });
+    const randomProduct = productsDB[Math.floor(Math.random() * productsDB.length)];
+
+    newItem.innerHTML = `
+        <div class="item-name">${randomProduct}</div>
+        <div class="item-info"></div>
+        <ion-icon icon="${checkmarkCircleOutline}" class="item-icon" style="display: none;"></ion-icon>
+        `;
+
+    itemsList?.appendChild(newItem);
+}
 
 
 const GroceriesList: React.FC = () => (
@@ -89,111 +108,13 @@ const GroceriesList: React.FC = () => (
                         <div className="item-info"></div>
                         <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
                     </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
-                    <div className="item" onClick={ setSelected }>
-                        <div className="item-name">Onions</div>
-                        <div className="item-info"></div>
-                        <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
-                    </div>
-
                 </section>
             </div>
         </IonContent>
 
         <footer className="foot-buttons">
             <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
-            <IonButton href="/suggestions" fill="clear" expand="full" className='button-stat foot-btn'>Get Suggestions</IonButton>
+            <IonButton onClick={addSuggestion} fill="clear" expand="full" className='button-stat foot-btn'>Get Suggestions</IonButton>
             <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>See Statistics</IonButton>
         </footer>
     </IonPage>

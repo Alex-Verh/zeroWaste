@@ -85,7 +85,7 @@ const Donation: React.FC = () => {
 					<IonModal isOpen={isModalOpen}>
 						<div>
 							<IonHeader>
-								<IonToolbar color="dark">
+								<IonToolbar color="ligth">
 									<IonTitle className='ion-title'>{locationName}</IonTitle>
 
 									<IonButtons slot="end">

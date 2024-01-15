@@ -5,7 +5,7 @@
     height: 100%;
 }
 
-.custom-card {
+.custom-card-stat {
     background-color: #F5F5F5;
     /* Set your desired background color for IonCard */
     border-radius: 10px 10px 15px 15px;
@@ -13,10 +13,6 @@
     height: 45%;
     margin: 10px 30px 15px 30px;
     overflow-y: auto;
-}
-
-.custom-card:active {
-    box-shadow: 6px 9px 2px 0px rgba(0, 0, 0, 0);
 }
 
 ion-img {
