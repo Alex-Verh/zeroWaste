@@ -52,7 +52,6 @@ const takePicture = async () => {
 };
 
 const addSuggestion = () => {
-    const itemsList = document.querySelector("#items-list");
     const productsDB = [
         "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
         "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal",
@@ -67,20 +66,24 @@ const addSuggestion = () => {
         "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"
       ];
       
+   
+    const randomProduct = productsDB[Math.floor(Math.random() * productsDB.length)];
+
+    addListElement(randomProduct);
+}
+
+const addListElement = (str:String) => {
     const newItem = document.createElement('div');
     newItem.className = 'item';
     newItem.addEventListener('click', (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setSelected(event);
     });
-    const randomProduct = productsDB[Math.floor(Math.random() * productsDB.length)];
-
     newItem.innerHTML = `
-        <div class="item-name">${randomProduct}</div>
+        <div class="item-name">${str}</div>
         <div class="item-info"></div>
         <ion-icon icon="${checkmarkCircleOutline}" class="item-icon" style="display: none;"></ion-icon>
-        `;
-
-    itemsList?.appendChild(newItem);
+    `;
+    document.querySelector("#items-list")?.appendChild(newItem);
 }
 
 
