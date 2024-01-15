@@ -2,9 +2,27 @@ import { IonContent, IonPage, IonIcon, IonButton, IonCard, IonImg, IonCardHeader
 import './Statistics.css';
 import { closeOutline, list } from 'ionicons/icons';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 
 const Statistics: React.FC = () => {
+
+    const history = useHistory();
+
+    React.useEffect(() => {
+        const onBackButton = (event: Event) => {
+          event.preventDefault();
+          history.replace('/home');
+        };
+    
+        document.addEventListener('ionBackButton', onBackButton as EventListener);
+    
+        return () => {
+          document.removeEventListener('ionBackButton', onBackButton as EventListener);
+        };
+      }, [history]);
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [listID, setListID] = useState("");

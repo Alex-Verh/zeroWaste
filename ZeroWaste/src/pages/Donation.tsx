@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
 import myImage from '/assets/person.png';
+import { useHistory } from 'react-router-dom';
 
 
 const takePicture = async () => {
@@ -44,6 +45,23 @@ const Donation: React.FC = () => {
 	const [email, setEmail] = useState("");
 	const [distance, setDistance] = useState("");
 	const [reward, setReward] = useState("");
+
+
+	const history = useHistory();
+
+    React.useEffect(() => {
+        const onBackButton = (event: Event) => {
+          event.preventDefault();
+          history.replace('/home');
+        };
+    
+        document.addEventListener('ionBackButton', onBackButton as EventListener);
+    
+        return () => {
+          document.removeEventListener('ionBackButton', onBackButton as EventListener);
+        };
+      }, [history]);
+
 
 	const setOpen = (isOpen: boolean, id: number) => {
 		if (isOpen) {
