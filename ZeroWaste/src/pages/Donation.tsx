@@ -2,7 +2,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton
 import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
-import myImage from '../../dist/assets/person.png';
+import myImage from '/assets/person.png';
 
 
 const takePicture = async () => {
