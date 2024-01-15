@@ -53,8 +53,20 @@ const takePicture = async () => {
 
 const addSuggestion = () => {
     const itemsList = document.querySelector("#items-list");
-    const productsDB = ["Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes", "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal", "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers", "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon", "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips", "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds", "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli", "Detergent", "Paper Towels", "Toilet Paper", "Shampoo", "Conditioner", "Soap", "Toothpaste", "Dish Soap", "Trash Bags", "Aluminum Foil", "Plastic Wrap", "Tissues", "Bleach", "Disinfectant Wipes", "Hand Sanitizer", "Cat Food", "Dog Food", "Pet Treats", "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup", "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple", "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"];
-
+    const productsDB = [
+        "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
+        "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal",
+        "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers",
+        "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon",
+        "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
+        "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
+        "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli",
+        "Cat Food", "Dog Food", "Pet Treats",
+        "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup",
+        "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple",
+        "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"
+      ];
+      
     const newItem = document.createElement('div');
     newItem.className = 'item';
     newItem.addEventListener('click', (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

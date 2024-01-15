@@ -1,31 +1,35 @@
 import { IonContent, IonPage, IonIcon, IonButton, IonCard, IonImg, IonCardHeader, IonCardTitle, IonCardContent, IonModal, IonHeader, IonButtons, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import './Statistics.css';
-import { closeOutline } from 'ionicons/icons';
+import { closeOutline, list } from 'ionicons/icons';
 import React, { useState } from 'react';
 
 
 const Statistics: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    let listID = "";
+
+    const [listID, setListID] = useState("");
+    const [itemName, setItemName] = useState("");
     function setOpen(isOpen: boolean, list: string) {
-        if (isOpen) {
-            console.log(list);
-            listID = list;
-        }
+        setListID(list);
         setIsModalOpen(isOpen);
     }
 
-    const [favourites, setFavourites] = useState(['Onions', 'Chocolate', 'Apples']);
-    const [wasted, setWasted] = useState(['Tomatoes', 'Carrots', 'Milk']);
+
+    const [favourites, setFavourites] = useState(['Chocolate', 'Apples']);
+    const [wasted, setWasted] = useState(['Tomatoes','Milk']);
 
     function addItem() {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
-        if (listID.includes("favourites")) {
+        console.log(listID)
+        const trimmedItemName = itemName.trim();
+
+        if (listID === "favourites-list" && trimmedItemName !== "") {
             setFavourites([...favourites, itemName]);
-        } else {
+        } else if (listID === "wasted-list" && trimmedItemName !== "") {
             setWasted([...wasted, itemName]);
         }
         setOpen(false, "");
+        setItemName("");
     }
 
     const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number) => {
