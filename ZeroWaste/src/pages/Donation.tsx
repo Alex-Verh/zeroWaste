@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
 import myImage from '/assets/person.png';
+import { useHistory } from 'react-router-dom';
 
 const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
 let model, maxPredictions;
@@ -83,6 +84,23 @@ const Donation: React.FC = () => {
 	const [distance, setDistance] = useState("");
 	const [reward, setReward] = useState("");
 
+
+	const history = useHistory();
+
+    React.useEffect(() => {
+        const onBackButton = (event: Event) => {
+          event.preventDefault();
+          history.replace('/home');
+        };
+    
+        document.addEventListener('ionBackButton', onBackButton as EventListener);
+    
+        return () => {
+          document.removeEventListener('ionBackButton', onBackButton as EventListener);
+        };
+      }, [history]);
+
+
 	const setOpen = (isOpen: boolean, id: number) => {
 		if (isOpen) {
 			setLocationName(`${locations[id]}`);
@@ -123,7 +141,7 @@ const Donation: React.FC = () => {
 					<IonModal isOpen={isModalOpen}>
 						<div>
 							<IonHeader>
-								<IonToolbar color="dark">
+								<IonToolbar color="ligth">
 									<IonTitle className='ion-title'>{locationName}</IonTitle>
 
 									<IonButtons slot="end">
