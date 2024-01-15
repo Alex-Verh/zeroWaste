@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
 import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
@@ -11,7 +11,6 @@ import * as tmImage from '@teachablemachine/image';
 
 const CurrentProducts: React.FC = () => {
     let model:any, maxPredictions:any;
-
 
     const initAI = async () => {
         // Wait for TensorFlow.js to be ready
@@ -63,7 +62,6 @@ const CurrentProducts: React.FC = () => {
                 items.push(maxString);
                 const newItems = [...items];
                 setItems(newItems);
-                refreshList();
             } catch (error) {
                 console.error('Error taking picture: ', error);
             }
@@ -92,40 +90,15 @@ const CurrentProducts: React.FC = () => {
         return prediction;
     };
     
-
     const [items, setItems] = useState(['Onions', 'Carrots', 'Apples']);
-
 
     const removeItem = (index: number) => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
     };
-
-    const refreshList = () => {
-        console.log(items)
-
-        const itemList = document.querySelector("#items-list");
-        if (itemList) {
-          const itemsHtml = items.map((item: string, index: number) => (
-            `<div class="item" key=${index}>
-              <div class="item-name">${item}</div>
-              <div class="item-info"></div>
-              ${<IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(index)}></IonIcon>}
-            </div>`
-          )).join(''); // Use join to concatenate the array into a string
-      
-          itemList.innerHTML = itemsHtml;
-        }
-      };
-
-      useEffect(() => {
-        // Call refreshList when the component mounts to display the initial items
-        refreshList();
-      }, []);
     
     return (
-
         <IonPage className='body'>
             <IonContent>
                 <div className='custom-background'>
@@ -133,6 +106,13 @@ const CurrentProducts: React.FC = () => {
                     <sub style={{ fontSize: '15px' }}>Manage your current product list</sub>
 
                     <section id="items-list">
+                        {items.map((item: string, index: number) => (
+                            <div className="item" key={index}>
+                                <div className="item-name">{item}</div>
+                                <div className="item-info"></div>
+                                <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(index)} />
+                            </div>
+                        ))}
                     </section>
                 </div>
             </IonContent>
@@ -145,6 +125,5 @@ const CurrentProducts: React.FC = () => {
         </IonPage>
     );
 };
-
 
 export default CurrentProducts;
