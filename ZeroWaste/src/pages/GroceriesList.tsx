@@ -7,6 +7,8 @@ import { checkmarkCircleOutline } from 'ionicons/icons';
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
+let model, maxPredictions;
+
 function storeItems() {
     const selectedItems = document.getElementsByClassName("item-selected");
     const items = [];
@@ -48,9 +50,11 @@ const initAI = async () => {
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
 
-  const model = await tmImage.load(modelURL, metadataURL);
+  model = await tmImage.load(modelURL, metadataURL);
+  maxPredictions = model.getTotalClasses();
   console.log('Teachable Machine model loaded:', model);
 };
+await initAI(); // bad code
 
 const predict = async (imageData) => {
     // Ensure model is loaded before making predictions
@@ -71,12 +75,12 @@ const predict = async (imageData) => {
     const classLabel = prediction[0].className;
     const probability = prediction[0].probability.toFixed(2);
 
-    return { classLabel, probability };
+    return prediction;
 };
 
 const takePicture = async () => {
     try {
-        await initAI();
+//         await initAI();
         const result = await Camera.getPhoto({
             quality: 90,
             allowEditing: false,
@@ -87,9 +91,23 @@ const takePicture = async () => {
         console.log('Captured image data: ', result.dataUrl);
 
         // Predict using TensorFlow.js model
-        const classificationResult = await predict(result.dataUrl);
-        console.log('ASDASDSADSADSAD: ' + classificationResult);
-        return classificationResult;
+        const prediction = await predict(result.dataUrl);
+
+        let max = -1;
+        let maxString = "";
+
+        for (let i = 0; i < maxPredictions; i++) {
+
+            if (prediction[i].probability.toFixed(2) > max) {
+                max = prediction[i].probability.toFixed(2);
+                maxString = prediction[i].className;
+            }
+        }
+
+        console.log('Final: ' + maxString);
+        console.log('Prob: ' + max);
+
+        return maxString;
     } catch (error) {
         console.error('Error taking picture: ', error);
     }
