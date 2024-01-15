@@ -4,7 +4,6 @@ import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { closeOutline } from 'ionicons/icons';
 
-
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
@@ -28,6 +27,7 @@ const CurrentProducts: React.FC = () => {
       };
       (async () => {
           await initAI();
+          // Other code
         })();
     
         const takePicture = async () => {

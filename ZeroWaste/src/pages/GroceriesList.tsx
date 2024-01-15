@@ -3,11 +3,28 @@ import { IonContent, IonPage, IonIcon, IonButton, IonHeader } from '@ionic/react
 import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
 
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
 let model:any, maxPredictions:any;
+
+    const history = useHistory();
+
+
+    React.useEffect(() => {
+        const onBackButton = (event: Event) => {
+          event.preventDefault();
+          history.replace('/home');
+        };
+    
+        document.addEventListener('ionBackButton', onBackButton as EventListener);
+    
+        return () => {
+          document.removeEventListener('ionBackButton', onBackButton as EventListener);
+        };
+      }, [history]);
 
 function storeItems() {
     const selectedItems = document.getElementsByClassName("item-selected");

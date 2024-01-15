@@ -6,7 +6,7 @@ import myImage from '/assets/person.png';
 import { useHistory } from 'react-router-dom';
 
 const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
-let model, maxPredictions;
+let model:any, maxPredictions:any;
 
 const takePicture = async () => {
 	try {
@@ -41,7 +41,7 @@ async function init() {
 	maxPredictions = model.getTotalClasses();
 }
 
-const predict = async (imageData) => {
+const predict = async (imageData:any) => {
     // Ensure model is loaded before making predictions
     if (!model) {
         console.error('Model not loaded.');
@@ -90,7 +90,8 @@ const Donation: React.FC = () => {
     React.useEffect(() => {
         const onBackButton = (event: Event) => {
           event.preventDefault();
-          history.replace('/home');
+        //   history.replace('/home');
+		  window.location.href = "/home";
         };
     
         document.addEventListener('ionBackButton', onBackButton as EventListener);
