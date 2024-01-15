@@ -4,7 +4,7 @@
 }
 
 .donation-map {
-    background-image: url("../../dist/assets/map.png");
+    background-image: url("/assets/map.png");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
@@ -37,8 +37,6 @@
     margin-left: 50%;
     transform: translateX(-50%);
 }
-
-
 
 .location1 {
     margin-top: 10em;
@@ -95,7 +93,8 @@ h5 {
 }
 
 #modalContent {
-    min-height: 100dvh;
+    min-height: 80vh;
+    overflow-y: auto;
     display: flex;
     text-align: justify;
     justify-content: safe;
@@ -113,6 +112,10 @@ h5 {
     box-shadow: 1px 4px 2px lightgray;
     color: black;
     font-size: 18px;
+}
+
+.recommendation {
+    color: green;
 }
 
 @media only screen and (max-width: 768px) {
