@@ -4,6 +4,7 @@ import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { closeOutline } from 'ionicons/icons';
 
+
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
@@ -28,7 +29,6 @@ const CurrentProducts: React.FC = () => {
       };
       (async () => {
           await initAI();
-          // Other code
         })();
     
         const takePicture = async () => {
@@ -101,24 +101,23 @@ const CurrentProducts: React.FC = () => {
         newItems.splice(index, 1);
         setItems(newItems);
     };
-    const itemList = document.querySelector("#items-list");
 
     const refreshList = () => {
         console.log(items)
 
+        const itemList = document.querySelector("#items-list");
         if (itemList) {
           const itemsHtml = items.map((item: string, index: number) => (
             `<div class="item" key=${index}>
               <div class="item-name">${item}</div>
               <div class="item-info"></div>
-              <ion-icon icon=${closeOutline} class="cross-icon" onClick=${() => removeItem(index)}></ion-icon>
+              ${<IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(index)}></IonIcon>}
             </div>`
           )).join(''); // Use join to concatenate the array into a string
       
           itemList.innerHTML = itemsHtml;
         }
       };
-
 
       useEffect(() => {
         // Call refreshList when the component mounts to display the initial items
