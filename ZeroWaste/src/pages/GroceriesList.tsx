@@ -4,6 +4,8 @@ import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
+import * as tf from '@tensorflow/tfjs';
+import * as tmImage from '@teachablemachine/image';
 
 function storeItems() {
     const selectedItems = document.getElementsByClassName("item-selected");
@@ -36,8 +38,45 @@ const setSelected = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("NOT");
 }
 
+const initAI = async () => {
+  // Wait for TensorFlow.js to be ready
+  await tf.ready();
+
+  // Initialize Teachable Machine
+  const URL = 'https://teachablemachine.withgoogle.com/models/9OJwhBCAG/'; // Replace with your Teachable Machine model URL
+
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+  const model = await tmImage.load(modelURL, metadataURL);
+  console.log('Teachable Machine model loaded:', model);
+};
+
+const predict = async (imageData) => {
+    // Ensure model is loaded before making predictions
+    if (!model) {
+        console.error('Model not loaded.');
+        return;
+    }
+
+    const image = new Image();
+    image.src = imageData;
+    await image.decode();
+
+    const prediction = await model.predict(image);
+    console.log('Image classification prediction:', prediction);
+
+    // extract the class label and probability from the prediction array
+	// [0] has the highest prediction score
+    const classLabel = prediction[0].className;
+    const probability = prediction[0].probability.toFixed(2);
+
+    return { classLabel, probability };
+};
+
 const takePicture = async () => {
     try {
+        await initAI();
         const result = await Camera.getPhoto({
             quality: 90,
             allowEditing: false,
@@ -47,6 +86,11 @@ const takePicture = async () => {
 
         // Handle the captured image data (result.dataUrl)
         console.log('Captured image data: ', result.dataUrl);
+
+        // Predict using TensorFlow.js model
+        const classificationResult = await predict(result.dataUrl);
+        console.log('ASDASDSADSADSAD: ' + classificationResult);
+        return classificationResult;
     } catch (error) {
         console.error('Error taking picture: ', error);
     }
