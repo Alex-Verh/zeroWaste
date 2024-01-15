@@ -5,6 +5,8 @@ import './Donation.css';
 import myImage from '/assets/person.png';
 import { useHistory } from 'react-router-dom';
 
+const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
+let model, maxPredictions;
 
 const takePicture = async () => {
 	try {
@@ -18,13 +20,49 @@ const takePicture = async () => {
 		// Handle the captured image data (result.dataUrl)
 		console.log('Captured image data:', result.dataUrl);
 
+		// Predict using TensorFlow.js model
+        const classificationResult = await predict(result.dataUrl);
+
 		const randomNumber: number = Math.floor(Math.random() * 3) + 1;
 		sessionStorage.setItem("randomNumber", randomNumber.toString());
 		window.location.href = "/recommended-location";
+
+		return classificationResult;
 	} catch (error) {
 		console.error('Error taking picture:', error);
 	}
 };
+
+async function init() {
+	const modelURL = URL + "model.json";
+	const metadataURL = URL + "metadata.json";
+
+	model = await tmImage.load(modelURL, metadataURL);
+	maxPredictions = model.getTotalClasses();
+}
+
+const predict = async (imageData) => {
+    // Ensure model is loaded before making predictions
+    if (!model) {
+        console.error('Model not loaded.');
+        return;
+    }
+
+    const image = new Image();
+    image.src = imageData;
+    await image.decode();
+
+    const prediction = await model.predict(image);
+    console.log('Image classification prediction:', prediction);
+
+    // extract the class label and probability from the prediction array
+	// [0] has the highest prediction score
+    const classLabel = prediction[0].className;
+    const probability = prediction[0].probability.toFixed(2);
+
+    return { classLabel, probability };
+};
+
 
 const locations: string[] = ["", "Sustain Serve", "Nourish Network", "Harvest Heroes"]
 const descriptions: string[] = ["", "SustainServe is a leading food donation company dedicated to minimizing food waste and combating hunger. With a focus on sustainability, they connect surplus food from restaurants, supermarkets, and events with local shelters and community organizations, making a positive impact on both the environment and those in need.",

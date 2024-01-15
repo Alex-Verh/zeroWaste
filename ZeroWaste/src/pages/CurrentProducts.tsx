@@ -4,6 +4,8 @@ import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { closeOutline } from 'ionicons/icons';
 
+import * as tf from '@tensorflow/tfjs';
+
 const takePicture = async () => {
     try {
         const result = await Camera.getPhoto({
