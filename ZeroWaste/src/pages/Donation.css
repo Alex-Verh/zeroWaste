@@ -66,6 +66,7 @@
     min-width: fit-content;
     overflow: hidden;
     font-weight: bold;
+    box-shadow: 2px 2px 1px rgb(175, 170, 170);
 }
 
 .your-caption {

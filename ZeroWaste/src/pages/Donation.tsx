@@ -4,6 +4,8 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
 import myImage from '/assets/person.png';
 import { useHistory } from 'react-router-dom';
+import * as tmImage from '@teachablemachine/image';
+
 
 const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
 let model:any, maxPredictions:any;
