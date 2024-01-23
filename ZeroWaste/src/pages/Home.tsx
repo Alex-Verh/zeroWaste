@@ -2,6 +2,23 @@ import { IonContent, IonHeader, IonPage, IonCard, IonImg, IonCardHeader, IonCard
 import './Home.css';
 import React, { useContext, useEffect } from 'react';
 
+
+/**
+ * @POST / @UPDATE / @DELETE
+ * Just call this method over the new list that has been modified in advance.
+ */
+export function modifyRecords(list: string, record: Object) {
+    sessionStorage.setItem(list, JSON.stringify(record));
+}
+
+/**
+ * @GET
+ * Gets the array of objects per given list key.
+ */
+export function getRecords(list: string) {
+    return JSON.parse(sessionStorage.getItem(list) as string | "[]");
+}
+
 export const useBackButton = () => {
 	const { goBack } = useContext(NavContext);
 

@@ -3,24 +3,25 @@ import './Statistics.css';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { getRecords, modifyRecords } from './Home';
 
 
 const Statistics: React.FC = () => {
-
+    sessionStorage.setItem("statisticsRead", "1");
     const history = useHistory();
 
     React.useEffect(() => {
         const onBackButton = (event: Event) => {
-          event.preventDefault();
-          history.replace('/home');
+            event.preventDefault();
+            history.replace('/home');
         };
-    
+
         document.addEventListener('ionBackButton', onBackButton as EventListener);
-    
+
         return () => {
-          document.removeEventListener('ionBackButton', onBackButton as EventListener);
+            document.removeEventListener('ionBackButton', onBackButton as EventListener);
         };
-      }, [history]);
+    }, [history]);
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,28 +33,54 @@ const Statistics: React.FC = () => {
         setIsModalOpen(isOpen);
     }
 
+    const storageFavourites = getRecords("favouriteList");
+    const storedFavourites = (storageFavourites as { name: string }[]).map(x => x.name);
+    console.log(storedFavourites);
+    const storageExceptions = getRecords("exceptionList");
+    const storedExceptions = (storageExceptions as { name: string }[]).map(x => x.name);
+    console.log(storedExceptions);
 
-    const [favourites, setFavourites] = useState(['Chocolate', 'Apples']);
-    const [wasted, setWasted] = useState(['Tomatoes','Milk']);
+    const [favourites, setFavourites] = useState(storedFavourites);
+    const [wasted, setWasted] = useState(storedExceptions);
 
     function addItem() {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
         console.log(listID)
-        const trimmedItemName = itemName.trim();
 
-        if (listID === "favourites-list" && trimmedItemName !== "") {
-            setFavourites([...favourites, itemName]);
-        } else if (listID === "wasted-list" && trimmedItemName !== "") {
-            setWasted([...wasted, itemName]);
+        if (listID === "favourites-list") {
+            const updatedItems = [...favourites, itemName];
+            setFavourites(updatedItems);
+
+            const asObject: Object = { name: itemName, info: "favourite" };
+            storageFavourites.push(asObject);
+            modifyRecords("favouriteList", storageFavourites);
+        } else if (listID === "wasted-list") {
+            const updatedItems = [...wasted, itemName];
+            setWasted(updatedItems);
+
+            const asObject: Object = { name: itemName, info: "favourite" };
+            storageExceptions.push(asObject);
+            modifyRecords("exceptionList", storageExceptions);
         }
         setOpen(false, "");
         setItemName("");
     }
 
-    const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number) => {
+    const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number, listType: string) => {
         const newList = [...list];
+        console.log("INDEX: " + index);
+
         newList.splice(index, 1);
+        console.log(newList);
+
         setList(newList);
+        if (listType === "favouriteList") {
+            storageFavourites.splice(index, 1);
+            modifyRecords("favouriteList", storageFavourites);
+        } else {
+            storageExceptions.splice(index, 1);
+            modifyRecords("exceptionList", storageExceptions);
+        }
     };
 
     return (
@@ -74,7 +101,7 @@ const Statistics: React.FC = () => {
                             {favourites.map((item, index) => (
                                 <div className="item" key={index}>
                                     <div className="item-name">{item}</div>
-                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(favourites, setFavourites, index)} />
+                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(favourites, setFavourites, index, "favouriteList")} />
                                 </div>
                             ))}
                         </IonCardContent>
@@ -98,7 +125,7 @@ const Statistics: React.FC = () => {
                             {wasted.map((item, index) => (
                                 <div className="item" key={index}>
                                     <div className="item-name">{item}</div>
-                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(wasted, setWasted, index)} />
+                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(wasted, setWasted, index, "exceptionList")} />
                                 </div>
                             ))}
                         </IonCardContent>

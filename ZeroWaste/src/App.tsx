@@ -31,34 +31,119 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/donation">
-          <Donation />
-        </Route>
-        <Route exact path="/statistics">
-          <Statistics />
-        </Route>
-        <Route exact path="/groceries-list">
-          <GroceriesList />
-        </Route>
-        <Route exact path="/current-products">
-          <CurrentProducts />
-        </Route>
-        <Route exact path="/final-grocery-list">
-          <FinalGroceryList />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+	sessionStorage.setItem("currentList", JSON.stringify([
+		{
+			"name": "Banana",
+			"info": "normal",
+			"expiryDate": "25.01.2024"
+		},
+		{
+			"name": "Onions",
+			"info": "High Risk of Wastage",
+			"expiryDate": "17.02.2024"
+		},
+		{
+			"name": "Bread",
+			"info": "High Quantity",
+			"expiryDate": "26.01.2024"
+		}
+	]));
+
+	sessionStorage.setItem("groceryList", JSON.stringify([
+		{
+			"name": "Banana",
+			"info": "normal",
+		},
+		{
+			"name": "Onions",
+			"info": "High Risk of Wastage",
+		},
+		{
+			"name": "Bread",
+			"info": "High Quantity",
+		}
+	]));
+
+	sessionStorage.setItem("finalList", JSON.stringify([
+		{
+			"name": "Banana",
+			"info": "normal",
+		},
+		{
+			"name": "Onions",
+			"info": "High Risk of Wastage",
+		},
+		{
+			"name": "Bread",
+			"info": "High Quantity",
+		}
+	]));
+
+	if (sessionStorage.getItem("statisticsRead") !== "1") {
+		console.log("HERE");
+		
+		sessionStorage.setItem("favouriteList", JSON.stringify([
+			{
+				"name": "Banana",
+				"info": "favourite",
+			},
+			{
+				"name": "Onions",
+				"info": "favourite",
+			},
+			{
+				"name": "Bread",
+				"info": "favourite",
+			}
+		]));
+
+		sessionStorage.setItem("exceptionList", JSON.stringify([
+			{
+				"name": "Milk",
+				"info": "exception",
+			},
+			{
+				"name": "Peanuts",
+				"info": "exception",
+			},
+			{
+				"name": "Beans",
+				"info": "exception",
+			}
+		]));
+	}
+
+
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<Route exact path="/home">
+						<Home />
+					</Route>
+					<Route exact path="/">
+						<Redirect to="/home" />
+					</Route>
+					<Route exact path="/donation">
+						<Donation />
+					</Route>
+					<Route exact path="/statistics">
+						<Statistics />
+					</Route>
+					<Route exact path="/groceries-list">
+						<GroceriesList />
+					</Route>
+					<Route exact path="/current-products">
+						<CurrentProducts />
+					</Route>
+					<Route exact path="/final-grocery-list">
+						<FinalGroceryList />
+					</Route>
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	)
+};
 
 export default App;
