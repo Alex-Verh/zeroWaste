@@ -58,10 +58,8 @@ const CurrentProducts: React.FC = () => {
                 console.log('Final: ' + maxString);
                 console.log('Prob: ' + max);
                 
-                // Add Max String to the list
-                items.push(maxString);
-                const newItems = [...items];
-                setItems(newItems);
+                // Add Max String to the list //// Hardcoded to check that the function works
+                updateItems("Banana, Carrot, Chocolate, Orange, Grapes, Peach, Pear");
             } catch (error) {
                 console.error('Error taking picture: ', error);
             }
@@ -92,6 +90,16 @@ const CurrentProducts: React.FC = () => {
     
     const [items, setItems] = useState(['Onions', 'Carrots', 'Apples']);
 
+    /**
+     *  This depends on the way the AI will return the scanned items, 
+     *  but I have assumed that it will be a string with the items separated with a comma.
+     */
+    function updateItems(scannedItemsString: string) {
+        const scannedItems = scannedItemsString.split(", ");
+        const updatedItems = [...items, ...scannedItems];
+        setItems(updatedItems);
+    }
+
     const removeItem = (index: number) => {
         const newItems = [...items];
         newItems.splice(index, 1);
@@ -118,7 +126,7 @@ const CurrentProducts: React.FC = () => {
             </IonContent>
 
             <footer className='foot-buttons'>
-                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
+                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/donation" fill="clear" expand="full" className='button-add foot-btn'>Donate</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>

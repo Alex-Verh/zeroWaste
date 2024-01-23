@@ -1,6 +1,6 @@
 import { IonContent, IonPage, IonIcon, IonButton, IonCard, IonImg, IonCardHeader, IonCardTitle, IonCardContent, IonModal, IonHeader, IonButtons, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import './Statistics.css';
-import { closeOutline, list } from 'ionicons/icons';
+import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -87,7 +87,7 @@ const Statistics: React.FC = () => {
                     <IonCard className="card">
                         <IonImg src="/assets/zero-waste.png"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
-                            <IonCardTitle className="custom-title">Exceptions</IonCardTitle>
+                            <IonCardTitle className="custom-title">Wasted & Exceptions</IonCardTitle>
 
                             <p style={{ margin: 0, padding: 0 }}>
                                 Press <span style={{ color: "red", margin: "0 5px", display: "inline", fontWeight: "bold" }}>X</span> to remove a product.
@@ -124,7 +124,7 @@ const Statistics: React.FC = () => {
                             <IonContent id="modalContent">
                                 <div className='custom-background'>
                                     <h5><b>Type in the name of the product:</b></h5>
-                                    <IonInput id="input-item-name" label="Enter product" labelPlacement="floating" fill="outline" placeholder="Product Name"></IonInput>
+                                    <IonInput id="input-item-name" label="Enter product here" labelPlacement="floating" fill="outline" placeholder="Product Name"></IonInput>
                                     <IonButton onClick={() => addItem()} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
                                 </div>
                             </IonContent>

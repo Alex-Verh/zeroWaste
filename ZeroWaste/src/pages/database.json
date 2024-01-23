@@ -1,0 +1,31 @@
+{
+    "currentProducts": [
+        {
+            "name": "Banana",
+            "info": "normal",
+            "expiryDate": "25.01.2024"
+        },
+        {
+            "name": "Onions",
+            "info": "High Risk of Wastage",
+            "expiryDate": "17.02.2024"
+        },
+        {
+            "name": "Bread",
+            "info": "High Quantity",
+            "expiryDate": "26.01.2024"
+        }
+    ],
+    "groceryList": [
+        // Same as for the current products, but without expiry date 
+    ],
+    "finalList": [
+        // Same as the groceryList
+    ],
+    "favouriteList": [
+        // "info": "favourite" => Definitely a likeable Suggestion
+    ],
+    "exceptionList": [ // no way to differ between wasted and exceptions unless we add a third list about that
+        // "info": "exception" => Definitely NOT a likeable Suggestion
+    ]
+}

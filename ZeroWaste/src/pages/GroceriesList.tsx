@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonPage, IonIcon, IonButton, IonHeader } from '@ionic/react';
+import { IonContent, IonPage, IonIcon, IonButton, IonHeader, IonButtons, IonInput, IonModal, IonTitle, IonToolbar } from '@ionic/react';
 import './GroceriesList.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { checkmarkCircleOutline } from 'ionicons/icons';
@@ -150,6 +150,21 @@ const GroceriesList: React.FC = () => {
         setItems(newItems);
     }
 
+    //   ------------- Manual addition -------------
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    function setOpen(isOpen: boolean) {
+        setIsModalOpen(isOpen);
+    }
+
+    function addItem() {
+        const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
+
+        const updatedList = [...items];
+        updatedList.push(itemName);
+        setItems(updatedList);
+        setOpen(false);
+    }
+
     return (
         <IonPage className='body'>
             <IonHeader>
@@ -174,10 +189,33 @@ const GroceriesList: React.FC = () => {
                 </div>
             </IonContent>
 
+            {/* Modal for manual addition */}
+            <IonModal isOpen={isModalOpen}>
+                <div>
+                    <IonHeader>
+                        <IonToolbar>
+                            <IonTitle className='ion-title'>Add Product</IonTitle>
+
+                            <IonButtons slot="end">
+                                <IonButton onClick={() => setOpen(false)}>Close</IonButton>
+                            </IonButtons>
+                        </IonToolbar>
+                    </IonHeader>
+
+                    <IonContent id="modalContent">
+                        <div className='custom-background'>
+                            <h5><b>Type in the name of the product:</b></h5>
+                            <IonInput id="input-item-name" label="Enter product" labelPlacement="floating" fill="outline" placeholder="Product Name"></IonInput>
+                            <IonButton onClick={() => addItem()} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
+                        </div>
+                    </IonContent>
+                </div>
+            </IonModal>
+
             <footer className="foot-buttons">
-                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
+                <IonButton onClick={() => setOpen(true)} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
                 <IonButton onClick={addSuggestion} fill="clear" expand="full" className='button-stat foot-btn'>Get Suggestions</IonButton>
-                <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>See Statistics</IonButton>
+                <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
     )

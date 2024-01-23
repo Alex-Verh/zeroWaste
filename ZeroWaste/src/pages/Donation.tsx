@@ -1,16 +1,20 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton, IonModal, IonButtons } from '@ionic/react';
-import React, { useState } from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton, IonModal, IonButtons, NavContext } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
+import { useBackButton } from './Home';
 import myImage from '/assets/person.png';
 import * as tmImage from '@teachablemachine/image';
 
 
 const Donation: React.FC = () => {
-	React.useEffect(() => {
+	// The * not * working back button
+	const { goBack } = useContext(NavContext);
+
+	useEffect(() => {
 		const onBackButton = (event: Event) => {
 			event.preventDefault();
-			window.location.href = "/home";
+			goBack("/home");
 		};
 
 		document.addEventListener('ionBackButton', onBackButton as EventListener);
@@ -18,7 +22,7 @@ const Donation: React.FC = () => {
 		return () => {
 			document.removeEventListener('ionBackButton', onBackButton as EventListener);
 		};
-	}, []);
+	}, [goBack]);
 
 	const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
 	let model: any, maxPredictions: any;
@@ -111,7 +115,7 @@ const Donation: React.FC = () => {
 				}
 			}
 		}
-		
+
 		setShowRecommendation(true);
 	}
 
