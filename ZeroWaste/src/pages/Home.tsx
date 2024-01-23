@@ -3,7 +3,7 @@ import './Home.css';
 
 const Home: React.FC = () => {
   return (
-    <IonPage >
+    <IonPage color='light' className='page'>
       <IonHeader>
 
       </IonHeader>
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
           <IonCard className="custom-card">
             <IonImg src="/assets/main_3.jpg"></IonImg>
             <IonCardHeader>
-              <IonCardTitle className="custom-title">Donate </IonCardTitle>
+              <IonCardTitle className="custom-title">Donate</IonCardTitle>
             </IonCardHeader>
             <IonCardContent className="custom-text">
               <p>

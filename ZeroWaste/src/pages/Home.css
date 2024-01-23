@@ -1,3 +1,7 @@
+ion-content {
+    --ion-background-color: #FFF;
+}
+
 .custom-background {
     background-color: #FFF; /* Set your desired background color for the page */
     position: absolute;
@@ -19,7 +23,6 @@
 ion-img {
     margin-top: 0 !important;
     stroke-width: 10%;
-    
 }
 
 ion-card-header {

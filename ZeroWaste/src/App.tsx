@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
-import Donation, { RecommendedLocation } from './pages/Donation';
+import Donation from './pages/Donation';
 import Statistics from './pages/Statistics';
 import GroceriesList from './pages/GroceriesList';
 import CurrentProducts from './pages/CurrentProducts';
@@ -55,9 +55,6 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/final-grocery-list">
           <FinalGroceryList />
-        </Route>
-        <Route exact path="/recommended-location">
-          <RecommendedLocation />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

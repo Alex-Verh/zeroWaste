@@ -3,80 +3,89 @@ import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
 import myImage from '/assets/person.png';
-import { useHistory } from 'react-router-dom';
 import * as tmImage from '@teachablemachine/image';
 
 
-const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
-let model:any, maxPredictions:any;
-
-const takePicture = async () => {
-	try {
-		const result = await Camera.getPhoto({
-			quality: 90,
-			allowEditing: false,
-			resultType: CameraResultType.DataUrl,
-			source: CameraSource.Camera,
-		});
-
-		// Handle the captured image data (result.dataUrl)
-		console.log('Captured image data:', result.dataUrl);
-
-		// Predict using TensorFlow.js model
-        const classificationResult = await predict(result.dataUrl);
-
-		const randomNumber: number = Math.floor(Math.random() * 3) + 1;
-		sessionStorage.setItem("randomNumber", randomNumber.toString());
-		window.location.href = "/recommended-location";
-
-		return classificationResult;
-	} catch (error) {
-		console.error('Error taking picture:', error);
-	}
-};
-
-async function init() {
-	const modelURL = URL + "model.json";
-	const metadataURL = URL + "metadata.json";
-
-	model = await tmImage.load(modelURL, metadataURL);
-	maxPredictions = model.getTotalClasses();
-}
-
-const predict = async (imageData:any) => {
-    // Ensure model is loaded before making predictions
-    if (!model) {
-        console.error('Model not loaded.');
-        return;
-    }
-
-    const image = new Image();
-    image.src = imageData;
-    await image.decode();
-
-    const prediction = await model.predict(image);
-    console.log('Image classification prediction:', prediction);
-
-    // extract the class label and probability from the prediction array
-	// [0] has the highest prediction score
-    const classLabel = prediction[0].className;
-    const probability = prediction[0].probability.toFixed(2);
-
-    return { classLabel, probability };
-};
-
-
-const locations: string[] = ["", "Sustain Serve", "Nourish Network", "Harvest Heroes"]
-const descriptions: string[] = ["", "SustainServe is a leading food donation company dedicated to minimizing food waste and combating hunger. With a focus on sustainability, they connect surplus food from restaurants, supermarkets, and events with local shelters and community organizations, making a positive impact on both the environment and those in need.",
-	"Nourish Network strives to nourish communities by efficiently redistributing surplus food to those facing food insecurity. Through their innovative platform, local businesses and individuals can easily donate excess food, ensuring that wholesome meals reach hungry individuals and families, fostering a healthier and more resilient society.",
-	"Harvest Heroes is on a mission to rescue surplus food and transform it into opportunities for those struggling with hunger. By partnering with food establishments, farms, and catering services, they create a seamless network that redirects quality food to charities, schools, and shelters, contributing to a more sustainable and compassionate food system."]
-const addresses: string[] = ["", "123 Green Street, EcoCity, Sustainableville", "789 Harvest Lane, FoodHub City, Nutrientville", "456 Farm Avenue, FreshFields, Growtown"];
-const phones: string[] = ["", "+1 (555) 123-4567", "+1 (555) 987-6543", "+1 (555) 789-0123"];
-const emails: string[] = ["", "info@sustainserve.org", "contact@nourishnetwork.org", "support@harvestheroes.com"];
-const distances: string[] = ["", "0.5", "1.1", "0.85"];
-const rewards: string[] = ["", "5% of the product's price", "A one-time 3% discount voucher for all Nourish Network shops", "7% of the product's price"];
-
 const Donation: React.FC = () => {
+	React.useEffect(() => {
+		const onBackButton = (event: Event) => {
+			event.preventDefault();
+			window.location.href = "/home";
+		};
+
+		document.addEventListener('ionBackButton', onBackButton as EventListener);
+
+		return () => {
+			document.removeEventListener('ionBackButton', onBackButton as EventListener);
+		};
+	}, []);
+
+	const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
+	let model: any, maxPredictions: any;
+
+	const takePicture = async () => {
+		try {
+			const result = await Camera.getPhoto({
+				quality: 90,
+				allowEditing: false,
+				resultType: CameraResultType.DataUrl,
+				source: CameraSource.Camera,
+			});
+
+			// Handle the captured image data (result.dataUrl)
+			console.log('Captured image data:', result.dataUrl);
+
+			// Predict using TensorFlow.js model
+			const classificationResult = await predict(result.dataUrl);
+
+			recommendLocation();
+
+			return classificationResult;
+		} catch (error) {
+			console.error('Error taking picture:', error);
+		}
+	};
+
+	async function init() {
+		const modelURL = URL + "model.json";
+		const metadataURL = URL + "metadata.json";
+
+		model = await tmImage.load(modelURL, metadataURL);
+		maxPredictions = model.getTotalClasses();
+	}
+
+	const predict = async (imageData: any) => {
+		// Ensure model is loaded before making predictions
+		if (!model) {
+			console.error('Model not loaded.');
+			return;
+		}
+
+		const image = new Image();
+		image.src = imageData;
+		await image.decode();
+
+		const prediction = await model.predict(image);
+		console.log('Image classification prediction:', prediction);
+
+		// extract the class label and probability from the prediction array
+		// [0] has the highest prediction score
+		const classLabel = prediction[0].className;
+		const probability = prediction[0].probability.toFixed(2);
+
+		return { classLabel, probability };
+	};
+
+	const locations: string[] = ["", "Sustain Serve", "Nourish Network", "Harvest Heroes"]
+	const descriptions: string[] = ["", "SustainServe is a leading food donation company dedicated to minimizing food waste and combating hunger. With a focus on sustainability, they connect surplus food from restaurants, supermarkets, and events with local shelters and community organizations, making a positive impact on both the environment and those in need.",
+		"Nourish Network strives to nourish communities by efficiently redistributing surplus food to those facing food insecurity. Through their innovative platform, local businesses and individuals can easily donate excess food, ensuring that wholesome meals reach hungry individuals and families, fostering a healthier and more resilient society.",
+		"Harvest Heroes is on a mission to rescue surplus food and transform it into opportunities for those struggling with hunger. By partnering with food establishments, farms, and catering services, they create a seamless network that redirects quality food to charities, schools, and shelters, contributing to a more sustainable and compassionate food system."]
+	const addresses: string[] = ["", "123 Green Street, EcoCity, Sustainableville", "789 Harvest Lane, FoodHub City, Nutrientville", "456 Farm Avenue, FreshFields, Growtown"];
+	const phones: string[] = ["", "+1 (555) 123-4567", "+1 (555) 987-6543", "+1 (555) 789-0123"];
+	const emails: string[] = ["", "info@sustainserve.org", "contact@nourishnetwork.org", "support@harvestheroes.com"];
+	const distances: string[] = ["", "0.5", "1.1", "0.85"];
+	const rewards: string[] = ["", "5% of the product's price", "A one-time 3% discount voucher for all Nourish Network shops", "7% of the product's price"];
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [locationName, setLocationName] = useState("");
 	const [description, setDescription] = useState("");
@@ -85,24 +94,26 @@ const Donation: React.FC = () => {
 	const [email, setEmail] = useState("");
 	const [distance, setDistance] = useState("");
 	const [reward, setReward] = useState("");
+	const [showRecommendation, setShowRecommendation] = useState(false);
 
+	function recommendLocation() {
+		const randomNumber: number = Math.floor(Math.random() * 3) + 1;
+		console.log(`Your lucky number is: ${randomNumber}`);
 
-	const history = useHistory();
-
-    React.useEffect(() => {
-        const onBackButton = (event: Event) => {
-          event.preventDefault();
-        //   history.replace('/home');
-		  window.location.href = "/home";
-        };
-    
-        document.addEventListener('ionBackButton', onBackButton as EventListener);
-    
-        return () => {
-          document.removeEventListener('ionBackButton', onBackButton as EventListener);
-        };
-      }, [history]);
-
+		const donationLocations = document.getElementsByClassName("location");
+		for (let i = 0; i < donationLocations.length; i++) {
+			if (i + 1 !== randomNumber) {
+				(donationLocations[i] as HTMLElement).style.display = "none";
+			} else {
+				const recommendationBlock: HTMLElement | null = document.getElementById("recommendationBlock");
+				if (recommendationBlock !== null) {
+					recommendationBlock.style.display = "block";
+				}
+			}
+		}
+		
+		setShowRecommendation(true);
+	}
 
 	const setOpen = (isOpen: boolean, id: number) => {
 		if (isOpen) {
@@ -155,7 +166,11 @@ const Donation: React.FC = () => {
 
 							<IonContent id="modalContent">
 								<div className='custom-background'>
-									<h5><b>Description</b></h5>
+									<h5 id="recommendationBlock" style={{ display: showRecommendation ? 'block' : 'none' }}>
+										<b id='recommendation'>Thank you! We suggest donating here:</b>
+									</h5>
+
+									<h5 style={{ marginTop: 0 }}><b>Description</b></h5>
 									<p>{description}</p>
 
 									<h5><b>Address</b></h5>
@@ -185,62 +200,3 @@ const Donation: React.FC = () => {
 };
 
 export default Donation;
-
-
-export const RecommendedLocation: React.FC = () => {
-	const randomNumber: number = Number(sessionStorage.getItem("randomNumber"));
-	console.log(`Your lucky number is: ${randomNumber}`);
-
-	const locationName: string = locations[randomNumber];
-	const description: string = descriptions[randomNumber];
-	const address: string = addresses[randomNumber];
-	const phone: string = phones[randomNumber];
-	const email: string = emails[randomNumber];
-	const distance: string = distances[randomNumber];
-	const reward: string = rewards[randomNumber];
-
-	const [isRecommendationOpen, setRecommendationOpen] = useState(true);
-
-	return (
-		<IonPage>
-			<IonContent>
-				<IonModal isOpen={isRecommendationOpen}>
-					<div>
-						<IonHeader>
-							<IonToolbar>
-								<IonTitle className='ion-title'>{locationName}</IonTitle>
-
-								<IonButtons slot="end">
-									<IonButton href='/donation'>Close</IonButton>
-								</IonButtons>
-							</IonToolbar>
-						</IonHeader>
-
-						<IonContent id="modalContent">
-							<div className='custom-background'>
-								<h5><b className='recommendation'>Thank you! We recommend you to donate here:</b></h5>
-								<h5><b>Description</b></h5>
-								<p>{description}</p>
-
-								<h5><b>Address</b></h5>
-								<p>{address}</p>
-
-								<h5><b>Telephone Number</b></h5>
-								<p>{phone}</p>
-
-								<h5><b>Email</b></h5>
-								<p>{email}</p>
-
-								<h5><b>Distance</b></h5>
-								<p>Approximately {distance} km away.</p>
-
-								<h5><b>Reward</b></h5>
-								<p>{reward}</p>
-							</div>
-						</IonContent>
-					</div>
-				</IonModal>
-			</IonContent>
-		</IonPage>
-	)
-}

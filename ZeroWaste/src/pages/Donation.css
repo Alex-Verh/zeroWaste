@@ -84,11 +84,6 @@ p {
     margin-top: -1.5em;
 }
 
-h5 {
-    margin: 0;
-    font-weight: bold;
-}
-
 .ion-title {
     font-size: 1.5em;
 }
@@ -115,7 +110,7 @@ h5 {
     font-size: 18px;
 }
 
-.recommendation {
+#recommendation {
     color: green;
 }
 

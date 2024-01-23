@@ -120,7 +120,7 @@ const CurrentProducts: React.FC = () => {
             <footer className='foot-buttons'>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Add Product</IonButton>
                 <IonButton href="/donation" fill="clear" expand="full" className='button-add foot-btn'>Donate</IonButton>
-                <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>See Statistics</IonButton>
+                <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
     );

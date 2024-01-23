@@ -135,7 +135,6 @@ const GroceriesList: React.FC = () => {
             "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
             "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
             "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli",
-            "Cat Food", "Dog Food", "Pet Treats",
             "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup",
             "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple",
             "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"

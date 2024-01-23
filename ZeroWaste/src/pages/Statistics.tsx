@@ -87,7 +87,7 @@ const Statistics: React.FC = () => {
                     <IonCard className="card">
                         <IonImg src="/assets/zero-waste.png"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
-                            <IonCardTitle className="custom-title">Wasted Food</IonCardTitle>
+                            <IonCardTitle className="custom-title">Exceptions</IonCardTitle>
 
                             <p style={{ margin: 0, padding: 0 }}>
                                 Press <span style={{ color: "red", margin: "0 5px", display: "inline", fontWeight: "bold" }}>X</span> to remove a product.
