@@ -123,10 +123,21 @@ const CurrentProducts: React.FC = () => {
     
     let scanner: any;
     async function extractQR() {
+        let cameraId: any;
+
+        await Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                cameraId = devices[0].id;
+                console.log('camera id: ', cameraId);
+            }
+        })
+
         scanner = new Html5Qrcode("reader");
         const config = { fps: 2, qrbox: { width: 250, height: 250 } };
-        
-        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        document.querySelector("#myCanvas")?.classList.toggle("none");
+        document.querySelector("#reader")?.classList.toggle("none");
+        // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        scanner.start(cameraId, config, qrSuccess, qrError);
     }
 
     function qrSuccess(decodedText: any, decodedResult: any) {
@@ -218,8 +229,8 @@ const CurrentProducts: React.FC = () => {
             </IonContent>
 
             <footer className='foot-buttons'>
-                <canvas id="myCanvas"></canvas>
-                <div id="reader" style={{ transform: 'scaleX(-1)' }}></div>
+                <canvas id="myCanvas" className='none'></canvas>
+                <div id="reader" className='none' style={{ transform: 'scaleX(-1)' }}></div>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
                 <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
