@@ -4,25 +4,95 @@ import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getRecords, modifyRecords } from './Home';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import myImage from '/assets/person.png';
+import * as tf from '@tensorflow/tfjs';
+import * as tmImage from '@teachablemachine/image';
 
 
 const Statistics: React.FC = () => {
     sessionStorage.setItem("statisticsRead", "1");
-    const history = useHistory();
 
-    React.useEffect(() => {
-        const onBackButton = (event: Event) => {
-            event.preventDefault();
-            history.replace('/home');
-        };
+    // -------------- Scanning
+    let model: any, maxPredictions: any;
+    const initAI = async () => {
+        // Wait for TensorFlow.js to be ready
+        await tf.ready();
 
-        document.addEventListener('ionBackButton', onBackButton as EventListener);
+        // Initialize Teachable Machine
+        const URL = 'https://teachablemachine.withgoogle.com/models/9OJwhBCAG/'; // Replace with your Teachable Machine model URL
 
-        return () => {
-            document.removeEventListener('ionBackButton', onBackButton as EventListener);
-        };
-    }, [history]);
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
 
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+        console.log('Teachable Machine model loaded:', model);
+    };
+    (async () => {
+        await initAI();
+        // Other code
+    })();
+
+    const predict = async (imageData: any) => {
+        // Ensure model is loaded before making predictions
+        if (!model) {
+            console.error('Model not loaded.');
+            return;
+        }
+
+        const image = new Image();
+        image.src = imageData;
+        await image.decode();
+
+        const prediction = await model.predict(image);
+        console.log('Image classification prediction:', prediction);
+
+        // extract the class label and probability from the prediction array
+        // [0] has the highest prediction score
+        const classLabel = prediction[0].className;
+        const probability = prediction[0].probability.toFixed(2);
+
+        return prediction;
+    };
+
+    const takePicture = async (event: React.MouseEvent<HTMLIonButtonElement, MouseEvent>) => {
+        try {
+            const result = await Camera.getPhoto({
+                quality: 90,
+                allowEditing: false,
+                resultType: CameraResultType.DataUrl,
+                source: CameraSource.Camera,
+            });
+
+            console.log('Captured image data: ', result.dataUrl);
+
+            // Predict using TensorFlow.js model
+            const prediction = await predict(result.dataUrl);
+
+            let max = -1;
+            let maxString = "";
+
+            for (let i = 0; i < maxPredictions; i++) {
+
+                if (prediction[i].probability.toFixed(2) > max) {
+                    max = prediction[i].probability.toFixed(2);
+                    maxString = prediction[i].className;
+                }
+            }
+
+            console.log('Final: ' + maxString);
+            console.log('Prob: ' + max);
+            console.log(event);
+            
+            console.log(event.target);
+            
+            addListElement(maxString, event);
+        } catch (error) {
+            console.error('Error taking picture: ', error);
+        }
+    };
+    //---------------------
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -51,14 +121,14 @@ const Statistics: React.FC = () => {
             const updatedItems = [...favourites, itemName];
             setFavourites(updatedItems);
 
-            const asObject: Object = { name: itemName, info: "favourite" };
+            const asObject: Object = { name: itemName, info: "Favourite" };
             storageFavourites.push(asObject);
             modifyRecords("favouriteList", storageFavourites);
         } else if (listID === "wasted-list") {
             const updatedItems = [...wasted, itemName];
             setWasted(updatedItems);
 
-            const asObject: Object = { name: itemName, info: "favourite" };
+            const asObject: Object = { name: itemName, info: "Exception" };
             storageExceptions.push(asObject);
             modifyRecords("exceptionList", storageExceptions);
         }
@@ -83,6 +153,29 @@ const Statistics: React.FC = () => {
         }
     };
 
+    /// --------------------- For scanning
+    const addListElement = (itemName: string, event: React.MouseEvent<HTMLIonButtonElement, MouseEvent>) => {
+        const item: HTMLIonButtonElement = event.target as HTMLIonButtonElement;
+        console.log("HERE");
+        console.log(item);
+        
+        if (item!.id === "scan-button-favourite") {
+            const newItems = [...favourites, itemName];
+            setFavourites(newItems);
+
+            const asObject: Object = { name: itemName, info: "Favourite" };
+            storageExceptions.push(asObject);
+            modifyRecords("favouriteList", storageExceptions);
+        } else {
+            const newItems = [...wasted, itemName];
+            setWasted(newItems);
+
+            const asObject: Object = { name: itemName, info: "Exception" };
+            storageExceptions.push(asObject);
+            modifyRecords("exceptionList", storageExceptions);
+        }
+    }
+
     return (
         <IonPage className='body'>
             <IonContent>
@@ -90,11 +183,10 @@ const Statistics: React.FC = () => {
                     <IonCard className="card">
                         <IonImg src="/assets/main_1.jpg"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
-                            <IonCardTitle className="custom-title">Favourites</IonCardTitle>
-
                             <p style={{ margin: 0, padding: 0 }}>
                                 Press <span style={{ color: "red", margin: "0 5px", display: "inline", fontWeight: "bold" }}>X</span> to remove a product.
                             </p>
+                            <IonCardTitle className="custom-title">Favourites</IonCardTitle>
                         </IonCardHeader>
 
                         <IonCardContent className="custom-text list" id="favourites-list">
@@ -107,18 +199,18 @@ const Statistics: React.FC = () => {
                         </IonCardContent>
 
                         <IonCardContent className='custom-text button-section'>
-                            <IonButton onClick={() => setOpen(true, "favourites-list")} fill="clear" expand="full" className='foot-btn' id="add-favourite">Add Product</IonButton>
+                            <IonButton onClick={() => setOpen(true, "favourites-list")} fill="clear" expand="full" className='foot-btn add-product' id="manual-button-favourite">Add Manually</IonButton>
+                            <IonButton onClick={(event) => takePicture(event)} fill="clear" expand="full" className='foot-btn add-product' id="scan-button-favourite">Add by Scanning</IonButton>
                         </IonCardContent>
                     </IonCard>
 
                     <IonCard className="card">
                         <IonImg src="/assets/zero-waste.png"></IonImg>
                         <IonCardHeader style={{ marginBottom: "10px" }}>
-                            <IonCardTitle className="custom-title">Wasted & Exceptions</IonCardTitle>
-
                             <p style={{ margin: 0, padding: 0 }}>
                                 Press <span style={{ color: "red", margin: "0 5px", display: "inline", fontWeight: "bold" }}>X</span> to remove a product.
                             </p>
+                            <IonCardTitle className="custom-title">Wasted & Exceptions</IonCardTitle>
                         </IonCardHeader>
 
                         <IonCardContent className="custom-text list" id="wasted-list">
@@ -131,7 +223,8 @@ const Statistics: React.FC = () => {
                         </IonCardContent>
 
                         <IonCardContent className='custom-text button-section'>
-                            <IonButton onClick={() => setOpen(true, "wasted-list")} fill="clear" expand="full" className='foot-btn' id="add-wasted">Add Product</IonButton>
+                            <IonButton onClick={() => setOpen(true, "wasted-list")} fill="clear" expand="full" className='foot-btn add-product' id="manual-button-exception">Add Manually</IonButton>
+                            <IonButton onClick={(event) => takePicture(event)} fill="clear" expand="full" className='foot-btn add-product' id="scan-button-exception">Add by Scanning</IonButton>
                         </IonCardContent>
                     </IonCard>
 

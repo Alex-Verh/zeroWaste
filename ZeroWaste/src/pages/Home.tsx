@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonCard, IonImg, IonCardHeader, IonCardTitle, IonCardContent, IonRouterLink, NavContext } from '@ionic/react';
 import './Home.css';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 
 /**
@@ -8,7 +8,7 @@ import React, { useContext, useEffect } from 'react';
  * Just call this method over the new list that has been modified in advance.
  */
 export function modifyRecords(list: string, record: Object) {
-    sessionStorage.setItem(list, JSON.stringify(record));
+	sessionStorage.setItem(list, JSON.stringify(record));
 }
 
 /**
@@ -16,16 +16,16 @@ export function modifyRecords(list: string, record: Object) {
  * Gets the array of objects per given list key.
  */
 export function getRecords(list: string) {
-    return JSON.parse(sessionStorage.getItem(list) as string | "[]");
+	return JSON.parse(sessionStorage.getItem(list) as string | "[]");
 }
 
-export const useBackButton = () => {
-	const { goBack } = useContext(NavContext);
-
+export function backButton() {
 	useEffect(() => {
-		const onBackButton = (event: Event) => {
-			event.preventDefault();
-			goBack("/home");
+		const onBackButton = (e: any) => {
+			e.detail.register(10, () => {
+				// Handle the back button press
+				window.location.href = '/home';
+			});
 		};
 
 		document.addEventListener('ionBackButton', onBackButton as EventListener);
@@ -33,11 +33,13 @@ export const useBackButton = () => {
 		return () => {
 			document.removeEventListener('ionBackButton', onBackButton as EventListener);
 		};
-	}, [goBack]);
-};
+	}, []);
+}
+
 
 
 const Home: React.FC = () => {
+	backButton();
 	return (
 		<IonPage color='light' className='page'>
 			<IonHeader>

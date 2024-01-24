@@ -53,6 +53,6 @@ ion-card-header {
     width: 90%;
 }
 
-#add-product {
+.add-product, #add-product {
     margin-top: 2em;
 }

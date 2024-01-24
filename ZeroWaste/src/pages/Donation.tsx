@@ -1,29 +1,12 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton, IonModal, IonButtons, NavContext } from '@ionic/react';
-import React, { useContext, useEffect, useState } from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonImg, IonContent, IonButton, IonModal, IonButtons } from '@ionic/react';
+import React, { useState } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import './Donation.css';
-import { useBackButton } from './Home';
 import myImage from '/assets/person.png';
 import * as tmImage from '@teachablemachine/image';
 
 
 const Donation: React.FC = () => {
-	// The * not * working back button
-	const { goBack } = useContext(NavContext);
-
-	useEffect(() => {
-		const onBackButton = (event: Event) => {
-			event.preventDefault();
-			goBack("/home");
-		};
-
-		document.addEventListener('ionBackButton', onBackButton as EventListener);
-
-		return () => {
-			document.removeEventListener('ionBackButton', onBackButton as EventListener);
-		};
-	}, [goBack]);
-
 	const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
 	let model: any, maxPredictions: any;
 
@@ -115,7 +98,7 @@ const Donation: React.FC = () => {
 				}
 			}
 		}
-
+		(document.getElementsByClassName("donate-btn")[0] as HTMLElement).style.display = "none";
 		setShowRecommendation(true);
 	}
 
@@ -159,7 +142,7 @@ const Donation: React.FC = () => {
 					<IonModal isOpen={isModalOpen}>
 						<div>
 							<IonHeader>
-								<IonToolbar color="ligth">
+								<IonToolbar color="light">
 									<IonTitle className='ion-title'>{locationName}</IonTitle>
 
 									<IonButtons slot="end">

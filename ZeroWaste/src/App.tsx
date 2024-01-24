@@ -101,15 +101,15 @@ const App: React.FC = () => {
 		sessionStorage.setItem("exceptionList", JSON.stringify([
 			{
 				"name": "Milk",
-				"info": "exception",
+				"info": "Exception",
 			},
 			{
 				"name": "Peanuts",
-				"info": "exception",
+				"info": "Exception",
 			},
 			{
 				"name": "Beans",
-				"info": "exception",
+				"info": "Exception",
 			}
 		]));
 	}
