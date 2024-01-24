@@ -10,8 +10,7 @@ import { getRecords, modifyRecords } from './Home';
 import { setInfoStyle } from './GroceriesList';
 
 import { Html5Qrcode } from "html5-qrcode";
-import { Plugins } from '@capacitor/core';
-import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 
 const CurrentProducts: React.FC = () => {
@@ -142,51 +141,8 @@ const CurrentProducts: React.FC = () => {
     // }
 
     async function extractQR() {
-        const DIRK = [
-            ['Pancake', 'normal'],
-            ['Banana', 'normal'],
-            ['Beef', 'normal'],
-            ['Ketchup', 'normal'],
-            ['Mayonnaise', 'normal'],
-            ['Kefir', 'normal'],
-            ['Pickles', 'normal'],
-            ['Buns', 'normal']
-        ];
-        
-        const JUMBO = [
-            ['Apple Juice', 'normal'],
-            ['Orange Juice', 'normal'],
-            ['Multifruit Juice', 'normal'],
-            ['7UP', 'normal']
-        ];
-
-        try {
-            const { Camera } = Plugins;
-
-            const result = await Camera.getPhoto({
-                quality: 90,
-                allowEditing: false,
-                resultType: CameraResultType.Uri,
-                source: CameraSource.Camera,
-            });
-
-            const imageUri = result.webPath;
-
-            // Use BarcodeScanner to perform barcode scanning
-            const mlkitResult = await BarcodeScanner.scan({ imageUri });
-
-            if (!mlkitResult.cancelled) {
-                // Barcode detected
-                const qrCodeText = mlkitResult.text;
-                console.log('QR Code Text:', qrCodeText);
-
-                addItems(DIRK);
-            } else {
-                console.log('No QR Code detected');
-            }
-        } catch (error) {
-            console.error('Error extracting QR code:', error);
-        }
+        const { barcodes } = await BarcodeScanner.scan();
+        console.log(barcodes);
     }
 
     function qrSuccess(decodedText: any, decodedResult: any) {
