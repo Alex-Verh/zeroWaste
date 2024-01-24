@@ -10,7 +10,8 @@ import { getRecords, modifyRecords } from './Home';
 import { setInfoStyle } from './GroceriesList';
 
 import { Html5Qrcode } from "html5-qrcode";
-
+import { Plugins } from '@capacitor/core';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 
 const CurrentProducts: React.FC = () => {
@@ -120,52 +121,60 @@ const CurrentProducts: React.FC = () => {
 
         storageCurrent.splice(index, 1);
         modifyRecords("currentList", storageCurrent);
-    };
-    
-    useEffect(() => {
-        requestCameraPermission();
-      }, []);
-
-    const requestCameraPermission = async () => {
-        try {
-          const status = await Camera.requestPermissions();
-          if (status.photos === 'granted') {
-            console.log('Camera permission granted');
-          } else {
-            console.log('Camera permission denied');
-          }
-        } catch (error) {
-          console.error('Error requesting camera permission:', error);
-        }
-      };
-      
+    };      
 
     let scanner: any;
+    // async function extractQR() {
+    //     let cameraId: any;
+
+    //     await Html5Qrcode.getCameras().then(devices => {
+    //         if (devices && devices.length) {
+    //             cameraId = devices[0].id;
+    //             console.log('camera id: ', cameraId);
+    //         }
+    //     })
+
+    //     scanner = new Html5Qrcode("reader");
+    //     const config = { fps: 2, qrbox: { width: 250, height: 250 } };
+        
+    //     // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+    //     scanner.start(cameraId, config, qrSuccess, qrError);
+    // }
+
     async function extractQR() {
-        let cameraId: any;
+        try {
+            const { Camera } = Plugins;
 
-        await Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                cameraId = devices[0].id;
-                console.log('camera id: ', cameraId);
+            const result = await Camera.getPhoto({
+                quality: 90,
+                allowEditing: false,
+                resultType: CameraResultType.Uri,
+                source: CameraSource.Camera,
+            });
+
+            const imageUri = result.webPath;
+
+            // Use BarcodeScanner to perform barcode scanning
+            const mlkitResult = await BarcodeScanner.scan({ imageUri });
+
+            if (!mlkitResult.cancelled) {
+                // Barcode detected
+                const qrCodeText = mlkitResult.text;
+                console.log('QR Code Text:', qrCodeText);
+
+                // Process the QR code text as needed
+                // ...
+
+                // Add scanned items to the list
+                addItems([[qrCodeText, 'normal']]);
+            } else {
+                console.log('No QR Code detected');
+                // Handle case where no QR Code is detected
+                // ...
             }
-        })
-
-        let cameraId: any;
-
-        await Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                cameraId = devices[0].id;
-                console.log('camera id: ', cameraId);
-            }
-        })
-
-        scanner = new Html5Qrcode("reader");
-        const config = { fps: 2, qrbox: { width: 250, height: 250 } };
-        document.querySelector("#myCanvas")?.classList.toggle("none");
-        document.querySelector("#reader")?.classList.toggle("none");
-        // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
-        scanner.start(cameraId, config, qrSuccess, qrError);
+        } catch (error) {
+            console.error('Error extracting QR code:', error);
+        }
     }
 
     function qrSuccess(decodedText: any, decodedResult: any) {
