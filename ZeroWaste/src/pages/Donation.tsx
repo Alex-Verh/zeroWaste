@@ -115,8 +115,43 @@ const Donation: React.FC = () => {
 		setIsModalOpen(isOpen);
 	};
 
+	function showInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.remove("none");
+	}
+	
+	function closeInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.add("none");
+	}
+
 	return (
 		<IonPage>
+
+			<div onClick={showInfo} className='info-btn'>
+				<img src="/assets/info.png" alt="info" />
+			</div>
+			<div className='info-modal none'>
+				<div onClick={closeInfo} className='info-modal_close'>
+					<img src="/assets/close.png" alt="close" />
+				</div>
+				<div className='info-modal_text'>
+
+				Those are the locations where you can donate your food nearby.
+				<br/>							<br/>
+
+				Click on the location <strong>description</strong> or point to read more about it.
+				<br/>							<br/>
+
+				Some locations accept wasted food, some only big excesses.
+				<br/>							<br/>
+
+				Some locations offer rewards for the donation.
+				<br/>							<br/>
+
+				Not sure where to donate? Click <strong>Scan Product</strong> to detect best location based on the product.
+				</div>
+			</div>
 			<IonContent fullscreen>
 				<div className="your-location">
 					<IonImg src={myImage}></IonImg>

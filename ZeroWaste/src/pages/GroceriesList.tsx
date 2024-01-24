@@ -21,7 +21,7 @@ if (window.location.href.endsWith("/groceries-list")) {
 
 export function setInfoStyle(info: string) {
     let infoStyle = "";
-    if (info === "exception" || info.toLowerCase().includes("risk")) {
+    if (info.toLowerCase().includes("exception") || info.toLowerCase().includes("risk")) {
         infoStyle = "item-risk";
     } else if (info.toLowerCase().includes("quantity")) {
         infoStyle = "item-warning";
@@ -31,8 +31,168 @@ export function setInfoStyle(info: string) {
     return infoStyle;
 }
 
+export function setInfoText(info: string) { // ADD IN CURRENT PRODUCTS
+    let infoText = "";
+    if (info.toLowerCase().includes("risk")) {
+        infoText = "High Risk of Wastage!";
+    } else if (info.toLowerCase().includes("exception")) {
+        infoText = "Product in Exception list!";
+    } else if (info.toLowerCase().includes("favourite")) {
+        infoText = "Favourite";
+    }
+    return infoText;
+}
+
+/// ----- DB and Categories DBs
+export const productsDB: string[] = [
+    "apples", "bananas", "milk", "bread", "eggs", "chicken", "rice", "pasta", "tomatoes", "potatoes",
+"onions", "carrots", "spinach", "broccoli", "cheese", "yogurt", "butter", "olive oil", "cereal",
+"orange juice", "coffee", "tea", "sugar", "flour", "salt", "pepper", "cucumber", "bell peppers",
+"lettuce", "garlic", "honey", "peanut butter", "jelly", "bacon", "sausages", "ground beef", "salmon",
+"shrimp", "mayonnaise", "mustard", "ketchup", "pickles", "soy sauce", "vinegar", "salsa", "chips",
+"cookies", "chocolate", "ice cream", "frozen vegetables", "frozen pizza", "frozen fruits", "almonds",
+"walnuts", "cashews", "trail mix", "granola bars", "muesli", "peanuts", "beans",
+"bottled water", "soda", "juice boxes", "wine", "beer", "chips ahoy", "popcorn", "canned soup",
+"instant noodles", "spaghetti sauce", "cheddar cheese", "sour cream", "sliced ham", "pineapple",
+"avocado", "ground turkey", "oatmeal", "pancake mix", "maple syrup"
+];
+export const vegetablesFruits: string[] = ["apples", "apricots", "artichokes", "asparagus", "avocado", "bananas", "beets", "bell peppers", "blackberries",
+"blueberries", "bok choy", "broccoli", "brussels sprouts", "cabbage", "cantaloupe", "carrots", "cauliflower",
+"celery", "cherries", "collard greens", "cranberries", "cucumber", "dragon fruit", "eggplant", "figs", "garlic", 
+"grapes", "grapefruit", "green beans", "guava", "honey", "kiwi", "kale", "leeks", "lemons", "lettuce", "limes", 
+"mango", "melon", "nectarines", "okra", "onions", "oranges", "papaya", "passion fruit", "peaches", "pears", 
+"peas", "persimmons", "pineapple", "plums", "pomegranate", "potatoes", "pumpkin", "radishes", "raspberries", 
+"rutabaga", "spinach", "squash", "strawberries", "sweet potatoes", "tomatoes", "turnips", "watercress", 
+"watermelon", "kiwi berries", "mulberries", "gooseberries", "black currants", "elderberries", "boysenberries", 
+"cherimoya", "papaya", "star fruit", "rhubarb", "guava", "cactus pear", "plantain", "quince", "clementine", 
+"tangerines", "kumquat", "jackfruit", "lychee", "persimmons", "passion fruit", "apricot", "pomelo", "blood orange", 
+"ugli fruit", "yuzu", "boysenberry", "marionberry", "loganberry", "cloudberries", "lingonberries", "kiwi gold", 
+"grapefruit", "tangelo", "nectarines", "pawpaw", "watermelon radish", "daikon radish", "fennel", "kohlrabi", 
+"sunchokes", "parsnips", "turnip greens", "rutabaga", "wasabi", "water spinach", "rapini", "chayote", "tatsoi", 
+"endive", "escarole", "frisee", "radicchio", "bamboo shoots"
+];
+export const dairyEggs: string[] = ["milk", "cheese", "yogurt", "butter", "sour cream", "cheddar cheese", "cream cheese", "cottage cheese",
+"whipped cream", "mozzarella cheese", "feta cheese", "parmesan cheese", "gouda cheese", "brie cheese",
+"blue cheese", "swiss cheese", "provolone cheese", "greek yogurt", "vanilla yogurt", "strawberry yogurt",
+"raspberry yogurt", "almond milk", "soy milk", "coconut milk", "whipped butter", "salted butter", "unsalted butter",
+"buttermilk", "evaporated milk", "condensed milk", "eggs"
+];
+export const meat: string[] = [
+    "chicken", "beef", "pork", "lamb", "turkey", "veal", "duck", "quail", "rabbit", "bacon", "sausages", 
+    "ground beef", "ham", "salami", "pepperoni", "pastrami", "chorizo", "prosciutto", "turkey bacon", 
+    "lamb chops", "pork chops", "ground turkey", "chicken breasts", "chicken thighs", "chicken wings", 
+    "beef tenderloin", "ribeye steak", "sirloin steak", "filet mignon", "pork loin", "pork ribs", 
+    "lamb shanks", "lamb ribs", "turkey legs", "duck breasts", "quail eggs", "veal cutlets", "beef stew meat", 
+    "ground pork", "ground lamb", "ground chicken", "liver", "tripe", "kidneys", "tongue", "sausage links", 
+    "beef jerky", "lamb sausages", "chicken liver", "pork belly", "salmon", "tuna", "cod", "tilapia", "trout", "catfish", "halibut", "mahi-mahi", "swordfish", "snapper",
+    "sea bass", "sole", "perch", "haddock", "mackerel", "anchovies", "sardines", "herring", "smoked salmon",
+    "shrimp", "prawns", "lobster", "crab", "clams", "mussels", "oysters", "scallops", "squid", "octopus",
+    "caviar", "anchovy paste", "fish fillets", "fish sticks", "fish cakes", "smoked mackerel", "smoked haddock",
+    "smoked trout", "whitefish", "canned tuna", "canned salmon", "canned sardines", "canned anchovies",
+    "frozen shrimp", "frozen fish fillets", "fish roe", "fish sauce", "sushi-grade tuna", "calamari",
+    "fish stock", "seafood mix"    
+    ];
+export const other: string[] = [
+    "bread", "baguette", "whole wheat bread", "multigrain bread", "white bread", "rye bread", "sourdough bread",
+    "pita bread", "naan", "tortillas", "English muffins", "bagels", "croissants", "ciabatta", "focaccia",
+    "crackers", "rice", "brown rice", "white rice", "jasmine rice", "basmati rice", "wild rice", "quinoa", 
+    "barley", "bulgur", "couscous", "oats", "rolled oats", "steel-cut oats", "muesli", "granola", "pasta", 
+    "spaghetti", "penne", "fettuccine", "linguine", "farfalle", "macaroni", "lasagna noodles", "rice noodles", 
+    "whole wheat pasta", "gluten-free pasta", "cereal", "cornflakes", "oatmeal cookies", "rice cakes", 
+    "popcorn", "cinnamon rolls", "pretzels", "croutons", "soup", "vegetables", "beans", "tomatoes", "fruits", "tuna", "salmon", "chicken", "corn", "peas", 
+    "green beans", "carrots", "mushrooms", "olives", "peaches", "pears", "pineapple", "mandarin oranges",
+    "coconut milk", "chickpeas", "kidney beans", "black beans", "refried beans", "baked beans", "soups", 
+    "chili", "stew", "pasta sauce", "diced tomatoes", "tomato paste", "tomato sauce", "sardines", "anchovies", 
+    "crab", "clams", "oysters", "shrimp", "condensed milk", "evaporated milk", "sweetened condensed milk", 
+    "coconut cream", "pumpkin", "cranberry sauce", "green chilies", "pickles", "beets", "artichoke hearts", "olive oil", "vegetable oil", "canola oil", "coconut oil", "sesame oil", "peanut oil", "sunflower oil", 
+    "corn oil", "soybean oil", "avocado oil", "grapeseed oil", "walnut oil", "flaxseed oil", "cereal", "oats", "granola", "muesli", "cornflakes", "rice cereal", "wheat flakes", "bran flakes", 
+    "puffed rice", "shredded wheat", "multigrain cereal", "instant oats", "oat bran", "quinoa flakes", "soy sauce", "ketchup", "mustard", "mayonnaise", "vinegar", "salsa", "hot sauce", "barbecue sauce", 
+    "teriyaki sauce", "hoisin sauce", "Worcestershire sauce", "soybean paste", "oyster sauce", "fish sauce", 
+    "pasta sauce", "tomato sauce", "alfredo sauce", "pesto sauce", "sour cream", "hummus", "tzatziki", "sugar", "brown sugar", "powdered sugar", "honey", "maple syrup", "agave nectar", "corn syrup", 
+    "molasses", "artificial sweeteners", "stevia", "coconut sugar", "date sugar", "molasses", "chips", "cookies", "chocolate", "trail mix", "granola bars", "popcorn", "pretzels", "nuts", 
+    "almonds", "walnuts", "cashews", "peanuts", "dried fruit", "fruit snacks", "rice cakes", 
+    "crackers", "cheese crackers", "pretzel sticks", "popcorn balls", "tortilla chips", "salsa", 
+    "guacamole", "hummus", "corn chips", "potato chips", "vegetable chips", "beef jerky", 
+    "fruit leather", "chocolate-covered nuts", "chocolate-covered pretzels", "energy bars", "rice snacks", 
+    "pita chips", "granola clusters", "chocolate bars", "gummy candies", "pretzel twists", "fruit and nut bars", 
+    "yogurt-covered pretzels", "popcorn clusters", "rice crackers", "caramel popcorn", "toasted seaweed snacks", 
+    "rice crisps", "dark chocolate-covered fruit", "trail mix with chocolate", "protein bars", "snack mix", "orange juice", "apple juice", "grape juice", "cranberry juice", "pineapple juice", "pomegranate juice",
+    "strawberry juice", "blueberry juice", "raspberry juice", "blackberry juice", "kiwi juice", "mango juice",
+    "watermelon juice", "peach juice", "pear juice", "cherry juice", "lemon juice", "lime juice", "passion fruit juice",
+    "guava juice", "melon juice", "apricot juice", "plum juice", "coconut water", "cola", "lemon-lime soda", "orange soda", "root beer", "cream soda", "fruit-flavored sodas",
+    "ginger ale", "grape soda", "cherry cola", "citrus sodas", "berry sodas", "vanilla soda", "peach soda", "iced tea", "sweet tea", "flavored iced tea", "iced coffee", "iced lattes", "fruit smoothies", "milkshakes",
+    "iced fruit tea", "bubble tea", "slushies", "iced fruit infusions", "iced fruit lattes", "iced herbal teas",
+    "iced matcha", "iced blended beverages", "fruit-flavored milkshakes", "fruit-flavored iced lattes", "lemonade", "fruit punch", "flavored water", "sports drinks", "energy drinks", "smoothies", "hot chocolate",
+    "malted drinks", "fruit cocktails", "fruit nectars", "coconut water with flavors", "flavored lemonades",
+    "flavored hot teas", "fruit-flavored energy drinks", "flavored sparkling water", "sweetened almond milk",
+    "sweetened soy milk", "milk teas"
+    ];
+
+export const productsByCategoriesDB: { [key: string]: string[] } = { vegetablesFruits, dairyEggs, meat, other };
+// ---------
+
 const GroceriesList: React.FC = () => {
     sessionStorage.setItem("groceryRead", "1");
+
+    // --------------   DBs of suggestions
+    const favourites: string[] = (getRecords("favouriteList") as { name: string }[]).map(x => x.name);
+    const exceptions: string[] = (getRecords("exceptionList") as { name: string }[]).map(x => x.name);
+    const groceries: string[] = (getRecords("groceryList") as { name: string }[]).map(x => x.name);
+    
+    const favouritesDB: string[] = productsDB.filter(x => favourites.includes(x) && !groceries.includes(x));
+    const exceptionsDB: string[] = productsDB.filter(x => exceptions.includes(x) && !groceries.includes(x));
+    const restDB: string[] = productsDB.filter(x => !favourites.includes(x) && !exceptions.includes(x) && !groceries.includes(x));
+    
+    // --------------
+
+    ///// CATEGORIES
+    const favouriteCategory = getRecords("favouriteList").reduce((acc: [string, number][], item: { category: string }) => {
+        const category = item.category;
+
+        if (acc.some(([existingCategory]) => existingCategory === category)) {
+            acc.find(([existingCategory]) => existingCategory === category)![1]++;
+        } else {
+            // If the category is not included
+            acc.push([category, 1]);
+        }
+
+        return acc;
+    }, []);
+    console.log(favouriteCategory);
+    
+
+    const groceryCategory = getRecords("groceryList").reduce((acc: [string, number][], item: { category: string }) => {
+        const category = item.category;
+    
+        if (acc.some(([existingCategory]) => existingCategory === category)) {
+            acc.find(([existingCategory]) => existingCategory === category)![1]++;
+        } else {
+            // If the category is not included
+            acc.push([category, 1]);
+        }
+    
+        return acc;
+    }, []);
+    console.log(groceryCategory);
+    
+
+    const favouritesHighestCat = favouriteCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
+    console.log(favouritesHighestCat);
+    
+    const groceryHighestCat = groceryCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
+    console.log(groceryHighestCat);
+
+    // for the nested monstrocity
+    const filteredFavouritesByFavCat = favouritesDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
+    const filteredFavouritesByGroceryCat = favouritesDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
+    console.log(`Favs: ${favouritesDB.join(", ")}`);
+    
+
+    const filteredRestByFavCat = restDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
+    const filteredRestByGroceryCat = restDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
+
+    ////// /CATEGORIES
+
 
     const initAI = async () => {
         // Wait for TensorFlow.js to be ready
@@ -46,7 +206,7 @@ const GroceriesList: React.FC = () => {
 
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        console.log('Teachable Machine model loaded:', model);
+        // console.log('Teachable Machine model loaded:', model);
     };
     (async () => {
         await initAI();
@@ -103,27 +263,61 @@ const GroceriesList: React.FC = () => {
             console.log('Final: ' + maxString);
             console.log('Prob: ' + max);
 
-            addListElement(maxString);
+            addListElement([maxString, "Normal"]);
         } catch (error) {
             console.error('Error taking picture: ', error);
         }
     };
 
     const addSuggestion = () => {
-        const productsDB = [
-            "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
-            "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal",
-            "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers",
-            "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon",
-            "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
-            "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
-            "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli",
-            "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup",
-            "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple",
-            "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"
-        ];
+        //  * 3. give similar categories as products that are already present in the grocery list
+        let randomProduct = ["", "", ""];
+        let index = 0;
+        if (favouritesDB.length > 0) {
+            // Take a favourite from the most frequent category
+            if (filteredFavouritesByFavCat.length > 0) { // By favourite cat
+                index = Math.floor(Math.random() * filteredFavouritesByFavCat.length);
+                randomProduct[0] = filteredFavouritesByFavCat.splice(index, 1)[0];
+                console.log(`FAVOURITES BY FAV CAT`);
 
-        const randomProduct = productsDB[Math.floor(Math.random() * productsDB.length)];
+                console.log(filteredFavouritesByFavCat);
+            } else if (filteredFavouritesByGroceryCat.length > 0) { // By grocery cat
+                index = Math.floor(Math.random() * filteredFavouritesByGroceryCat.length);
+                randomProduct[0] = filteredFavouritesByGroceryCat.splice(index, 1)[0];
+                console.log(`FAVOURITES BY GROCERY CAT`);
+                console.log(filteredFavouritesByGroceryCat);
+            } else { // Anything as long as it is a favourite
+                index = Math.floor(Math.random() * favouritesDB.length);
+                randomProduct[0] = favouritesDB.splice(index, 1)[0];
+                console.log(`FAVOURITES BY ANY CAT`);
+                console.log(favouritesDB);
+            }
+            randomProduct[1] = "Favourite";
+        } else if (restDB.length > 0) {
+            if (filteredRestByFavCat.length > 0) { // By favourite cat
+                index = Math.floor(Math.random() * filteredRestByFavCat.length);
+                randomProduct[0] = filteredRestByFavCat.splice(index, 1)[0];
+                console.log(`REST BY FAV CAT`);
+
+                console.log(filteredRestByFavCat);
+            } else if (filteredRestByGroceryCat.length > 0) { // By grocery cat
+                index = Math.floor(Math.random() * filteredRestByGroceryCat.length);
+                randomProduct[0] = filteredRestByGroceryCat.splice(index, 1)[0];
+                console.log(`REST BY GROCERY CAT`);
+                console.log(filteredRestByGroceryCat);
+            } else { // Anything as long as it is a favourite
+                index = Math.floor(Math.random() * restDB.length);
+                randomProduct[0] = restDB.splice(index, 1)[0];
+                console.log(`REST BY ANY CAT`);
+            }
+            randomProduct[1] = "Normal";
+        } else {
+            index = Math.floor(Math.random() * exceptionsDB.length);
+            randomProduct[0] = exceptionsDB.splice(index, 1)[0];
+            console.log(`EXCEPTIONS BY ANY CAT`);
+            randomProduct[1] = "Exception";
+        }
+        randomProduct[2] = "vegetablesFruits";
         addListElement(randomProduct);
     }
 
@@ -132,12 +326,12 @@ const GroceriesList: React.FC = () => {
     console.log(storedGrocery);
     const [items, setItems] = useState(storedGrocery);
 
-    const addListElement = (str: string) => {
+    const addListElement = (str: string[]) => {
         const newItems = [...items];
-        newItems.push([str, "normal", "0"]);
+        newItems.push([str[0], str[1], "0", str[2]]);
         setItems(newItems);
 
-        storageGrocery.push({ name: str, info: "normal", "selected": "0" });
+        storageGrocery.push({ name: str[0], info: str[1], "selected": "0", category: str[2]});
         modifyRecords("groceryList", storageGrocery);
     }
 
@@ -185,10 +379,10 @@ const GroceriesList: React.FC = () => {
     function addItemFromModal() {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
         const updatedList = [...items];
-        updatedList.push([itemName, "normal", "0"]);
+        updatedList.push([itemName, "Normal", "0"]);
         setItems(updatedList);
 
-        storageGrocery.push({ name: itemName, info: "normal", "selected": "0" });
+        storageGrocery.push({ name: itemName, info: "Normal", "selected": "0" , category: "vegetablesFruits"});
         modifyRecords("groceryList", storageGrocery);
         setOpen(false);
     }
@@ -197,17 +391,50 @@ const GroceriesList: React.FC = () => {
         let itemStyle = "item";
         if (selected === "1") {
             itemStyle += " item-selected";
-        } 
+        }
         return itemStyle;
     }
 
+    function showInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.remove("none");
+	}
+	
+	function closeInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.add("none");
+	}
+
     return (
         <IonPage className='body'>
+
+                    <div onClick={showInfo} className='info-btn'>
+						<img src="/assets/info.png" alt="info" />
+					</div>
+					<div className='info-modal none'>
+						<div onClick={closeInfo} className='info-modal_close'>
+							<img src="/assets/close.png" alt="close" />
+						</div>
+						<div className='info-modal_text'>
+						This is the Smart Grocery List where you can select products you would like to buy.
+						<br/>							<br/>
+
+                        Press on an item to select it, and click <strong>Next</strong> when ready to get the final list.
+						<br/>							<br/>
+
+						Click <strong>Add Product</strong> to enter a missing product or <strong>Get Suggestions</strong> to get some smart suggestions from the application.
+						<br/>							<br/>
+
+						Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
+						</div>
+					</div>
             <IonHeader>
 
             </IonHeader>
             <IonContent fullscreen>
                 <div className='custom-background'>
+
+                
 
                     <h2><b style={{ marginLeft: '5px' }}>Grocery List</b></h2>
                     <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
@@ -217,7 +444,7 @@ const GroceriesList: React.FC = () => {
                         {items.map((item, index) => (
                             <div className={setItemStyle(item[2])} key={`${item[0]} ${index}`} onClick={(event) => setSelected(event)}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
+                                <div className={`item-info ${setInfoStyle(item[1])}`}>{setInfoText(item[1])}</div>
                                 <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: item[2] === "0" ? "none" : "block" }} />
                             </div>
                         ))}
