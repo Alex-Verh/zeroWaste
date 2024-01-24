@@ -62,12 +62,13 @@ ion-card-header {
     display: block;
     z-index: 4;
     border-radius: 10px;
+    border: 1px solid #000;
 
 }
 
 .info-modal_close {
     position: relative;
-    left: 270px;
+    left: 260px;
     top: 3px;
     width: 25px;
     height: 25px;
@@ -76,7 +77,7 @@ ion-card-header {
 .info-modal_text {
     width: 80%;
     margin: 20px auto;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .none {
