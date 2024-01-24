@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
 import './GroceriesList.css';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { closeOutline } from 'ionicons/icons';
 
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 import { getRecords, modifyRecords } from './Home';
 import { setInfoStyle } from './GroceriesList';
+
+// import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5Qrcode } from "html5-qrcode";
+// import jsQR from "jsqr";
+// import * as jpeg from 'jpeg-js';
 
 
 const CurrentProducts: React.FC = () => {
@@ -62,7 +67,8 @@ const CurrentProducts: React.FC = () => {
             console.log('Prob: ' + max);
 
             // Add Max String to the list //// Hardcoded to check that the function works
-            addItems([["Banana", "normal"], ["Carrot", "normal"], ["Chocolate", "normal"], ["Orange", "normal"]]);
+            // addItems([["Banana", "normal"], ["Carrot", "normal"], ["Chocolate", "normal"], ["Orange", "normal"]]);
+            addItems([[maxString, "normal"]]);
         } catch (error) {
             console.error('Error taking picture: ', error);
         }
@@ -117,6 +123,51 @@ const CurrentProducts: React.FC = () => {
         storageCurrent.splice(index, 1);
         modifyRecords("currentList", storageCurrent);
     };
+    
+    let scanner: any;
+    async function extractQR() {
+        scanner = new Html5Qrcode("reader");
+        const config = { fps: 2, qrbox: { width: 250, height: 250 } };
+        
+        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+    }
+
+    function qrSuccess(decodedText: any, decodedResult: any) {
+        scanner.stop();
+        console.log(decodedText);
+        
+        // const dirk = ['pancake', 'banana', 'beef', 'ketchup', 'mayonnaise', 'kefir', 'pickles', 'buns'];
+        // const jumbo = ['apple juice', 'orange juice', 'multifruit juice', '7up'];
+
+        const DIRK = [
+            ['Pancake', 'normal'],
+            ['Banana', 'normal'],
+            ['Beef', 'normal'],
+            ['Ketchup', 'normal'],
+            ['Mayonnaise', 'normal'],
+            ['Kefir', 'normal'],
+            ['Pickles', 'normal'],
+            ['Buns', 'normal']
+        ];
+        
+        const JUMBO = [
+            ['Apple Juice', 'normal'],
+            ['Orange Juice', 'normal'],
+            ['Multifruit Juice', 'normal'],
+            ['7UP', 'normal']
+        ];
+        
+
+        if (decodedText === 'DIRK') {
+            addItems(DIRK);
+        } else if (decodedText === 'JUMBO') {
+            addItems(JUMBO);
+        }
+    }
+
+    function qrError() {
+
+    }
 
     return (
         <IonPage className='body'>
@@ -138,8 +189,10 @@ const CurrentProducts: React.FC = () => {
             </IonContent>
 
             <footer className='foot-buttons'>
-                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
-                <IonButton href="/donation" fill="clear" expand="full" className='button-add foot-btn'>Donate</IonButton>
+                <canvas id="myCanvas"></canvas>
+                <div id="reader" style={{ transform: 'scaleX(-1)' }}></div>
+                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
+                <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
