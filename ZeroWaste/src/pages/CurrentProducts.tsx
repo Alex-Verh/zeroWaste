@@ -142,6 +142,24 @@ const CurrentProducts: React.FC = () => {
     // }
 
     async function extractQR() {
+        const DIRK = [
+            ['Pancake', 'normal'],
+            ['Banana', 'normal'],
+            ['Beef', 'normal'],
+            ['Ketchup', 'normal'],
+            ['Mayonnaise', 'normal'],
+            ['Kefir', 'normal'],
+            ['Pickles', 'normal'],
+            ['Buns', 'normal']
+        ];
+        
+        const JUMBO = [
+            ['Apple Juice', 'normal'],
+            ['Orange Juice', 'normal'],
+            ['Multifruit Juice', 'normal'],
+            ['7UP', 'normal']
+        ];
+
         try {
             const { Camera } = Plugins;
 
@@ -162,15 +180,9 @@ const CurrentProducts: React.FC = () => {
                 const qrCodeText = mlkitResult.text;
                 console.log('QR Code Text:', qrCodeText);
 
-                // Process the QR code text as needed
-                // ...
-
-                // Add scanned items to the list
-                addItems([[qrCodeText, 'normal']]);
+                addItems(DIRK);
             } else {
                 console.log('No QR Code detected');
-                // Handle case where no QR Code is detected
-                // ...
             }
         } catch (error) {
             console.error('Error extracting QR code:', error);
