@@ -9,10 +9,7 @@ import * as tmImage from '@teachablemachine/image';
 import { getRecords, modifyRecords } from './Home';
 import { setInfoStyle } from './GroceriesList';
 
-// import { Html5QrcodeScanner } from "html5-qrcode";
 import { Html5Qrcode } from "html5-qrcode";
-// import jsQR from "jsqr";
-// import * as jpeg from 'jpeg-js';
 
 
 const CurrentProducts: React.FC = () => {
