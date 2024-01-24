@@ -35,86 +35,99 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("currentRead") !== "1") {
 		sessionStorage.setItem("currentList", JSON.stringify([
 			{
-				"name": "Banana",
-				"info": "normal",
-				"expiryDate": "25.01.2024"
+				"name": "Bananas",
+				"info": "Normal",
+				"expiryDate": "25.01.2024",
+				"category": "vegetablesFruits"
 			},
 			{
 				"name": "Onions",
 				"info": "High Risk of Wastage",
-				"expiryDate": "17.02.2024"
+				"expiryDate": "17.02.2024",
+				"category": "vegetablesFruits"
 			},
 			{
 				"name": "Bread",
-				"info": "High Quantity",
-				"expiryDate": "26.01.2024"
+				"info": "Favourite",
+				"expiryDate": "26.01.2024",
+				"category": "others"
 			},
 			{
 				"name": "Cookies",
 				"info": "Favourite",
-				"selected": "0"
+				"expiryDate": "31.01.2024",
+				"category": "others"
 			}
 		]));
 	}
-
+	
 	if (sessionStorage.getItem("groceryRead") !== "1") {
 		sessionStorage.setItem("groceryList", JSON.stringify([
 			{
-				"name": "Banana",
-				"info": "normal",
-				"selected": "0"
+				"name": "Bananas",
+				"info": "Favourite",
+				"selected": "0",
+				"category": "vegetablesFruits"
 			},
 			{
 				"name": "Onions",
 				"info": "High Risk of Wastage",
-				"selected": "0"
+				"selected": "0",
+				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Bread",
-				"info": "High Quantity",
-				"selected": "0"
+				"name": "Soda",
+				"info": "Normal",
+				"selected": "0",
+				"category": "others"
 			},
 			{
 				"name": "Cookies",
-				"info": "Favourite",
-				"selected": "0"
+				"info": "Normal",
+				"selected": "0",
+				"category": "others"
 			}
 		]));
 	}
-
+	
 	if (sessionStorage.getItem("statisticsRead") !== "1") {
 		sessionStorage.setItem("favouriteList", JSON.stringify([
 			{
-				"name": "Banana",
+				"name": "Bananas",
 				"info": "Favourite",
+				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Onions",
+				"name": "Apples",
 				"info": "Favourite",
+				"category": "vegetablesFruits"
 			},
 			{
 				"name": "Bread",
 				"info": "Favourite",
+				"category": "others"
 			}
 		]));
-
+	
 		sessionStorage.setItem("exceptionList", JSON.stringify([
 			{
 				"name": "Milk",
 				"info": "Exception",
+				"category": "dairiesEggs"
 			},
 			{
 				"name": "Peanuts",
 				"info": "Exception",
+				"category": "others"
 			},
 			{
 				"name": "Beans",
 				"info": "Exception",
+				"category": "others"
 			}
 		]));
 	}
-
-
+	
 	return (
 		<IonApp>
 			<IonReactRouter>
