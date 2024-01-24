@@ -19,103 +19,68 @@ if (window.location.href.endsWith("/groceries-list")) {
     document.addEventListener('ionBackButton', onBackButton as EventListener);
 }
 
-export function setInfoStyle(info: string) {
-    let infoStyle = "";
-    if (info.toLowerCase().includes("exception") || info.toLowerCase().includes("risk")) {
-        infoStyle = "item-risk";
-    } else if (info.toLowerCase().includes("quantity")) {
-        infoStyle = "item-warning";
-    } else if (info.toLowerCase().includes("favourite")) {
-        infoStyle = "item-favourite";
-    }
-    return infoStyle;
-}
-
-export function setInfoText(info: string) { // ADD IN CURRENT PRODUCTS
-    let infoText = "";
-    if (info.toLowerCase().includes("risk")) {
-        infoText = "High Risk of Wastage!";
-    } else if (info.toLowerCase().includes("exception")) {
-        infoText = "Product in Exception list!";
-    } else if (info.toLowerCase().includes("favourite")) {
-        infoText = "Favourite";
-    }
-    return infoText;
-}
 
 /// ----- DB and Categories DBs
-export const productsDB: string[] = [
-    "apples", "bananas", "milk", "bread", "eggs", "chicken", "rice", "pasta", "tomatoes", "potatoes",
-"onions", "carrots", "spinach", "broccoli", "cheese", "yogurt", "butter", "olive oil", "cereal",
-"orange juice", "coffee", "tea", "sugar", "flour", "salt", "pepper", "cucumber", "bell peppers",
-"lettuce", "garlic", "honey", "peanut butter", "jelly", "bacon", "sausages", "ground beef", "salmon",
-"shrimp", "mayonnaise", "mustard", "ketchup", "pickles", "soy sauce", "vinegar", "salsa", "chips",
-"cookies", "chocolate", "ice cream", "frozen vegetables", "frozen pizza", "frozen fruits", "almonds",
-"walnuts", "cashews", "trail mix", "granola bars", "muesli", "peanuts", "beans",
-"bottled water", "soda", "juice boxes", "wine", "beer", "chips ahoy", "popcorn", "canned soup",
-"instant noodles", "spaghetti sauce", "cheddar cheese", "sour cream", "sliced ham", "pineapple",
-"avocado", "ground turkey", "oatmeal", "pancake mix", "maple syrup"
-];
 export const vegetablesFruits: string[] = ["apples", "apricots", "artichokes", "asparagus", "avocado", "bananas", "beets", "bell peppers", "blackberries",
-"blueberries", "bok choy", "broccoli", "brussels sprouts", "cabbage", "cantaloupe", "carrots", "cauliflower",
-"celery", "cherries", "collard greens", "cranberries", "cucumber", "dragon fruit", "eggplant", "figs", "garlic", 
-"grapes", "grapefruit", "green beans", "guava", "honey", "kiwi", "kale", "leeks", "lemons", "lettuce", "limes", 
-"mango", "melon", "nectarines", "okra", "onions", "oranges", "papaya", "passion fruit", "peaches", "pears", 
-"peas", "persimmons", "pineapple", "plums", "pomegranate", "potatoes", "pumpkin", "radishes", "raspberries", 
-"rutabaga", "spinach", "squash", "strawberries", "sweet potatoes", "tomatoes", "turnips", "watercress", 
-"watermelon", "kiwi berries", "mulberries", "gooseberries", "black currants", "elderberries", "boysenberries", 
-"cherimoya", "papaya", "star fruit", "rhubarb", "guava", "cactus pear", "plantain", "quince", "clementine", 
-"tangerines", "kumquat", "jackfruit", "lychee", "persimmons", "passion fruit", "apricot", "pomelo", "blood orange", 
-"ugli fruit", "yuzu", "boysenberry", "marionberry", "loganberry", "cloudberries", "lingonberries", "kiwi gold", 
-"grapefruit", "tangelo", "nectarines", "pawpaw", "watermelon radish", "daikon radish", "fennel", "kohlrabi", 
-"sunchokes", "parsnips", "turnip greens", "rutabaga", "wasabi", "water spinach", "rapini", "chayote", "tatsoi", 
-"endive", "escarole", "frisee", "radicchio", "bamboo shoots"
+    "blueberries", "bok choy", "broccoli", "brussels sprouts", "cabbage", "cantaloupe", "carrots", "cauliflower",
+    "celery", "cherries", "collard greens", "cranberries", "cucumber", "dragon fruit", "eggplant", "figs", "garlic",
+    "grapes", "grapefruit", "green beans", "guava", "honey", "kiwi", "kale", "leeks", "lemons", "lettuce", "limes",
+    "mango", "melon", "nectarines", "okra", "onions", "oranges", "papaya", "passion fruit", "peaches", "pears",
+    "peas", "persimmons", "pineapple", "plums", "pomegranate", "potatoes", "pumpkin", "radishes", "raspberries",
+    "rutabaga", "spinach", "squash", "strawberries", "sweet potatoes", "tomatoes", "turnips", "watercress",
+    "watermelon", "kiwi berries", "mulberries", "gooseberries", "black currants", "elderberries", "boysenberries",
+    "cherimoya", "papaya", "star fruit", "rhubarb", "guava", "cactus pear", "plantain", "quince", "clementine",
+    "tangerines", "kumquat", "jackfruit", "lychee", "persimmons", "passion fruit", "apricot", "pomelo", "blood orange",
+    "ugli fruit", "yuzu", "boysenberry", "marionberry", "loganberry", "cloudberries", "lingonberries", "kiwi gold",
+    "grapefruit", "tangelo", "nectarines", "pawpaw", "watermelon radish", "daikon radish", "fennel", "kohlrabi",
+    "sunchokes", "parsnips", "turnip greens", "rutabaga", "wasabi", "water spinach", "rapini", "chayote", "tatsoi",
+    "endive", "escarole", "frisee", "radicchio", "bamboo shoots"
 ];
 export const dairyEggs: string[] = ["milk", "cheese", "yogurt", "butter", "sour cream", "cheddar cheese", "cream cheese", "cottage cheese",
-"whipped cream", "mozzarella cheese", "feta cheese", "parmesan cheese", "gouda cheese", "brie cheese",
-"blue cheese", "swiss cheese", "provolone cheese", "greek yogurt", "vanilla yogurt", "strawberry yogurt",
-"raspberry yogurt", "almond milk", "soy milk", "coconut milk", "whipped butter", "salted butter", "unsalted butter",
-"buttermilk", "evaporated milk", "condensed milk", "eggs"
+    "whipped cream", "mozzarella cheese", "feta cheese", "parmesan cheese", "gouda cheese", "brie cheese",
+    "blue cheese", "swiss cheese", "provolone cheese", "greek yogurt", "vanilla yogurt", "strawberry yogurt",
+    "raspberry yogurt", "almond milk", "soy milk", "coconut milk", "whipped butter", "salted butter", "unsalted butter",
+    "buttermilk", "evaporated milk", "condensed milk", "eggs"
 ];
 export const meat: string[] = [
-    "chicken", "beef", "pork", "lamb", "turkey", "veal", "duck", "quail", "rabbit", "bacon", "sausages", 
-    "ground beef", "ham", "salami", "pepperoni", "pastrami", "chorizo", "prosciutto", "turkey bacon", 
-    "lamb chops", "pork chops", "ground turkey", "chicken breasts", "chicken thighs", "chicken wings", 
-    "beef tenderloin", "ribeye steak", "sirloin steak", "filet mignon", "pork loin", "pork ribs", 
-    "lamb shanks", "lamb ribs", "turkey legs", "duck breasts", "quail eggs", "veal cutlets", "beef stew meat", 
-    "ground pork", "ground lamb", "ground chicken", "liver", "tripe", "kidneys", "tongue", "sausage links", 
+    "chicken", "beef", "pork", "lamb", "turkey", "veal", "duck", "quail", "rabbit", "bacon", "sausages",
+    "ground beef", "ham", "salami", "pepperoni", "pastrami", "chorizo", "prosciutto", "turkey bacon",
+    "lamb chops", "pork chops", "ground turkey", "chicken breasts", "chicken thighs", "chicken wings",
+    "beef tenderloin", "ribeye steak", "sirloin steak", "filet mignon", "pork loin", "pork ribs",
+    "lamb shanks", "lamb ribs", "turkey legs", "duck breasts", "quail eggs", "veal cutlets", "beef stew meat",
+    "ground pork", "ground lamb", "ground chicken", "liver", "tripe", "kidneys", "tongue", "sausage links",
     "beef jerky", "lamb sausages", "chicken liver", "pork belly", "salmon", "tuna", "cod", "tilapia", "trout", "catfish", "halibut", "mahi-mahi", "swordfish", "snapper",
     "sea bass", "sole", "perch", "haddock", "mackerel", "anchovies", "sardines", "herring", "smoked salmon",
     "shrimp", "prawns", "lobster", "crab", "clams", "mussels", "oysters", "scallops", "squid", "octopus",
     "caviar", "anchovy paste", "fish fillets", "fish sticks", "fish cakes", "smoked mackerel", "smoked haddock",
     "smoked trout", "whitefish", "canned tuna", "canned salmon", "canned sardines", "canned anchovies",
     "frozen shrimp", "frozen fish fillets", "fish roe", "fish sauce", "sushi-grade tuna", "calamari",
-    "fish stock", "seafood mix"    
-    ];
+    "fish stock", "seafood mix"
+];
 export const other: string[] = [
     "bread", "baguette", "whole wheat bread", "multigrain bread", "white bread", "rye bread", "sourdough bread",
     "pita bread", "naan", "tortillas", "English muffins", "bagels", "croissants", "ciabatta", "focaccia",
-    "crackers", "rice", "brown rice", "white rice", "jasmine rice", "basmati rice", "wild rice", "quinoa", 
-    "barley", "bulgur", "couscous", "oats", "rolled oats", "steel-cut oats", "muesli", "granola", "pasta", 
-    "spaghetti", "penne", "fettuccine", "linguine", "farfalle", "macaroni", "lasagna noodles", "rice noodles", 
-    "whole wheat pasta", "gluten-free pasta", "cereal", "cornflakes", "oatmeal cookies", "rice cakes", 
-    "popcorn", "cinnamon rolls", "pretzels", "croutons", "soup", "vegetables", "beans", "tomatoes", "fruits", "tuna", "salmon", "chicken", "corn", "peas", 
+    "crackers", "rice", "brown rice", "white rice", "jasmine rice", "basmati rice", "wild rice", "quinoa",
+    "barley", "bulgur", "couscous", "oats", "rolled oats", "steel-cut oats", "muesli", "granola", "pasta",
+    "spaghetti", "penne", "fettuccine", "linguine", "farfalle", "macaroni", "lasagna noodles", "rice noodles",
+    "whole wheat pasta", "gluten-free pasta", "cereal", "cornflakes", "oatmeal cookies", "rice cakes",
+    "popcorn", "cinnamon rolls", "pretzels", "croutons", "soup", "vegetables", "beans", "tomatoes", "fruits", "tuna", "salmon", "chicken", "corn", "peas",
     "green beans", "carrots", "mushrooms", "olives", "peaches", "pears", "pineapple", "mandarin oranges",
-    "coconut milk", "chickpeas", "kidney beans", "black beans", "refried beans", "baked beans", "soups", 
-    "chili", "stew", "pasta sauce", "diced tomatoes", "tomato paste", "tomato sauce", "sardines", "anchovies", 
-    "crab", "clams", "oysters", "shrimp", "condensed milk", "evaporated milk", "sweetened condensed milk", 
-    "coconut cream", "pumpkin", "cranberry sauce", "green chilies", "pickles", "beets", "artichoke hearts", "olive oil", "vegetable oil", "canola oil", "coconut oil", "sesame oil", "peanut oil", "sunflower oil", 
-    "corn oil", "soybean oil", "avocado oil", "grapeseed oil", "walnut oil", "flaxseed oil", "cereal", "oats", "granola", "muesli", "cornflakes", "rice cereal", "wheat flakes", "bran flakes", 
-    "puffed rice", "shredded wheat", "multigrain cereal", "instant oats", "oat bran", "quinoa flakes", "soy sauce", "ketchup", "mustard", "mayonnaise", "vinegar", "salsa", "hot sauce", "barbecue sauce", 
-    "teriyaki sauce", "hoisin sauce", "Worcestershire sauce", "soybean paste", "oyster sauce", "fish sauce", 
-    "pasta sauce", "tomato sauce", "alfredo sauce", "pesto sauce", "sour cream", "hummus", "tzatziki", "sugar", "brown sugar", "powdered sugar", "honey", "maple syrup", "agave nectar", "corn syrup", 
-    "molasses", "artificial sweeteners", "stevia", "coconut sugar", "date sugar", "molasses", "chips", "cookies", "chocolate", "trail mix", "granola bars", "popcorn", "pretzels", "nuts", 
-    "almonds", "walnuts", "cashews", "peanuts", "dried fruit", "fruit snacks", "rice cakes", 
-    "crackers", "cheese crackers", "pretzel sticks", "popcorn balls", "tortilla chips", "salsa", 
-    "guacamole", "hummus", "corn chips", "potato chips", "vegetable chips", "beef jerky", 
-    "fruit leather", "chocolate-covered nuts", "chocolate-covered pretzels", "energy bars", "rice snacks", 
-    "pita chips", "granola clusters", "chocolate bars", "gummy candies", "pretzel twists", "fruit and nut bars", 
-    "yogurt-covered pretzels", "popcorn clusters", "rice crackers", "caramel popcorn", "toasted seaweed snacks", 
+    "coconut milk", "chickpeas", "kidney beans", "black beans", "refried beans", "baked beans", "soups",
+    "chili", "stew", "pasta sauce", "diced tomatoes", "tomato paste", "tomato sauce", "sardines", "anchovies",
+    "crab", "clams", "oysters", "shrimp", "condensed milk", "evaporated milk", "sweetened condensed milk",
+    "coconut cream", "pumpkin", "cranberry sauce", "green chilies", "pickles", "beets", "artichoke hearts", "olive oil", "vegetable oil", "canola oil", "coconut oil", "sesame oil", "peanut oil", "sunflower oil",
+    "corn oil", "soybean oil", "avocado oil", "grapeseed oil", "walnut oil", "flaxseed oil", "cereal", "oats", "granola", "muesli", "cornflakes", "rice cereal", "wheat flakes", "bran flakes",
+    "puffed rice", "shredded wheat", "multigrain cereal", "instant oats", "oat bran", "quinoa flakes", "soy sauce", "ketchup", "mustard", "mayonnaise", "vinegar", "salsa", "hot sauce", "barbecue sauce",
+    "teriyaki sauce", "hoisin sauce", "Worcestershire sauce", "soybean paste", "oyster sauce", "fish sauce",
+    "pasta sauce", "tomato sauce", "alfredo sauce", "pesto sauce", "sour cream", "hummus", "tzatziki", "sugar", "brown sugar", "powdered sugar", "honey", "maple syrup", "agave nectar", "corn syrup",
+    "molasses", "artificial sweeteners", "stevia", "coconut sugar", "date sugar", "molasses", "chips", "cookies", "chocolate", "trail mix", "granola bars", "popcorn", "pretzels", "nuts",
+    "almonds", "walnuts", "cashews", "peanuts", "dried fruit", "fruit snacks", "rice cakes",
+    "crackers", "cheese crackers", "pretzel sticks", "popcorn balls", "tortilla chips", "salsa",
+    "guacamole", "hummus", "corn chips", "potato chips", "vegetable chips", "beef jerky",
+    "fruit leather", "chocolate-covered nuts", "chocolate-covered pretzels", "energy bars", "rice snacks",
+    "pita chips", "granola clusters", "chocolate bars", "gummy candies", "pretzel twists", "fruit and nut bars",
+    "yogurt-covered pretzels", "popcorn clusters", "rice crackers", "caramel popcorn", "toasted seaweed snacks",
     "rice crisps", "dark chocolate-covered fruit", "trail mix with chocolate", "protein bars", "snack mix", "orange juice", "apple juice", "grape juice", "cranberry juice", "pineapple juice", "pomegranate juice",
     "strawberry juice", "blueberry juice", "raspberry juice", "blackberry juice", "kiwi juice", "mango juice",
     "watermelon juice", "peach juice", "pear juice", "cherry juice", "lemon juice", "lime juice", "passion fruit juice",
@@ -126,23 +91,29 @@ export const other: string[] = [
     "malted drinks", "fruit cocktails", "fruit nectars", "coconut water with flavors", "flavored lemonades",
     "flavored hot teas", "fruit-flavored energy drinks", "flavored sparkling water", "sweetened almond milk",
     "sweetened soy milk", "milk teas"
-    ];
+];
 
 export const productsByCategoriesDB: { [key: string]: string[] } = { vegetablesFruits, dairyEggs, meat, other };
+export const productsDB: string[] = [...vegetablesFruits, ...dairyEggs, ...meat, ...other];
+
 // ---------
 
 const GroceriesList: React.FC = () => {
     sessionStorage.setItem("groceryRead", "1");
+    const storageGrocery = getRecords("groceryList");
+    const storedGrocery = (storageGrocery as { name: string, info: string, selected: string }[]).map(x => [x.name, x.info, x.selected]);
+    console.log(storedGrocery);
+    const [items, setItems] = useState(storedGrocery);
 
     // --------------   DBs of suggestions
     const favourites: string[] = (getRecords("favouriteList") as { name: string }[]).map(x => x.name);
     const exceptions: string[] = (getRecords("exceptionList") as { name: string }[]).map(x => x.name);
     const groceries: string[] = (getRecords("groceryList") as { name: string }[]).map(x => x.name);
-    
+
     const favouritesDB: string[] = productsDB.filter(x => favourites.includes(x) && !groceries.includes(x));
     const exceptionsDB: string[] = productsDB.filter(x => exceptions.includes(x) && !groceries.includes(x));
     const restDB: string[] = productsDB.filter(x => !favourites.includes(x) && !exceptions.includes(x) && !groceries.includes(x));
-    
+
     // --------------
 
     ///// CATEGORIES
@@ -159,26 +130,26 @@ const GroceriesList: React.FC = () => {
         return acc;
     }, []);
     console.log(favouriteCategory);
-    
+
 
     const groceryCategory = getRecords("groceryList").reduce((acc: [string, number][], item: { category: string }) => {
         const category = item.category;
-    
+
         if (acc.some(([existingCategory]) => existingCategory === category)) {
             acc.find(([existingCategory]) => existingCategory === category)![1]++;
         } else {
             // If the category is not included
             acc.push([category, 1]);
         }
-    
+
         return acc;
     }, []);
     console.log(groceryCategory);
-    
+
 
     const favouritesHighestCat = favouriteCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
     console.log(favouritesHighestCat);
-    
+
     const groceryHighestCat = groceryCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
     console.log(groceryHighestCat);
 
@@ -186,7 +157,7 @@ const GroceriesList: React.FC = () => {
     const filteredFavouritesByFavCat = favouritesDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
     const filteredFavouritesByGroceryCat = favouritesDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
     console.log(`Favs: ${favouritesDB.join(", ")}`);
-    
+
 
     const filteredRestByFavCat = restDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
     const filteredRestByGroceryCat = restDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
@@ -263,7 +234,8 @@ const GroceriesList: React.FC = () => {
             console.log('Final: ' + maxString);
             console.log('Prob: ' + max);
 
-            addListElement([maxString, "Normal"]);
+            // TO DEHARDCODE
+            addListElement([maxString, "normal"]);
         } catch (error) {
             console.error('Error taking picture: ', error);
         }
@@ -321,33 +293,42 @@ const GroceriesList: React.FC = () => {
         addListElement(randomProduct);
     }
 
-    const storageGrocery = getRecords("groceryList");
-    const storedGrocery = (storageGrocery as { name: string, info: string, selected: string }[]).map(x => [x.name, x.info, x.selected]);
-    console.log(storedGrocery);
-    const [items, setItems] = useState(storedGrocery);
 
     const addListElement = (str: string[]) => {
         const newItems = [...items];
         newItems.push([str[0], str[1], "0", str[2]]);
         setItems(newItems);
 
-        storageGrocery.push({ name: str[0], info: str[1], "selected": "0", category: str[2]});
+        storageGrocery.push({ name: str[0], info: str[1], "selected": "0", category: str[2] });
         modifyRecords("groceryList", storageGrocery);
     }
 
 
+    const categoriesByNames: { [key: string]: string }[] = (getRecords("groceryList") as { name: string, category: string }[]).map(x => ({ [x.name]: x.category }));
     function storeItems() {
         const items = document.getElementsByClassName("item");
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            const name = item.getElementsByClassName("item-name")[0].textContent;
-            const info = item.getElementsByClassName("item-info")[0].textContent;
+            const name: string = item.getElementsByClassName("item-name")[0].textContent!;
+
+            const category = (categoriesByNames as { [key: string]: string }[]).filter(x => Object.keys(x).includes(name))[0][name];
+            
+            let info = item.getElementsByClassName("item-info")[0].textContent!;
+            info = setInfo(info);
             const selected = (item.getElementsByClassName("item-icon")[0] as HTMLElement).style.display !== "none" ? "1" : "0";
-            const updatedItem = { name, info, selected };
+
+            const updatedItem = { name, info, selected, category };
             storageGrocery.splice(i, 1, updatedItem);
         }
         modifyRecords("groceryList", storageGrocery);
         modifyRecords("finalList", JSON.stringify((storageGrocery as { name: string, info: string, selected: string }[]).filter(x => x.selected === "1").map(x => [x.name, x.info])));
+    }
+
+    function setInfo(cat: string) {
+        let info = "normal";
+        if (cat === "In Exceptions") info = "exception";
+        else if (cat === "Favourite") info = "favourite";
+        return info;
     }
 
     const setSelected = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -377,13 +358,17 @@ const GroceriesList: React.FC = () => {
     }
 
     function addItemFromModal() {
-        const itemName = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
-        const updatedList = [...items];
-        updatedList.push([itemName, "Normal", "0"]);
-        setItems(updatedList);
+        const itemName: string = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
+        const groceryNames = (getRecords("currentList") as { name: string }[]).map(x => x.name);
+        if (groceryNames.includes(itemName.toLowerCase())) {
+            const updatedList = [...items];
+            updatedList.push([itemName, "Normal", "0"]);
+            setItems(updatedList);
 
-        storageGrocery.push({ name: itemName, info: "Normal", "selected": "0" , category: "vegetablesFruits"});
-        modifyRecords("groceryList", storageGrocery);
+            // TO DEHARDCODE
+            storageGrocery.push({ name: itemName, info: "Normal", "selected": "0", category: "vegetablesFruits" });
+            modifyRecords("groceryList", storageGrocery);
+        }
         setOpen(false);
     }
 
@@ -396,45 +381,75 @@ const GroceriesList: React.FC = () => {
     }
 
     function showInfo() {
-		const infoModal = document.querySelector(".info-modal");
-		infoModal && infoModal.classList.remove("none");
-	}
-	
-	function closeInfo() {
-		const infoModal = document.querySelector(".info-modal");
-		infoModal && infoModal.classList.add("none");
-	}
+        const infoModal = document.querySelector(".info-modal");
+        infoModal && infoModal.classList.remove("none");
+    }
+
+    function closeInfo() {
+        const infoModal = document.querySelector(".info-modal");
+        infoModal && infoModal.classList.add("none");
+    }
+
+    // If they already have the item in the Current Products list
+    function inCurrentProducts(itemName: string) {
+        const groceryNames = (getRecords("currentList") as { name: string }[]).map(x => x.name);
+        return groceryNames.includes(itemName);
+    }
+
+    function setInfoStyle(name: string, info: string) {
+        let infoStyle = "";
+        if (inCurrentProducts(name)) {
+            infoStyle = "item-warning";
+        } else if (info === "exception") {
+            infoStyle = "item-risk";
+        } else if (info === "favourite") {
+            infoStyle = "item-favourite";
+        }
+        return infoStyle;
+    }
+
+    function setInfoText(name: string, info: string) { // ADD IN CURRENT PRODUCTS
+        let infoText = "";
+        if (inCurrentProducts(name)) {
+            infoText = "Already Have It";
+        } else if (info === "exception") {
+            infoText = "In Exceptions";
+        } else if (info.toLowerCase().includes("favourite")) {
+            infoText = "Favourite";
+        }
+        return infoText;
+    }
 
     return (
         <IonPage className='body'>
 
-                    <div onClick={showInfo} className='info-btn'>
-						<img src="/assets/info.png" alt="info" />
-					</div>
-					<div className='info-modal none'>
-						<div onClick={closeInfo} className='info-modal_close'>
-							<img src="/assets/close.png" alt="close" />
-						</div>
-						<div className='info-modal_text'>
-						This is the Smart Grocery List where you can select products you would like to buy.
-						<br/>							<br/>
+            <div onClick={showInfo} className='info-btn'>
+                <img src="/assets/info.png" alt="info" />
+            </div>
+            <div className='info-modal none'>
+                <div onClick={closeInfo} className='info-modal_close'>
+                    <img src="/assets/close.png" alt="close" />
+                </div>
+                <div className='info-modal_text'>
+                    This is the Smart Grocery List where you can select products you would like to buy.
+                    <br />							<br />
 
-                        Press on an item to select it, and click <strong>Next</strong> when ready to get the final list.
-						<br/>							<br/>
+                    Press on an item to select it, and click <strong>Next</strong> when ready to get the final list.
+                    <br />							<br />
 
-						Click <strong>Add Product</strong> to enter a missing product or <strong>Get Suggestions</strong> to get some smart suggestions from the application.
-						<br/>							<br/>
+                    Click <strong>Add Product</strong> to enter a missing product or <strong>Get Suggestions</strong> to get some smart suggestions from the application.
+                    <br />							<br />
 
-						Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
-						</div>
-					</div>
+                    Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
+                </div>
+            </div>
             <IonHeader>
 
             </IonHeader>
             <IonContent fullscreen>
                 <div className='custom-background'>
 
-                
+
 
                     <h2><b style={{ marginLeft: '5px' }}>Grocery List</b></h2>
                     <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
@@ -444,7 +459,7 @@ const GroceriesList: React.FC = () => {
                         {items.map((item, index) => (
                             <div className={setItemStyle(item[2])} key={`${item[0]} ${index}`} onClick={(event) => setSelected(event)}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${setInfoStyle(item[1])}`}>{setInfoText(item[1])}</div>
+                                <div className={`item-info ${setInfoStyle(item[0], item[1])}`}>{setInfoText(item[0], item[1])}</div>
                                 <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: item[2] === "0" ? "none" : "block" }} />
                             </div>
                         ))}

@@ -7,7 +7,7 @@ import { closeOutline } from 'ionicons/icons';
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 import { getRecords, modifyRecords } from './Home';
-import { setInfoStyle } from './GroceriesList';
+import { dairyEggs, meat, vegetablesFruits } from './GroceriesList';
 
 import { Html5Qrcode } from "html5-qrcode";
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
@@ -109,8 +109,22 @@ const CurrentProducts: React.FC = () => {
         setItems(updatedItems);
 
         // Needed function for finding expiration date of a product
-        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": x[1], "expiryDate": "29.01.2024"}));
+        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": x[1], "expiryDate": x[2], "category": setCat(x[1])}));
         modifyRecords("currentList", objectItems);
+    }
+    
+    function setCat(name: string) {
+        let cat = "";
+        if (vegetablesFruits.includes(name)) {
+            cat = "vegetablesFruits";
+        } else if (dairyEggs.includes(name)) {
+            cat = "dairyEggs";
+        } else if (meat.includes(name)) {
+            cat = "meat";
+        } else {
+            cat = "other";
+        }
+        return cat;
     }
 
     const removeItem = (index: number) => {
@@ -192,6 +206,26 @@ const CurrentProducts: React.FC = () => {
 		infoModal && infoModal.classList.add("none");
 	}
 
+    function setDate(name: string, date: string) {
+        const calcDate = new Date(date);
+        console.log(calcDate);
+        
+        if (vegetablesFruits.includes(name)) {
+            // Add 14 days to the date
+            calcDate.setDate(calcDate.getDate() + 14);
+        } else if (dairyEggs.includes(name)) {
+            // Add 7 days to the date
+            calcDate.setDate(calcDate.getDate() + 7);
+        } else if (meat.includes(name)) {
+            // Add 5 days to the date
+            calcDate.setDate(calcDate.getDate() + 5);
+        } else {
+            return "";
+        }
+        return calcDate.toLocaleDateString("en-GB");
+    }
+
+
     return (
         <IonPage className='body'>
                     <div onClick={showInfo} className='info-btn'>
@@ -225,7 +259,7 @@ const CurrentProducts: React.FC = () => {
                         {items.map((item, index) => (
                             <div className="item" key={index}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
+                                <div className="item-info">{setDate(item[0], item[2])}</div>
                                 <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(index)} />
                             </div>
                         ))}
@@ -234,8 +268,8 @@ const CurrentProducts: React.FC = () => {
             </IonContent>
 
             <footer className='foot-buttons'>
-                <canvas id="myCanvas"></canvas>
-                <div id="reader" style={{ transform: 'scaleX(-1)' }}></div>
+                <canvas id="myCanvas" className='none'></canvas>
+                <div id="reader" className='none' style={{ transform: 'scaleX(-1)' }}></div>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
                 <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>

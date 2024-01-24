@@ -2,10 +2,8 @@ import { IonContent, IonPage, IonIcon, IonButton, IonCard, IonImg, IonCardHeader
 import './Statistics.css';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { getRecords, modifyRecords } from './Home';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import myImage from '/assets/person.png';
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
 
