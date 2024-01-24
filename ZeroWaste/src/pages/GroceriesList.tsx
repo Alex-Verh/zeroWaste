@@ -201,13 +201,46 @@ const GroceriesList: React.FC = () => {
         return itemStyle;
     }
 
+    function showInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.remove("none");
+	}
+	
+	function closeInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.add("none");
+	}
+
     return (
         <IonPage className='body'>
+
+                    <div onClick={showInfo} className='info-btn'>
+						<img src="/assets/info.png" alt="info" />
+					</div>
+					<div className='info-modal none'>
+						<div onClick={closeInfo} className='info-modal_close'>
+							<img src="/assets/close.png" alt="close" />
+						</div>
+						<div className='info-modal_text'>
+						This is the Smart Grocery List where you can select products you would like to buy.
+						<br/>							<br/>
+
+                        Press on an item to select it, and click <strong>Next</strong> when ready to get the final list.
+						<br/>							<br/>
+
+						Click <strong>Add Product</strong> to enter a missing product or <strong>Get Suggestions</strong> to get some smart suggestions from the application.
+						<br/>							<br/>
+
+						Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
+						</div>
+					</div>
             <IonHeader>
 
             </IonHeader>
             <IonContent fullscreen>
                 <div className='custom-background'>
+
+                
 
                     <h2><b style={{ marginLeft: '5px' }}>Grocery List</b></h2>
                     <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>

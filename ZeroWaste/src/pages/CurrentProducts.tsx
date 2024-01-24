@@ -118,8 +118,40 @@ const CurrentProducts: React.FC = () => {
         modifyRecords("currentList", storageCurrent);
     };
 
+    function showInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.remove("none");
+	}
+	
+	function closeInfo() {
+		const infoModal = document.querySelector(".info-modal");
+		infoModal && infoModal.classList.add("none");
+	}
+
     return (
         <IonPage className='body'>
+                    <div onClick={showInfo} className='info-btn'>
+						<img src="/assets/info.png" alt="info" />
+					</div>
+					<div className='info-modal none'>
+						<div onClick={closeInfo} className='info-modal_close'>
+							<img src="/assets/close.png" alt="close" />
+						</div>
+						<div className='info-modal_text'>
+
+                        Add all items you have bought with <strong>Scan Receipt</strong> button after shopping.
+						<br/>							<br/>
+
+						Remove items from the list after using them by click <strong>X</strong> next to them.
+						<br/>							<br/>
+
+                        Get notified about expiries from the app by small descriptions for each product.
+						<br/>							<br/>
+
+						Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
+						</div>
+					</div>
+
             <IonContent>
                 <div className='custom-background'>
                     <h2><b style={{ marginLeft: '5px' }}>Current Products</b></h2>
