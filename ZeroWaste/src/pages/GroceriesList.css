@@ -65,6 +65,10 @@ sub {
     color: darkgoldenrod;
 }
 
+.item-favourite {
+    color: darkmagenta;
+}
+
 .item-icon {
     font-size: 24px;
     color: rgb(61, 224, 61);

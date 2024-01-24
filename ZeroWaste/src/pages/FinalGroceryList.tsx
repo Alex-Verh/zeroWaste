@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonPage, IonIcon, IonButton } from '@ionic/react';
+import { IonContent, IonPage, IonButton } from '@ionic/react';
 import './GroceriesList.css';
-import { checkmarkCircleOutline } from 'ionicons/icons';
+import { getRecords } from './Home';
+import { setInfoStyle } from './GroceriesList';
 
 const FinalGroceryList: React.FC = () => {
     const [items, setItems] = useState<string[][]>([]);
 
     useEffect(() => {
-        const storedItems: string[][] = JSON.parse(sessionStorage.getItem("selectedItems") || "[]");
+        const storedItems: string[][] = JSON.parse(getRecords("finalList") as string || "[]");
         setItems(storedItems);
     }, []);
 
@@ -23,8 +24,7 @@ const FinalGroceryList: React.FC = () => {
                         {items.map((item, index) => (
                             <div className="item" key={index}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${item[1] === 'High Risk of Wastage!' ? 'item-risk' : 'item-warning'}`}>{item[1]}</div>
-                                <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
                             </div>
                         ))}
                     </section>

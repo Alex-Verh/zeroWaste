@@ -32,69 +32,69 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => {
-	sessionStorage.setItem("currentList", JSON.stringify([
-		{
-			"name": "Banana",
-			"info": "normal",
-			"expiryDate": "25.01.2024"
-		},
-		{
-			"name": "Onions",
-			"info": "High Risk of Wastage",
-			"expiryDate": "17.02.2024"
-		},
-		{
-			"name": "Bread",
-			"info": "High Quantity",
-			"expiryDate": "26.01.2024"
-		}
-	]));
-
-	sessionStorage.setItem("groceryList", JSON.stringify([
-		{
-			"name": "Banana",
-			"info": "normal",
-		},
-		{
-			"name": "Onions",
-			"info": "High Risk of Wastage",
-		},
-		{
-			"name": "Bread",
-			"info": "High Quantity",
-		}
-	]));
-
-	sessionStorage.setItem("finalList", JSON.stringify([
-		{
-			"name": "Banana",
-			"info": "normal",
-		},
-		{
-			"name": "Onions",
-			"info": "High Risk of Wastage",
-		},
-		{
-			"name": "Bread",
-			"info": "High Quantity",
-		}
-	]));
-
-	if (sessionStorage.getItem("statisticsRead") !== "1") {
-		console.log("HERE");
-		
-		sessionStorage.setItem("favouriteList", JSON.stringify([
+	if (sessionStorage.getItem("currentRead") !== "1") {
+		sessionStorage.setItem("currentList", JSON.stringify([
 			{
 				"name": "Banana",
-				"info": "favourite",
+				"info": "normal",
+				"expiryDate": "25.01.2024"
 			},
 			{
 				"name": "Onions",
-				"info": "favourite",
+				"info": "High Risk of Wastage",
+				"expiryDate": "17.02.2024"
 			},
 			{
 				"name": "Bread",
-				"info": "favourite",
+				"info": "High Quantity",
+				"expiryDate": "26.01.2024"
+			},
+			{
+				"name": "Cookies",
+				"info": "Favourite",
+				"selected": "0"
+			}
+		]));
+	}
+
+	if (sessionStorage.getItem("groceryRead") !== "1") {
+		sessionStorage.setItem("groceryList", JSON.stringify([
+			{
+				"name": "Banana",
+				"info": "normal",
+				"selected": "0"
+			},
+			{
+				"name": "Onions",
+				"info": "High Risk of Wastage",
+				"selected": "0"
+			},
+			{
+				"name": "Bread",
+				"info": "High Quantity",
+				"selected": "0"
+			},
+			{
+				"name": "Cookies",
+				"info": "Favourite",
+				"selected": "0"
+			}
+		]));
+	}
+
+	if (sessionStorage.getItem("statisticsRead") !== "1") {
+		sessionStorage.setItem("favouriteList", JSON.stringify([
+			{
+				"name": "Banana",
+				"info": "Favourite",
+			},
+			{
+				"name": "Onions",
+				"info": "Favourite",
+			},
+			{
+				"name": "Bread",
+				"info": "Favourite",
 			}
 		]));
 

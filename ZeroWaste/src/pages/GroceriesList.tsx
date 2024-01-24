@@ -6,10 +6,11 @@ import { checkmarkCircleOutline } from 'ionicons/icons';
 
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
+import { getRecords, modifyRecords } from './Home';
 
 
 let model: any, maxPredictions: any;
-if (window.location.href.endsWith("/donation")) {
+if (window.location.href.endsWith("/groceries-list")) {
     const onBackButton = (event: Event) => {
         event.preventDefault();
         window.location.href = "/home";
@@ -18,37 +19,20 @@ if (window.location.href.endsWith("/donation")) {
     document.addEventListener('ionBackButton', onBackButton as EventListener);
 }
 
-const GroceriesList: React.FC = () => {
-    function storeItems() {
-        const selectedItems = document.getElementsByClassName("item-selected");
-        const items = [];
-        for (const item of selectedItems) {
-            const name = item.getElementsByClassName("item-name")[0].textContent;
-            const info = item.getElementsByClassName("item-info")[0].textContent;
-            items.push([name, info]);
-        }
-        sessionStorage.setItem("selectedItems", JSON.stringify(items));
+export function setInfoStyle(info: string) {
+    let infoStyle = "";
+    if (info === "exception" || info.toLowerCase().includes("risk")) {
+        infoStyle = "item-risk";
+    } else if (info.toLowerCase().includes("quantity")) {
+        infoStyle = "item-warning";
+    } else if (info.toLowerCase().includes("favourite")) {
+        infoStyle = "item-favourite";
     }
+    return infoStyle;
+}
 
-    const setSelected = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const item = event.currentTarget;
-        const tick: HTMLElement | null = item.querySelector(".item-icon");
-        if (item.classList.contains("item") && !item.classList.contains("item-selected")) {
-            item.classList.remove("item-deselected");
-            item.classList.add("item-selected");
-            if (tick !== null) {
-                tick.style.display = "block";
-            }
-            console.log("SELECTED");
-            return;
-        }
-        item.classList.remove("item-selected");
-        item.getAttribute("id") !== "items-list" && item.classList.add("item-deselected");
-        if (tick !== null) {
-            tick.style.display = "none";
-        }
-        console.log("NOT");
-    }
+const GroceriesList: React.FC = () => {
+    sessionStorage.setItem("groceryRead", "1");
 
     const initAI = async () => {
         // Wait for TensorFlow.js to be ready
@@ -125,7 +109,6 @@ const GroceriesList: React.FC = () => {
         }
     };
 
-    const [items, setItems] = useState(['Onions', 'Carrots', 'Apples']);
     const addSuggestion = () => {
         const productsDB = [
             "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
@@ -144,10 +127,53 @@ const GroceriesList: React.FC = () => {
         addListElement(randomProduct);
     }
 
+    const storageGrocery = getRecords("groceryList");
+    const storedGrocery = (storageGrocery as { name: string, info: string, selected: string }[]).map(x => [x.name, x.info, x.selected]);
+    console.log(storedGrocery);
+    const [items, setItems] = useState(storedGrocery);
+
     const addListElement = (str: string) => {
-        items.push(str);
         const newItems = [...items];
+        newItems.push([str, "normal", "0"]);
         setItems(newItems);
+
+        storageGrocery.push({ name: str, info: "normal", "selected": "0" });
+        modifyRecords("groceryList", storageGrocery);
+    }
+
+
+    function storeItems() {
+        const items = document.getElementsByClassName("item");
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const name = item.getElementsByClassName("item-name")[0].textContent;
+            const info = item.getElementsByClassName("item-info")[0].textContent;
+            const selected = (item.getElementsByClassName("item-icon")[0] as HTMLElement).style.display !== "none" ? "1" : "0";
+            const updatedItem = { name, info, selected };
+            storageGrocery.splice(i, 1, updatedItem);
+        }
+        modifyRecords("groceryList", storageGrocery);
+        modifyRecords("finalList", JSON.stringify((storageGrocery as { name: string, info: string, selected: string }[]).filter(x => x.selected === "1").map(x => [x.name, x.info])));
+    }
+
+    const setSelected = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const item = event.currentTarget;
+        const tick: HTMLElement | null = item.querySelector(".item-icon");
+        if (item.classList.contains("item") && !item.classList.contains("item-selected")) {
+            item.classList.remove("item-deselected");
+            item.classList.add("item-selected");
+            if (tick !== null) {
+                tick.style.display = "block";
+            }
+            console.log("SELECTED");
+            return;
+        }
+        item.classList.remove("item-selected");
+        item.getAttribute("id") !== "items-list" && item.classList.add("item-deselected");
+        if (tick !== null) {
+            tick.style.display = "none";
+        }
+        console.log("NOT");
     }
 
     //   ------------- Manual addition -------------
@@ -156,13 +182,23 @@ const GroceriesList: React.FC = () => {
         setIsModalOpen(isOpen);
     }
 
-    function addItem() {
-        const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
-
+    function addItemFromModal() {
+        const itemName = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
         const updatedList = [...items];
-        updatedList.push(itemName);
+        updatedList.push([itemName, "normal", "0"]);
         setItems(updatedList);
+
+        storageGrocery.push({ name: itemName, info: "normal", "selected": "0" });
+        modifyRecords("groceryList", storageGrocery);
         setOpen(false);
+    }
+
+    function setItemStyle(selected: string) {
+        let itemStyle = "item";
+        if (selected === "1") {
+            itemStyle += " item-selected";
+        } 
+        return itemStyle;
     }
 
     return (
@@ -179,10 +215,10 @@ const GroceriesList: React.FC = () => {
 
                     <section id="items-list">
                         {items.map((item, index) => (
-                            <div className="item" key={`${item} ${index}`} onClick={(event) => setSelected(event)}>
-                                <div className="item-name">{item}</div>
-                                <div className="item-info"></div>
-                                <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: "none" }} />
+                            <div className={setItemStyle(item[2])} key={`${item[0]} ${index}`} onClick={(event) => setSelected(event)}>
+                                <div className="item-name">{item[0]}</div>
+                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
+                                <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: item[2] === "0" ? "none" : "block" }} />
                             </div>
                         ))}
                     </section>
@@ -206,7 +242,7 @@ const GroceriesList: React.FC = () => {
                         <div className='custom-background'>
                             <h5><b>Type in the name of the product:</b></h5>
                             <IonInput id="input-item-name" label="Enter product" labelPlacement="floating" fill="outline" placeholder="Product Name"></IonInput>
-                            <IonButton onClick={() => addItem()} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
+                            <IonButton onClick={() => addItemFromModal()} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
                         </div>
                     </IonContent>
                 </div>
