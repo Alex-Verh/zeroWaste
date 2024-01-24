@@ -21,7 +21,7 @@ if (window.location.href.endsWith("/groceries-list")) {
 
 export function setInfoStyle(info: string) {
     let infoStyle = "";
-    if (info === "exception" || info.toLowerCase().includes("risk")) {
+    if (info.toLowerCase().includes("exception") || info.toLowerCase().includes("risk")) {
         infoStyle = "item-risk";
     } else if (info.toLowerCase().includes("quantity")) {
         infoStyle = "item-warning";
@@ -31,8 +31,107 @@ export function setInfoStyle(info: string) {
     return infoStyle;
 }
 
+export function setInfoText(info: string) { // ADD IN CURRENT PRODUCTS
+    let infoText = "";
+    if (info.toLowerCase().includes("risk")) {
+        infoText = "High Risk of Wastage!";
+    } else if (info.toLowerCase().includes("exception")) {
+        infoText = "Product in Exception list!";
+    } else if (info.toLowerCase().includes("favourite")) {
+        infoText = "Favourite";
+    }
+    return infoText;
+}
+
+/// ----- DB and Categories DBs
+export const productsDB: string[] = [
+    "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
+    "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal",
+    "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers",
+    "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon",
+    "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
+    "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
+    "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli", "Peanuts", "Beans",
+    "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup",
+    "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple",
+    "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"
+];
+export const vegetablesFruits: string[] = ["Apples", "Bananas", "Tomatoes", "Potatoes", "Onions", "Carrots",
+    "Spinach", "Broccoli", "Cucumber", "Bell Peppers", "Lettuce", "Garlic", "Honey", "Pineapple", "Avocado"];
+export const dairyEggs: string[] = ["Milk", "Eggs", "Cheese", "Yogurt", "Butter", "Orange Juice", "Sour Cream"];
+export const meat: string[] = ["Chicken", "Bacon", "Sausages", "Ground Beef", "Salmon", "Shrimp", "Sliced Ham",
+    "Ground Turkey"];
+export const other: string[] = ["Rice", "Pasta", "Cereal", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper",
+    "Olive Oil", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
+    "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
+    "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli", "Peanuts", "Beans", "Bottled Water", "Soda",
+    "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup", "Instant Noodles", "Spaghetti Sauce"];
+
+export const productsByCategoriesDB: { [key: string]: string[] } = { vegetablesFruits, dairyEggs, meat, other };
+// ---------
+
 const GroceriesList: React.FC = () => {
     sessionStorage.setItem("groceryRead", "1");
+
+    // --------------   DBs of suggestions
+    const favourites: string[] = (getRecords("favouriteList") as { name: string }[]).map(x => x.name);
+    const exceptions: string[] = (getRecords("exceptionList") as { name: string }[]).map(x => x.name);
+    const groceries: string[] = (getRecords("groceryList") as { name: string }[]).map(x => x.name);
+    
+    const favouritesDB: string[] = productsDB.filter(x => favourites.includes(x) && !groceries.includes(x));
+    const exceptionsDB: string[] = productsDB.filter(x => exceptions.includes(x) && !groceries.includes(x));
+    const restDB: string[] = productsDB.filter(x => !favourites.includes(x) && !exceptions.includes(x) && !groceries.includes(x));
+    
+    // --------------
+
+    ///// CATEGORIES
+    const favouriteCategory = getRecords("favouriteList").reduce((acc: [string, number][], item: { category: string }) => {
+        const category = item.category;
+
+        if (acc.some(([existingCategory]) => existingCategory === category)) {
+            acc.find(([existingCategory]) => existingCategory === category)![1]++;
+        } else {
+            // If the category is not included
+            acc.push([category, 1]);
+        }
+
+        return acc;
+    }, []);
+    console.log(favouriteCategory);
+    
+
+    const groceryCategory = getRecords("groceryList").reduce((acc: [string, number][], item: { category: string }) => {
+        const category = item.category;
+    
+        if (acc.some(([existingCategory]) => existingCategory === category)) {
+            acc.find(([existingCategory]) => existingCategory === category)![1]++;
+        } else {
+            // If the category is not included
+            acc.push([category, 1]);
+        }
+    
+        return acc;
+    }, []);
+    console.log(groceryCategory);
+    
+
+    const favouritesHighestCat = favouriteCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
+    console.log(favouritesHighestCat);
+    
+    const groceryHighestCat = groceryCategory.sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0][0];
+    console.log(groceryHighestCat);
+
+    // for the nested monstrocity
+    const filteredFavouritesByFavCat = favouritesDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
+    const filteredFavouritesByGroceryCat = favouritesDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
+    console.log(`Favs: ${favouritesDB.join(", ")}`);
+    
+
+    const filteredRestByFavCat = restDB.filter(x => productsByCategoriesDB[favouritesHighestCat].includes(x));
+    const filteredRestByGroceryCat = restDB.filter(x => productsByCategoriesDB[groceryHighestCat].includes(x));
+
+    ////// /CATEGORIES
+
 
     const initAI = async () => {
         // Wait for TensorFlow.js to be ready
@@ -46,7 +145,7 @@ const GroceriesList: React.FC = () => {
 
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        console.log('Teachable Machine model loaded:', model);
+        // console.log('Teachable Machine model loaded:', model);
     };
     (async () => {
         await initAI();
@@ -103,27 +202,61 @@ const GroceriesList: React.FC = () => {
             console.log('Final: ' + maxString);
             console.log('Prob: ' + max);
 
-            addListElement(maxString);
+            addListElement([maxString, "Normal"]);
         } catch (error) {
             console.error('Error taking picture: ', error);
         }
     };
 
     const addSuggestion = () => {
-        const productsDB = [
-            "Apples", "Bananas", "Milk", "Bread", "Eggs", "Chicken", "Rice", "Pasta", "Tomatoes", "Potatoes",
-            "Onions", "Carrots", "Spinach", "Broccoli", "Cheese", "Yogurt", "Butter", "Olive Oil", "Cereal",
-            "Orange Juice", "Coffee", "Tea", "Sugar", "Flour", "Salt", "Pepper", "Cucumber", "Bell Peppers",
-            "Lettuce", "Garlic", "Honey", "Peanut Butter", "Jelly", "Bacon", "Sausages", "Ground Beef", "Salmon",
-            "Shrimp", "Mayonnaise", "Mustard", "Ketchup", "Pickles", "Soy Sauce", "Vinegar", "Salsa", "Chips",
-            "Cookies", "Chocolate", "Ice Cream", "Frozen Vegetables", "Frozen Pizza", "Frozen Fruits", "Almonds",
-            "Walnuts", "Cashews", "Trail Mix", "Granola Bars", "Muesli",
-            "Bottled Water", "Soda", "Juice Boxes", "Wine", "Beer", "Chips Ahoy", "Popcorn", "Canned Soup",
-            "Instant Noodles", "Spaghetti Sauce", "Cheddar Cheese", "Sour Cream", "Sliced Ham", "Pineapple",
-            "Avocado", "Ground Turkey", "Oatmeal", "Pancake Mix", "Maple Syrup"
-        ];
+        //  * 3. give similar categories as products that are already present in the grocery list
+        let randomProduct = ["", "", ""];
+        let index = 0;
+        if (favouritesDB.length > 0) {
+            // Take a favourite from the most frequent category
+            if (filteredFavouritesByFavCat.length > 0) { // By favourite cat
+                index = Math.floor(Math.random() * filteredFavouritesByFavCat.length);
+                randomProduct[0] = filteredFavouritesByFavCat.splice(index, 1)[0];
+                console.log(`FAVOURITES BY FAV CAT`);
 
-        const randomProduct = productsDB[Math.floor(Math.random() * productsDB.length)];
+                console.log(filteredFavouritesByFavCat);
+            } else if (filteredFavouritesByGroceryCat.length > 0) { // By grocery cat
+                index = Math.floor(Math.random() * filteredFavouritesByGroceryCat.length);
+                randomProduct[0] = filteredFavouritesByGroceryCat.splice(index, 1)[0];
+                console.log(`FAVOURITES BY GROCERY CAT`);
+                console.log(filteredFavouritesByGroceryCat);
+            } else { // Anything as long as it is a favourite
+                index = Math.floor(Math.random() * favouritesDB.length);
+                randomProduct[0] = favouritesDB.splice(index, 1)[0];
+                console.log(`FAVOURITES BY ANY CAT`);
+                console.log(favouritesDB);
+            }
+            randomProduct[1] = "Favourite";
+        } else if (restDB.length > 0) {
+            if (filteredRestByFavCat.length > 0) { // By favourite cat
+                index = Math.floor(Math.random() * filteredRestByFavCat.length);
+                randomProduct[0] = filteredRestByFavCat.splice(index, 1)[0];
+                console.log(`REST BY FAV CAT`);
+
+                console.log(filteredRestByFavCat);
+            } else if (filteredRestByGroceryCat.length > 0) { // By grocery cat
+                index = Math.floor(Math.random() * filteredRestByGroceryCat.length);
+                randomProduct[0] = filteredRestByGroceryCat.splice(index, 1)[0];
+                console.log(`REST BY GROCERY CAT`);
+                console.log(filteredRestByGroceryCat);
+            } else { // Anything as long as it is a favourite
+                index = Math.floor(Math.random() * restDB.length);
+                randomProduct[0] = restDB.splice(index, 1)[0];
+                console.log(`REST BY ANY CAT`);
+            }
+            randomProduct[1] = "Normal";
+        } else {
+            index = Math.floor(Math.random() * exceptionsDB.length);
+            randomProduct[0] = exceptionsDB.splice(index, 1)[0];
+            console.log(`EXCEPTIONS BY ANY CAT`);
+            randomProduct[1] = "Exception";
+        }
+        randomProduct[2] = "vegetablesFruits";
         addListElement(randomProduct);
     }
 
@@ -132,12 +265,12 @@ const GroceriesList: React.FC = () => {
     console.log(storedGrocery);
     const [items, setItems] = useState(storedGrocery);
 
-    const addListElement = (str: string) => {
+    const addListElement = (str: string[]) => {
         const newItems = [...items];
-        newItems.push([str, "normal", "0"]);
+        newItems.push([str[0], str[1], "0", str[2]]);
         setItems(newItems);
 
-        storageGrocery.push({ name: str, info: "normal", "selected": "0" });
+        storageGrocery.push({ name: str[0], info: str[1], "selected": "0", category: str[2]});
         modifyRecords("groceryList", storageGrocery);
     }
 
@@ -185,10 +318,10 @@ const GroceriesList: React.FC = () => {
     function addItemFromModal() {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
         const updatedList = [...items];
-        updatedList.push([itemName, "normal", "0"]);
+        updatedList.push([itemName, "Normal", "0"]);
         setItems(updatedList);
 
-        storageGrocery.push({ name: itemName, info: "normal", "selected": "0" });
+        storageGrocery.push({ name: itemName, info: "Normal", "selected": "0" , category: "vegetablesFruits"});
         modifyRecords("groceryList", storageGrocery);
         setOpen(false);
     }
@@ -197,7 +330,7 @@ const GroceriesList: React.FC = () => {
         let itemStyle = "item";
         if (selected === "1") {
             itemStyle += " item-selected";
-        } 
+        }
         return itemStyle;
     }
 
@@ -250,7 +383,7 @@ const GroceriesList: React.FC = () => {
                         {items.map((item, index) => (
                             <div className={setItemStyle(item[2])} key={`${item[0]} ${index}`} onClick={(event) => setSelected(event)}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
+                                <div className={`item-info ${setInfoStyle(item[1])}`}>{setInfoText(item[1])}</div>
                                 <IonIcon icon={checkmarkCircleOutline} className="item-icon" style={{ display: item[2] === "0" ? "none" : "block" }} />
                             </div>
                         ))}
