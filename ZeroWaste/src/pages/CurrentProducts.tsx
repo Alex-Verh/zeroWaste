@@ -12,6 +12,7 @@ import { setInfoStyle } from './GroceriesList';
 import { Html5Qrcode } from "html5-qrcode";
 
 
+
 const CurrentProducts: React.FC = () => {
     sessionStorage.setItem("currentRead", "1");
 
@@ -121,12 +122,40 @@ const CurrentProducts: React.FC = () => {
         modifyRecords("currentList", storageCurrent);
     };
     
+    useEffect(() => {
+        requestCameraPermission();
+      }, []);
+
+    const requestCameraPermission = async () => {
+        try {
+          const status = await Camera.requestPermissions();
+          if (status.photos === 'granted') {
+            console.log('Camera permission granted');
+          } else {
+            console.log('Camera permission denied');
+          }
+        } catch (error) {
+          console.error('Error requesting camera permission:', error);
+        }
+      };
+      
+
     let scanner: any;
     async function extractQR() {
+        let cameraId: any;
+
+        await Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                cameraId = devices[0].id;
+                console.log('camera id: ', cameraId);
+            }
+        })
+
         scanner = new Html5Qrcode("reader");
         const config = { fps: 2, qrbox: { width: 250, height: 250 } };
         
-        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        scanner.start(cameraId, config, qrSuccess, qrError);
     }
 
     function qrSuccess(decodedText: any, decodedResult: any) {
