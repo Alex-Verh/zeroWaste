@@ -35,27 +35,27 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("currentRead") !== "1") {
 		sessionStorage.setItem("currentList", JSON.stringify([
 			{
-				"name": "Bananas",
-				"info": "Normal",
-				"expiryDate": "25.01.2024",
+				"name": "apples",
+				"info": "normal",
+				"expiryDate": "2024-01-28",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Onions",
-				"info": "High Risk of Wastage",
-				"expiryDate": "17.02.2024",
+				"name": "onions",
+				"info": "normal",
+				"expiryDate": "2024-01-29",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Bread",
-				"info": "Favourite",
-				"expiryDate": "26.01.2024",
+				"name": "bread",
+				"info": "favourite",
+				"expiryDate": "2024-01-27",
 				"category": "others"
 			},
 			{
-				"name": "Cookies",
-				"info": "Favourite",
-				"expiryDate": "31.01.2024",
+				"name": "cookies",
+				"info": "favourite",
+				"expiryDate": "2024-03-25",
 				"category": "others"
 			}
 		]));
@@ -64,26 +64,26 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("groceryRead") !== "1") {
 		sessionStorage.setItem("groceryList", JSON.stringify([
 			{
-				"name": "Bananas",
-				"info": "Favourite",
+				"name": "bananas",
+				"info": "favourite",
 				"selected": "0",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Onions",
-				"info": "High Risk of Wastage",
+				"name": "onions",
+				"info": "exception",
 				"selected": "0",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Soda",
-				"info": "Normal",
+				"name": "soda",
+				"info": "normal",
 				"selected": "0",
 				"category": "others"
 			},
 			{
-				"name": "Cookies",
-				"info": "Normal",
+				"name": "cookies",
+				"info": "normal",
 				"selected": "0",
 				"category": "others"
 			}
@@ -93,36 +93,36 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("statisticsRead") !== "1") {
 		sessionStorage.setItem("favouriteList", JSON.stringify([
 			{
-				"name": "Bananas",
-				"info": "Favourite",
+				"name": "bananas",
+				"info": "favourite",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Apples",
-				"info": "Favourite",
+				"name": "apples",
+				"info": "favourite",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "Bread",
-				"info": "Favourite",
+				"name": "bread",
+				"info": "favourite",
 				"category": "others"
 			}
 		]));
 	
 		sessionStorage.setItem("exceptionList", JSON.stringify([
 			{
-				"name": "Milk",
-				"info": "Exception",
+				"name": "milk",
+				"info": "exception",
 				"category": "dairiesEggs"
 			},
 			{
-				"name": "Peanuts",
-				"info": "Exception",
+				"name": "peanuts",
+				"info": "exception",
 				"category": "others"
 			},
 			{
-				"name": "Beans",
-				"info": "Exception",
+				"name": "beans",
+				"info": "exception",
 				"category": "others"
 			}
 		]));

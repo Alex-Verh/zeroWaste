@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { IonContent, IonPage, IonButton } from '@ionic/react';
 import './GroceriesList.css';
 import { getRecords } from './Home';
-import { setInfoStyle } from './GroceriesList';
 
 const FinalGroceryList: React.FC = () => {
     const [items, setItems] = useState<string[][]>([]);
@@ -11,6 +10,36 @@ const FinalGroceryList: React.FC = () => {
         const storedItems: string[][] = JSON.parse(getRecords("finalList") as string || "[]");
         setItems(storedItems);
     }, []);
+
+    const storageGrocery = getRecords("currentList");
+    function inCurrentProducts(itemName: string) {
+        const groceryNames = (storageGrocery as { name: string }[]).map(x => x.name);
+        return groceryNames.includes(itemName);
+    }
+
+    function setInfoStyle(name: string, info: string) {
+        let infoStyle = "";
+        if (inCurrentProducts(name)) {
+            infoStyle = "item-warning";
+        } else if (info === "exception") {
+            infoStyle = "item-risk";
+        } else if (info === "favourite") {
+            infoStyle = "item-favourite";
+        }
+        return infoStyle;
+    }
+
+    function setInfoText(name: string, info: string) { // ADD IN CURRENT PRODUCTS
+        let infoText = "";
+        if (inCurrentProducts(name)) { 
+            infoText = "Already Have It";
+        } else if (info === "exception") {
+            infoText = "In Exceptions";
+        } else if (info === "favourite") {
+            infoText = "Favourite";
+        }
+        return infoText;
+    }
 
     return (
         <IonPage className='body'>
@@ -24,7 +53,7 @@ const FinalGroceryList: React.FC = () => {
                         {items.map((item, index) => (
                             <div className="item" key={index}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className={`item-info ${setInfoStyle(item[1])}`}>{item[1] === "normal" ? "" : item[1]}</div>
+                                <div className={`item-info ${setInfoStyle(item[0], item[1])}`}>{setInfoText(item[0], item[1])}</div>
                             </div>
                         ))}
                     </section>
