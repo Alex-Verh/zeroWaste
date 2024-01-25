@@ -108,10 +108,10 @@ const CurrentProducts: React.FC = () => {
         setItems(updatedItems);
 
         // Needed function for finding expiration date of a product
-        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": x[1], "expiryDate": x[2], "category": setCat(x[1])}));
+        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": x[1], "expiryDate": x[2], "category": setCat(x[1]) }));
         modifyRecords("currentList", objectItems);
     }
-    
+
     function setCat(name: string) {
         let cat = "";
         if (vegetablesFruits.includes(name)) {
@@ -133,118 +133,74 @@ const CurrentProducts: React.FC = () => {
 
         storageCurrent.splice(index, 1);
         modifyRecords("currentList", storageCurrent);
-    };      
+    };
 
     let scanner: any;
-    async function extractQR() {
-        let cameraId: any;
+    // async function extractQR() {
+    //     let cameraId: any;
 
-        // await Html5Qrcode.getCameras().then(devices => {
-        //     if (devices && devices.length) {
-        //         cameraId = devices[0].id;
-        //         console.log('camera id: ', cameraId);
-        //     }
-        // })
+    //     await Html5Qrcode.getCameras().then(devices => {
+    //         if (devices && devices.length) {
+    //             cameraId = devices[0].id;
+    //             console.log('camera id: ', cameraId);
+    //         }
+    //     })
 
-        scanner = new Html5Qrcode("reader");
-        const config = { fps: 2, qrbox: { width: 250, height: 250 } };
-        
-        document.querySelector("#reader")?.classList.toggle("none");
-        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
-        // scanner.start(cameraId, config, qrSuccess, qrError);
-    }
+    //     scanner = new Html5Qrcode("reader");
+    //     const config = { fps: 2, qrbox: { width: 250, height: 250 } };
 
-    function qrSuccess(decodedText: any) {
-        document.querySelector("#reader")?.classList.toggle("none");
-        scanner.stop();
-        console.log(decodedText);
-        
-        // const dirk = ['pancake', 'banana', 'beef', 'ketchup', 'mayonnaise', 'kefir', 'pickles', 'buns'];
-        // const jumbo = ['apple juice', 'orange juice', 'multifruit juice', '7up'];
+    //     // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+    //     scanner.start(cameraId, config, qrSuccess, qrError);
+    // }
 
-        const DIRK = [
-            ['Pancake', 'normal'],
-            ['Banana', 'normal'],
-            ['Beef', 'normal'],
-            ['Ketchup', 'normal'],
-            ['Mayonnaise', 'normal'],
-            ['Kefir', 'normal'],
-            ['Pickles', 'normal'],
-            ['Buns', 'normal']
-        ];
-        
-        const JUMBO = [
-            ['Apple Juice', 'normal'],
-            ['Orange Juice', 'normal'],
-            ['Multifruit Juice', 'normal'],
-            ['7UP', 'normal']
-        ];
-        
-
-        if (decodedText === 'DIRK') {
-            addItems(DIRK);
-        } else if (decodedText === 'JUMBO') {
-            addItems(JUMBO);
-        }
-    }
-
-    function qrError() {
-
-    }
 
     function showInfo() {
-		const infoModal = document.querySelector(".info-modal");
-		infoModal && infoModal.classList.remove("none");
-	}
-	
-	function closeInfo() {
-		const infoModal = document.querySelector(".info-modal");
-		infoModal && infoModal.classList.add("none");
-	}
+        const infoModal = document.querySelector(".info-modal");
+        infoModal && infoModal.classList.remove("none");
+    }
 
-    function setDate(name: string, date: string) {
-        const calcDate = new Date(date);
-        console.log(calcDate);
-        
+    function closeInfo() {
+        const infoModal = document.querySelector(".info-modal");
+        infoModal && infoModal.classList.add("none");
+    }
+
+    function setDate(name: string) {
+        let timestamp = "";
+
         if (vegetablesFruits.includes(name)) {
-            // Add 14 days to the date
-            calcDate.setDate(calcDate.getDate() + 14);
+            timestamp = "2 weeks";
         } else if (dairyEggs.includes(name)) {
-            // Add 7 days to the date
-            calcDate.setDate(calcDate.getDate() + 7);
+            timestamp = "7 days";
         } else if (meat.includes(name)) {
-            // Add 5 days to the date
-            calcDate.setDate(calcDate.getDate() + 5);
-        } else {
-            return "";
+            timestamp = "5 days";
         }
-        return calcDate.toLocaleDateString("en-GB");
+        return timestamp;
     }
 
 
     return (
         <IonPage className='body'>
-                    <div onClick={showInfo} className='info-btn'>
-						<img src="/assets/info.png" alt="info" />
-					</div>
-					<div className='info-modal none'>
-						<div onClick={closeInfo} className='info-modal_close'>
-							<img src="/assets/close.png" alt="close" />
-						</div>
-						<div className='info-modal_text'>
+            <div onClick={showInfo} className='info-btn'>
+                <img src="/assets/info.png" alt="info" />
+            </div>
+            <div className='info-modal none'>
+                <div onClick={closeInfo} className='info-modal_close'>
+                    <img src="/assets/close.png" alt="close" />
+                </div>
+                <div className='info-modal_text'>
 
-                        Add all items you have bought with <strong>Scan Receipt</strong> button after shopping.
-						<br/>							<br/>
+                    Add all items you have bought with <strong>Scan Receipt</strong> button after shopping.
+                    <br />							<br />
 
-						Remove items from the list after using them by click <strong>X</strong> next to them.
-						<br/>							<br/>
+                    Remove items from the list after using them by click <strong>X</strong> next to them.
+                    <br />							<br />
 
-                        Get notified about expiries from the app by small descriptions for each product.
-						<br/>							<br/>
+                    Get notified about expiries from the app by small descriptions for each product.
+                    <br />							<br />
 
-						Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
-						</div>
-					</div>
+                    Manage your favourite or unwanted products in the <strong>Favourites & Exceptions</strong> section.
+                </div>
+            </div>
 
             <IonContent>
                 <div className='custom-background'>
@@ -255,7 +211,7 @@ const CurrentProducts: React.FC = () => {
                         {items.map((item, index) => (
                             <div className="item" key={index}>
                                 <div className="item-name">{item[0]}</div>
-                                <div className="item-info">{setDate(item[0], item[2])}</div>
+                                <div className="item-info">{setDate(item[0])}</div>
                                 <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(index)} />
                             </div>
                         ))}
@@ -266,7 +222,7 @@ const CurrentProducts: React.FC = () => {
             <footer className='foot-buttons'>
                 <div id="reader" className='none' style={{ transform: 'scaleX(-1)' }}></div>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
-                <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
+                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
