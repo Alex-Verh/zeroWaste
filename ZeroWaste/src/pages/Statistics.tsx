@@ -83,9 +83,9 @@ const Statistics: React.FC = () => {
             console.log('Final: ' + maxString);
             console.log('Prob: ' + max);
             console.log(event);
-            
+
             console.log(event.target);
-            
+
             addListElement(maxString, event);
         } catch (error) {
             console.error('Error taking picture: ', error);
@@ -112,6 +112,48 @@ const Statistics: React.FC = () => {
     const [favourites, setFavourites] = useState(storedFavourites);
     const [wasted, setWasted] = useState(storedExceptions);
 
+    // For the latest bug
+    const groceryList = getRecords("groceryList");
+    const currentList = getRecords("currentList");
+    const groceries: string[] = (groceryList as { name: string }[]).map(x => x.name);
+    const currents: string[] = (currentList as { name: string }[]).map(x => x.name);
+
+    function updateRecordInfo(name: string, info: string) {
+        const indexGroceries = groceries.indexOf(name);
+        const indexGroceriesWithS = groceries.indexOf(`${name}s`);
+        const indexCurrents = currents.indexOf(name);
+        const indexCurrentsWithS = currents.indexOf(`${name}s`);
+
+        if (info === "normal") {
+            console.log("NORMAL");
+            console.log(indexGroceries);
+            
+        }
+
+        if (indexGroceries !== -1) {
+            console.log(groceryList[indexGroceries]["info"]);
+            console.log(indexGroceries);
+
+            groceryList[indexGroceries]["info"] = info;
+            modifyRecords("groceryList", groceryList);
+        }
+
+        if (indexGroceriesWithS !== -1) {
+            groceryList[indexGroceriesWithS]["info"] = info;
+            modifyRecords("groceryList", groceryList);
+        }
+
+        if (indexCurrents !== -1) {
+            currentList[indexCurrents]["info"] = info;
+            modifyRecords("currentList", currentList);
+        }
+
+        if (indexCurrentsWithS !== -1) {
+            currentList[indexCurrentsWithS]["info"] = info;
+            modifyRecords("currentList", currentList);
+        }
+    }
+
     function addItem() {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
         console.log(listID)
@@ -122,6 +164,9 @@ const Statistics: React.FC = () => {
 
             const asObject: Object = { name: itemName, info: "favourite", "category": setCat(itemName) };
             storageFavourites.push(asObject);
+
+            updateRecordInfo(itemName, "favourite");
+
             modifyRecords("favouriteList", storageFavourites);
         } else if (listID === "wasted-list" && !storedExceptions.includes(itemName) && !storedExceptions.includes(`${itemName}s`)) {
             const updatedItems = [...wasted, itemName];
@@ -129,13 +174,16 @@ const Statistics: React.FC = () => {
 
             const asObject: Object = { name: itemName, info: "exception", "category": setCat(itemName) };
             storageExceptions.push(asObject);
+
+            updateRecordInfo(itemName, "exception");
+
             modifyRecords("exceptionList", storageExceptions);
         }
         setOpen(false, "");
         setItemName("");
     }
 
-    const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number, listType: string) => {
+    const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number, listType: string, itemName: string) => {
         const newList = [...list];
         console.log("INDEX: " + index);
 
@@ -150,6 +198,9 @@ const Statistics: React.FC = () => {
             storageExceptions.splice(index, 1);
             modifyRecords("exceptionList", storageExceptions);
         }
+        console.log("HERE");
+        
+        updateRecordInfo(itemName, "normal");
     };
 
     /// --------------------- For scanning
@@ -157,13 +208,16 @@ const Statistics: React.FC = () => {
         const item: HTMLIonButtonElement = event.target as HTMLIonButtonElement;
         console.log("HERE");
         console.log(item);
-        
+
         if (item!.id === "scan-button-favourite" && !storedFavourites.includes(itemName) && !storedFavourites.includes(`${itemName}s`)) {
             const newItems = [...favourites, itemName];
             setFavourites(newItems);
 
             const asObject: Object = { name: itemName, info: "favourite", "category": setCat(itemName) };
             storageExceptions.push(asObject);
+
+            updateRecordInfo(itemName, "favourite");
+
             modifyRecords("favouriteList", storageExceptions);
         } else if (item!.id === "scan-button-exception" && !storedExceptions.includes(itemName) && !storedExceptions.includes(`${itemName}s`)) {
             const newItems = [...wasted, itemName];
@@ -171,6 +225,9 @@ const Statistics: React.FC = () => {
 
             const asObject: Object = { name: itemName, info: "exception", "category": setCat(itemName) };
             storageExceptions.push(asObject);
+
+            updateRecordInfo(itemName, "exception");
+
             modifyRecords("exceptionList", storageExceptions);
         }
     }
@@ -206,7 +263,7 @@ const Statistics: React.FC = () => {
                             {favourites.map((item, index) => (
                                 <div className="item" key={index}>
                                     <div className="item-name">{item}</div>
-                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(favourites, setFavourites, index, "favouriteList")} />
+                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(favourites, setFavourites, index, "favouriteList", item)} />
                                 </div>
                             ))}
                         </IonCardContent>
@@ -230,7 +287,7 @@ const Statistics: React.FC = () => {
                             {wasted.map((item, index) => (
                                 <div className="item" key={index}>
                                     <div className="item-name">{item}</div>
-                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(wasted, setWasted, index, "exceptionList")} />
+                                    <IonIcon icon={closeOutline} className="cross-icon" onClick={() => removeItem(wasted, setWasted, index, "exceptionList", item)} />
                                 </div>
                             ))}
                         </IonCardContent>
