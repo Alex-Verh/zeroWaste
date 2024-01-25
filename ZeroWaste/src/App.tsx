@@ -9,7 +9,6 @@ import Statistics from './pages/Statistics';
 import GroceriesList from './pages/GroceriesList';
 import CurrentProducts from './pages/CurrentProducts';
 import FinalGroceryList from './pages/FinalGroceryList';
-import Test from './pages/'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,6 +32,8 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => {
+	console.log("HERE");
+	
 	if (sessionStorage.getItem("currentRead") !== "1") {
 		sessionStorage.setItem("currentList", JSON.stringify([
 			{

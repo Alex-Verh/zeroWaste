@@ -14,6 +14,8 @@ import { Html5Qrcode } from "html5-qrcode";
 
 const CurrentProducts: React.FC = () => {
     sessionStorage.setItem("currentRead", "1");
+    const favourites: string[] = (getRecords("favouriteList") as { name: string }[]).map(x => x.name);
+    const exceptions: string[] = (getRecords("exceptionList") as { name: string }[]).map(x => x.name);
 
     let model: any, maxPredictions: any;
 
@@ -96,6 +98,7 @@ const CurrentProducts: React.FC = () => {
 
     const storageCurrent = getRecords("currentList");
     const storedCurrent = (storageCurrent as { name: string, info: string }[]).map(x => [x.name, x.info]);
+    const currentItemNames = (storageCurrent as { name: string }[]).map(x => x.name);
     console.log(storedCurrent);
     const [items, setItems] = useState(storedCurrent);
 
@@ -104,21 +107,31 @@ const CurrentProducts: React.FC = () => {
      *  but I have assumed that it will be a string with the items separated with a comma.
      */
     function addItems(scannedItems: string[][]) {
-        const updatedItems = [...items, ...scannedItems];
+        const removedDuplicates = scannedItems.filter(x => !currentItemNames.includes(x[0]) && !currentItemNames.includes(x[0].substring(0, x.length - 1)));
+        const updatedItems = [...items, ...removedDuplicates];
         setItems(updatedItems);
 
-        // Needed function for finding expiration date of a product
-        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": x[1], "expiryDate": x[2], "category": setCat(x[1]) }));
+        // Needed function for finding expiration date of a product (expiry date hardcoded as we do not care)
+        const objectItems = updatedItems.map(x => ({ "name": x[0], "info": setInfoByName(x[0]), "expiryDate": "2024-01-30", "category": setCat(x[0]) }));
         modifyRecords("currentList", objectItems);
+    }
+
+    function setInfoByName(name: string) {
+        let info = "normal";
+        console.log(name.substring(0, name.length - 1));
+
+        if (favourites.includes(name) || favourites.includes(`${name}s`)) info = "favourite";
+        else if (exceptions.includes(name) || exceptions.includes(`${name}s`)) info = "exception";
+        return info;
     }
 
     function setCat(name: string) {
         let cat = "";
-        if (vegetablesFruits.includes(name)) {
+        if (vegetablesFruits.includes(name) || vegetablesFruits.includes(`${name}s`)) {
             cat = "vegetablesFruits";
-        } else if (dairyEggs.includes(name)) {
+        } else if (dairyEggs.includes(name) || dairyEggs.includes(`${name}s`)) {
             cat = "dairyEggs";
-        } else if (meat.includes(name)) {
+        } else if (meat.includes(name) || meat.includes(`${name}s`)) {
             cat = "meat";
         } else {
             cat = "other";
@@ -177,10 +190,11 @@ const CurrentProducts: React.FC = () => {
         } else if (decodedText === 'JUMBO') {
             addItems(JUMBO);
         }
-    }
-    function qrError() {
-    }
+    }    
 
+    function qrError() {
+        document.querySelector("#reader")?.classList.toggle("none");
+    }
     function showInfo() {
         const infoModal = document.querySelector(".info-modal");
         infoModal && infoModal.classList.remove("none");
@@ -193,12 +207,13 @@ const CurrentProducts: React.FC = () => {
 
     function setDate(name: string) {
         let timestamp = "";
+        console.log(name);
 
-        if (vegetablesFruits.includes(name)) {
+        if (vegetablesFruits.includes(name) || vegetablesFruits.includes(`${name}s`)) {
             timestamp = "2 weeks";
-        } else if (dairyEggs.includes(name)) {
+        } else if (dairyEggs.includes(name) || dairyEggs.includes(`${name}s`)) {
             timestamp = "7 days";
-        } else if (meat.includes(name)) {
+        } else if (meat.includes(name) || meat.includes(`${name}s`)) {
             timestamp = "5 days";
         }
         return timestamp;
@@ -253,7 +268,7 @@ const CurrentProducts: React.FC = () => {
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
-    );
+    )
 };
 
 export default CurrentProducts;

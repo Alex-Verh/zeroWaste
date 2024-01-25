@@ -34,13 +34,13 @@ export const vegetablesFruits: string[] = ["apples", "apricots", "artichokes", "
     "ugli fruit", "yuzu", "boysenberry", "marionberry", "loganberry", "cloudberries", "lingonberries", "kiwi gold",
     "grapefruit", "tangelo", "nectarines", "pawpaw", "watermelon radish", "daikon radish", "fennel", "kohlrabi",
     "sunchokes", "parsnips", "turnip greens", "rutabaga", "wasabi", "water spinach", "rapini", "chayote", "tatsoi",
-    "endive", "escarole", "frisee", "radicchio", "bamboo shoots"
+    "endive", "escarole", "frisee", "radicchio", "bamboo shoots", "pickles"
 ].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 export const dairyEggs: string[] = ["milk", "cheese", "yogurt", "butter", "sour cream", "cheddar cheese", "cream cheese", "cottage cheese",
     "whipped cream", "mozzarella cheese", "feta cheese", "parmesan cheese", "gouda cheese", "brie cheese",
     "blue cheese", "swiss cheese", "provolone cheese", "greek yogurt", "vanilla yogurt", "strawberry yogurt",
     "raspberry yogurt", "almond milk", "soy milk", "coconut milk", "whipped butter", "salted butter", "unsalted butter",
-    "buttermilk", "evaporated milk", "condensed milk", "eggs"
+    "buttermilk", "evaporated milk", "condensed milk", "eggs", "kefir", "mayonnaise"
 ].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 export const meat: string[] = [
     "chicken", "beef", "pork", "lamb", "turkey", "veal", "duck", "quail", "rabbit", "bacon", "sausages",
