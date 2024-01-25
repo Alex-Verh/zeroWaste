@@ -127,6 +127,7 @@ const Donation: React.FC = () => {
 
 	return (
 		<IonPage>
+			<IonButton href="/home" fill="clear" id='button-next' style={{ zIndex:"9999", top: "-0.1em", left:"-15em", fontSize: "1.1em", color:"#8b0000" }}>← Back</IonButton>
 
 			<div onClick={showInfo} className='info-btn'>
 				<img src="/assets/info.png" alt="info" />

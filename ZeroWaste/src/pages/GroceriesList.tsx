@@ -470,6 +470,8 @@ const GroceriesList: React.FC = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <div className='custom-background'>
+                <IonButton href="/home" fill="clear" id='button-next' style={{ top: "1.3em", right:"0em", fontSize: "0.8em" }}>← Back</IonButton>
+
                     <h2><b style={{ marginLeft: '5px' }}>Grocery List</b></h2>
                     <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
                     <IonButton href="/final-grocery-list" fill="clear" id='button-next' onClick={storeItems}>Next</IonButton>

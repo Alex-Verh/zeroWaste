@@ -246,6 +246,8 @@ const CurrentProducts: React.FC = () => {
 
             <IonContent>
                 <div className='custom-background'>
+                <IonButton href="/home" fill="clear" id='button-next' style={{ top: "3.4em", right:"-0.2em", fontSize: "0.8em" }}>← Back</IonButton>
+
                     <h2><b style={{ marginLeft: '5px' }}>Current Products</b></h2>
                     <sub style={{ fontSize: '15px' }}>Manage your current product list</sub>
 
