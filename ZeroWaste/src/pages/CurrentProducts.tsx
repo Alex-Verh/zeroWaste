@@ -136,23 +136,50 @@ const CurrentProducts: React.FC = () => {
     };
 
     let scanner: any;
-    // async function extractQR() {
-    //     let cameraId: any;
+    async function extractQR() {
+        let cameraId: any;
 
-    //     await Html5Qrcode.getCameras().then(devices => {
-    //         if (devices && devices.length) {
-    //             cameraId = devices[0].id;
-    //             console.log('camera id: ', cameraId);
-    //         }
-    //     })
+        scanner = new Html5Qrcode("reader");
+        const config = { fps: 2, qrbox: { width: 250, height: 250 } };
+        
+        document.querySelector("#reader")?.classList.toggle("none");
+        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        // scanner.start(cameraId, config, qrSuccess, qrError);
+    }
 
-    //     scanner = new Html5Qrcode("reader");
-    //     const config = { fps: 2, qrbox: { width: 250, height: 250 } };
+    function qrSuccess(decodedText: any) {
+        document.querySelector("#reader")?.classList.toggle("none");
+        scanner.stop();
+        console.log(decodedText);
 
-    //     // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
-    //     scanner.start(cameraId, config, qrSuccess, qrError);
-    // }
-
+        // const dirk = ['pancake', 'banana', 'beef', 'ketchup', 'mayonnaise', 'kefir', 'pickles', 'buns'];
+        // const jumbo = ['apple juice', 'orange juice', 'multifruit juice', '7up'];
+        const DIRK = [
+            ['Pancake', 'normal'],
+            ['Banana', 'normal'],
+            ['Beef', 'normal'],
+            ['Ketchup', 'normal'],
+            ['Mayonnaise', 'normal'],
+            ['Kefir', 'normal'],
+            ['Pickles', 'normal'],
+            ['Buns', 'normal']
+        ];
+        
+        const JUMBO = [
+            ['Apple Juice', 'normal'],
+            ['Orange Juice', 'normal'],
+            ['Multifruit Juice', 'normal'],
+            ['7UP', 'normal']
+        ];
+        
+        if (decodedText === 'DIRK') {
+            addItems(DIRK);
+        } else if (decodedText === 'JUMBO') {
+            addItems(JUMBO);
+        }
+    }
+    function qrError() {
+    }
 
     function showInfo() {
         const infoModal = document.querySelector(".info-modal");
@@ -222,7 +249,7 @@ const CurrentProducts: React.FC = () => {
             <footer className='foot-buttons'>
                 <div id="reader" className='none' style={{ transform: 'scaleX(-1)' }}></div>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
-                <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
+                <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
                 <IonButton href="/statistics" fill="clear" expand="full" className='button-stat foot-btn'>Favourites & Exceptions</IonButton>
             </footer>
         </IonPage>
