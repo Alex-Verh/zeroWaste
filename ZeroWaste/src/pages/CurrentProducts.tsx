@@ -10,7 +10,6 @@ import { getRecords, modifyRecords } from './Home';
 import { dairyEggs, meat, vegetablesFruits } from './GroceriesList';
 
 import { Html5Qrcode } from "html5-qrcode";
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 
 const CurrentProducts: React.FC = () => {
@@ -137,29 +136,25 @@ const CurrentProducts: React.FC = () => {
     };      
 
     let scanner: any;
-    // async function extractQR() {
-    //     let cameraId: any;
-
-    //     await Html5Qrcode.getCameras().then(devices => {
-    //         if (devices && devices.length) {
-    //             cameraId = devices[0].id;
-    //             console.log('camera id: ', cameraId);
-    //         }
-    //     })
-
-    //     scanner = new Html5Qrcode("reader");
-    //     const config = { fps: 2, qrbox: { width: 250, height: 250 } };
-        
-    //     // scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
-    //     scanner.start(cameraId, config, qrSuccess, qrError);
-    // }
-
     async function extractQR() {
-        const { barcodes } = await BarcodeScanner.scan();
-        console.log(barcodes);
+        let cameraId: any;
+
+        // await Html5Qrcode.getCameras().then(devices => {
+        //     if (devices && devices.length) {
+        //         cameraId = devices[0].id;
+        //         console.log('camera id: ', cameraId);
+        //     }
+        // })
+
+        scanner = new Html5Qrcode("reader");
+        const config = { fps: 2, qrbox: { width: 250, height: 250 } };
+        
+        document.querySelector("#reader")?.classList.toggle("none");
+        scanner.start({ facingMode: "environment" }, config, qrSuccess, qrError);
+        // scanner.start(cameraId, config, qrSuccess, qrError);
     }
 
-    function qrSuccess(decodedText: any, decodedResult: any) {
+    function qrSuccess(decodedText: any) {
         scanner.stop();
         console.log(decodedText);
         
@@ -268,7 +263,6 @@ const CurrentProducts: React.FC = () => {
             </IonContent>
 
             <footer className='foot-buttons'>
-                <canvas id="myCanvas" className='none'></canvas>
                 <div id="reader" className='none' style={{ transform: 'scaleX(-1)' }}></div>
                 <IonButton onClick={takePicture} fill="clear" expand="full" className='button-add foot-btn'>Scan Product</IonButton>
                 <IonButton onClick={extractQR} fill="clear" expand="full" className='button-add foot-btn'>Scan Receipt</IonButton>
