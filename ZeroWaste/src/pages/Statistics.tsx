@@ -6,6 +6,7 @@ import { getRecords, modifyRecords } from './Home';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import * as tf from '@tensorflow/tfjs';
 import * as tmImage from '@teachablemachine/image';
+import { vegetablesFruits, dairyEggs, meat } from './GroceriesList';
 
 
 const Statistics: React.FC = () => {
@@ -115,18 +116,18 @@ const Statistics: React.FC = () => {
         const itemName = (document.getElementById("input-item-name") as HTMLInputElement)?.value.trim();
         console.log(listID)
 
-        if (listID === "favourites-list") {
+        if (listID === "favourites-list" && !storedFavourites.includes(itemName) && !storedFavourites.includes(`${itemName}s`)) {
             const updatedItems = [...favourites, itemName];
             setFavourites(updatedItems);
 
-            const asObject: Object = { name: itemName, info: "Favourite" };
+            const asObject: Object = { name: itemName, info: "favourite", "category": setCat(itemName) };
             storageFavourites.push(asObject);
             modifyRecords("favouriteList", storageFavourites);
-        } else if (listID === "wasted-list") {
+        } else if (listID === "wasted-list" && !storedExceptions.includes(itemName) && !storedExceptions.includes(`${itemName}s`)) {
             const updatedItems = [...wasted, itemName];
             setWasted(updatedItems);
 
-            const asObject: Object = { name: itemName, info: "Exception" };
+            const asObject: Object = { name: itemName, info: "exception", "category": setCat(itemName) };
             storageExceptions.push(asObject);
             modifyRecords("exceptionList", storageExceptions);
         }
@@ -157,21 +158,35 @@ const Statistics: React.FC = () => {
         console.log("HERE");
         console.log(item);
         
-        if (item!.id === "scan-button-favourite") {
+        if (item!.id === "scan-button-favourite" && !storedFavourites.includes(itemName) && !storedFavourites.includes(`${itemName}s`)) {
             const newItems = [...favourites, itemName];
             setFavourites(newItems);
 
-            const asObject: Object = { name: itemName, info: "Favourite" };
+            const asObject: Object = { name: itemName, info: "favourite", "category": setCat(itemName) };
             storageExceptions.push(asObject);
             modifyRecords("favouriteList", storageExceptions);
-        } else {
+        } else if (item!.id === "scan-button-exception" && !storedExceptions.includes(itemName) && !storedExceptions.includes(`${itemName}s`)) {
             const newItems = [...wasted, itemName];
             setWasted(newItems);
 
-            const asObject: Object = { name: itemName, info: "Exception" };
+            const asObject: Object = { name: itemName, info: "exception", "category": setCat(itemName) };
             storageExceptions.push(asObject);
             modifyRecords("exceptionList", storageExceptions);
         }
+    }
+
+    function setCat(name: string) {
+        let cat = "";
+        if (vegetablesFruits.includes(name) || vegetablesFruits.includes(`${name}s`)) {
+            cat = "vegetablesFruits";
+        } else if (dairyEggs.includes(name) || dairyEggs.includes(`${name}s`)) {
+            cat = "dairyEggs";
+        } else if (meat.includes(name) || meat.includes(`${name}s`)) {
+            cat = "meat";
+        } else {
+            cat = "other";
+        }
+        return cat;
     }
 
     return (
