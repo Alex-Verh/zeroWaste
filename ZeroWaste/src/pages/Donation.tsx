@@ -7,7 +7,8 @@ import * as tmImage from '@teachablemachine/image';
 
 
 const Donation: React.FC = () => {
-	const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
+	// const URL = "https://teachablemachine.withgoogle.com/models/9OJwhBCAG/";
+	const URL = 'https://teachablemachine.withgoogle.com/models/HffjZu5yK/';
 	let model: any, maxPredictions: any;
 
 	const takePicture = async () => {
