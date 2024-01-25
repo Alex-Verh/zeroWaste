@@ -49,7 +49,7 @@ const FinalGroceryList: React.FC = () => {
                     <sub style={{ fontSize: '15px' }}>Here is your final shopping list.</sub>
                     <IonButton href="/groceries-list" fill="clear" id='button-next' style={{ top: "1.1em", fontSize: "1em" }}>← Back</IonButton>
 
-                    <section id="items-list">
+                    <section id="final-list">
                         {items.map((item, index) => (
                             <div className="item" key={index}>
                                 <div className="item-name">{item[0]}</div>

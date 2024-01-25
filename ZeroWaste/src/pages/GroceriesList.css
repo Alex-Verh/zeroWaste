@@ -8,6 +8,11 @@
     display: none;
 }
 
+#final-list {
+    overflow-y: auto;
+    height: 80%;
+}
+
 .custom-background {
     position: absolute;
     height: 100%;
