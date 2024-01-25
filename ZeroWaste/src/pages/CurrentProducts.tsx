@@ -155,6 +155,7 @@ const CurrentProducts: React.FC = () => {
     }
 
     function qrSuccess(decodedText: any) {
+        document.querySelector("#reader")?.classList.toggle("none");
         scanner.stop();
         console.log(decodedText);
         
