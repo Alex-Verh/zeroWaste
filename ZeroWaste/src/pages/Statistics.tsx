@@ -19,8 +19,8 @@ const Statistics: React.FC = () => {
         await tf.ready();
 
         // Initialize Teachable Machine
-        const URL = 'https://teachablemachine.withgoogle.com/models/9OJwhBCAG/'; // Replace with your Teachable Machine model URL
-
+        // const URL = 'https://teachablemachine.withgoogle.com/models/9OJwhBCAG/'; // Replace with your Teachable Machine model URL
+        const URL = 'https://teachablemachine.withgoogle.com/models/HffjZu5yK/';
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
