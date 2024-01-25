@@ -125,7 +125,7 @@ const App: React.FC = () => {
 			{
 				"name": "Beans",
 				"info": "exception",
-				"category": "others"
+				"category": "vegetablesFruits"
 			}
 		]));
 	}

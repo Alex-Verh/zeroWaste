@@ -327,11 +327,11 @@ const GroceriesList: React.FC = () => {
     //// ----------------------- ASSIGNMENT OF CATEGORY AND INFO
     function assignCategory(name: string) {
         let cat = "other";
-        if (vegetablesFruits.includes(name)) {
+        if (vegetablesFruits.includes(name) || vegetablesFruits.includes(`${name}s`)) {
             cat = "vegetablesFruits";
-        } else if (dairyEggs.includes(name)) {
+        } else if (dairyEggs.includes(name) || dairyEggs.includes(`${name}s`)) {
             cat = "dairiesEggs";
-        } else if (meat.includes(name)) {
+        } else if (meat.includes(name) || meat.includes(`${name}s`)) {
             cat = "meat";
         } 
         return cat;
@@ -339,8 +339,8 @@ const GroceriesList: React.FC = () => {
 
     function setInfoByName(name: string) {
         let info = "normal";
-        if (favourites.includes(name)) info = "favourite";
-        else if (exceptions.includes(name)) info = "exception";
+        if (favourites.includes(name) || favourites.includes(`${name}s`)) info = "favourite";
+        else if (exceptions.includes(name) || exceptions.includes(`${name}s`)) info = "exception";
         return info;
     }
 
@@ -420,7 +420,7 @@ const GroceriesList: React.FC = () => {
 
     function setInfoStyle(name: string, info: string) {
         let infoStyle = "";
-        if (inCurrentProducts(name)) {
+        if (inCurrentProducts(name) || inCurrentProducts(`${name}s`)) {
             infoStyle = "item-warning";
         } else if (info === "exception") {
             infoStyle = "item-risk";
@@ -432,7 +432,7 @@ const GroceriesList: React.FC = () => {
 
     function setInfoText(name: string, info: string) { // ADD IN CURRENT PRODUCTS
         let infoText = "";
-        if (inCurrentProducts(name)) {
+        if (inCurrentProducts(name) || inCurrentProducts(`${name}s`)) {
             infoText = "Already Have It";
         } else if (info === "exception") {
             infoText = "In Exceptions";
