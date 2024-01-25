@@ -83,7 +83,7 @@ const Home: React.FC = () => {
 						<IonCard className="custom-card">
 							<IonImg src="/assets/main_1.jpg"></IonImg>
 							<IonCardHeader>
-								<IonCardTitle className="custom-title">Groceries List</IonCardTitle>
+								<IonCardTitle className="custom-title">Grocery List</IonCardTitle>
 							</IonCardHeader>
 							<IonCardContent className="custom-text">
 								<p>
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
 						<IonCard className="custom-card">
 							<IonImg src="/assets/main_2.jpg"></IonImg>
 							<IonCardHeader>
-								<IonCardTitle className="custom-title">Current Food</IonCardTitle>
+								<IonCardTitle className="custom-title">Current Products</IonCardTitle>
 							</IonCardHeader>
 							<IonCardContent className="custom-text">
 								<p>
