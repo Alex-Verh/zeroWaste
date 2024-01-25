@@ -35,13 +35,13 @@ export const vegetablesFruits: string[] = ["apples", "apricots", "artichokes", "
     "grapefruit", "tangelo", "nectarines", "pawpaw", "watermelon radish", "daikon radish", "fennel", "kohlrabi",
     "sunchokes", "parsnips", "turnip greens", "rutabaga", "wasabi", "water spinach", "rapini", "chayote", "tatsoi",
     "endive", "escarole", "frisee", "radicchio", "bamboo shoots"
-];
+].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 export const dairyEggs: string[] = ["milk", "cheese", "yogurt", "butter", "sour cream", "cheddar cheese", "cream cheese", "cottage cheese",
     "whipped cream", "mozzarella cheese", "feta cheese", "parmesan cheese", "gouda cheese", "brie cheese",
     "blue cheese", "swiss cheese", "provolone cheese", "greek yogurt", "vanilla yogurt", "strawberry yogurt",
     "raspberry yogurt", "almond milk", "soy milk", "coconut milk", "whipped butter", "salted butter", "unsalted butter",
     "buttermilk", "evaporated milk", "condensed milk", "eggs"
-];
+].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 export const meat: string[] = [
     "chicken", "beef", "pork", "lamb", "turkey", "veal", "duck", "quail", "rabbit", "bacon", "sausages",
     "ground beef", "ham", "salami", "pepperoni", "pastrami", "chorizo", "prosciutto", "turkey bacon",
@@ -56,7 +56,7 @@ export const meat: string[] = [
     "smoked trout", "whitefish", "canned tuna", "canned salmon", "canned sardines", "canned anchovies",
     "frozen shrimp", "frozen fish fillets", "fish roe", "fish sauce", "sushi-grade tuna", "calamari",
     "fish stock", "seafood mix"
-];
+].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 export const other: string[] = [
     "bread", "baguette", "whole wheat bread", "multigrain bread", "white bread", "rye bread", "sourdough bread",
     "pita bread", "naan", "tortillas", "English muffins", "bagels", "croissants", "ciabatta", "focaccia",
@@ -91,7 +91,7 @@ export const other: string[] = [
     "malted drinks", "fruit cocktails", "fruit nectars", "coconut water with flavors", "flavored lemonades",
     "flavored hot teas", "fruit-flavored energy drinks", "flavored sparkling water", "sweetened almond milk",
     "sweetened soy milk", "milk teas"
-];
+].map(x => x.charAt(0).toUpperCase() + x.substring(1));
 
 export const productsByCategoriesDB: { [key: string]: string[] } = { vegetablesFruits, dairyEggs, meat, other };
 export const productsDB: string[] = [...vegetablesFruits, ...dairyEggs, ...meat, ...other];
@@ -234,8 +234,7 @@ const GroceriesList: React.FC = () => {
             console.log('Final: ' + maxString);
             console.log('Prob: ' + max);
 
-            // TO DEHARDCODE
-            addListElement([maxString, "normal"]);
+            addListElement([maxString, setInfoByName(maxString), assignCategory(maxString)]);
         } catch (error) {
             console.error('Error taking picture: ', error);
         }
@@ -264,7 +263,6 @@ const GroceriesList: React.FC = () => {
                 console.log(`FAVOURITES BY ANY CAT`);
                 console.log(favouritesDB);
             }
-            randomProduct[1] = "Favourite";
         } else if (restDB.length > 0) {
             if (filteredRestByFavCat.length > 0) { // By favourite cat
                 index = Math.floor(Math.random() * filteredRestByFavCat.length);
@@ -282,24 +280,26 @@ const GroceriesList: React.FC = () => {
                 randomProduct[0] = restDB.splice(index, 1)[0];
                 console.log(`REST BY ANY CAT`);
             }
-            randomProduct[1] = "Normal";
         } else {
             index = Math.floor(Math.random() * exceptionsDB.length);
             randomProduct[0] = exceptionsDB.splice(index, 1)[0];
             console.log(`EXCEPTIONS BY ANY CAT`);
-            randomProduct[1] = "Exception";
         }
-        randomProduct[2] = "vegetablesFruits";
+        randomProduct[1] = setInfoByName(randomProduct[0]);
+        randomProduct[2] = assignCategory(randomProduct[0]);
         addListElement(randomProduct);
     }
 
 
-    const addListElement = (str: string[]) => {
+    const addListElement = (item: string[]) => {
         const newItems = [...items];
-        newItems.push([str[0], str[1], "0", str[2]]);
+        const name = item[0];
+        const info = item[1];
+        const category = item[2];
+        newItems.push([name, info, "0", category]);
         setItems(newItems);
 
-        storageGrocery.push({ name: str[0], info: str[1], "selected": "0", category: str[2] });
+        storageGrocery.push({ name, info, "selected": "0", category });
         modifyRecords("groceryList", storageGrocery);
     }
 
@@ -313,8 +313,8 @@ const GroceriesList: React.FC = () => {
 
             const category = (categoriesByNames as { [key: string]: string }[]).filter(x => Object.keys(x).includes(name))[0][name];
             
-            let info = item.getElementsByClassName("item-info")[0].textContent!;
-            info = setInfo(info);
+            let info: string | "" = item.getElementsByClassName("item-info")[0].textContent as string | "";
+            info = setInfoByInfo(info);
             const selected = (item.getElementsByClassName("item-icon")[0] as HTMLElement).style.display !== "none" ? "1" : "0";
 
             const updatedItem = { name, info, selected, category };
@@ -324,12 +324,33 @@ const GroceriesList: React.FC = () => {
         modifyRecords("finalList", JSON.stringify((storageGrocery as { name: string, info: string, selected: string }[]).filter(x => x.selected === "1").map(x => [x.name, x.info])));
     }
 
-    function setInfo(cat: string) {
+    //// ----------------------- ASSIGNMENT OF CATEGORY AND INFO
+    function assignCategory(name: string) {
+        let cat = "other";
+        if (vegetablesFruits.includes(name)) {
+            cat = "vegetablesFruits";
+        } else if (dairyEggs.includes(name)) {
+            cat = "dairiesEggs";
+        } else if (meat.includes(name)) {
+            cat = "meat";
+        } 
+        return cat;
+    }
+
+    function setInfoByName(name: string) {
         let info = "normal";
-        if (cat === "In Exceptions") info = "exception";
-        else if (cat === "Favourite") info = "favourite";
+        if (favourites.includes(name)) info = "favourite";
+        else if (exceptions.includes(name)) info = "exception";
         return info;
     }
+
+    function setInfoByInfo(info: string) {
+        let infoSet = "normal";
+        if (info === "Favourite") infoSet = "favourite";
+        else if (info === "In Exceptions") infoSet = "exception";
+        return infoSet;
+    }
+    //// ----------------------------
 
     const setSelected = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const item = event.currentTarget;
@@ -340,7 +361,6 @@ const GroceriesList: React.FC = () => {
             if (tick !== null) {
                 tick.style.display = "block";
             }
-            console.log("SELECTED");
             return;
         }
         item.classList.remove("item-selected");
@@ -348,7 +368,6 @@ const GroceriesList: React.FC = () => {
         if (tick !== null) {
             tick.style.display = "none";
         }
-        console.log("NOT");
     }
 
     //   ------------- Manual addition -------------
@@ -359,14 +378,17 @@ const GroceriesList: React.FC = () => {
 
     function addItemFromModal() {
         const itemName: string = (document.getElementById("input-item-name") as HTMLInputElement).value.trim();
-        const groceryNames = (getRecords("currentList") as { name: string }[]).map(x => x.name);
-        if (groceryNames.includes(itemName.toLowerCase())) {
+        console.log(itemName);
+        
+        const groceryNames = (getRecords("groceryList") as { name: string }[]).map(x => x.name.toLowerCase());
+        if (!groceryNames.includes(itemName.toLowerCase())) {
             const updatedList = [...items];
-            updatedList.push([itemName, "Normal", "0"]);
+            const info = setInfoByName(itemName);
+            updatedList.push([itemName, info, "0"]);
             setItems(updatedList);
 
-            // TO DEHARDCODE
-            storageGrocery.push({ name: itemName, info: "Normal", "selected": "0", category: "vegetablesFruits" });
+            const category = assignCategory(itemName);
+            storageGrocery.push({ name: itemName, info, "selected": "0", category });
             modifyRecords("groceryList", storageGrocery);
         }
         setOpen(false);
@@ -448,9 +470,6 @@ const GroceriesList: React.FC = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <div className='custom-background'>
-
-
-
                     <h2><b style={{ marginLeft: '5px' }}>Grocery List</b></h2>
                     <sub style={{ fontSize: '15px' }}>Press to select the items you want to add</sub>
                     <IonButton href="/final-grocery-list" fill="clear" id='button-next' onClick={storeItems}>Next</IonButton>
@@ -484,7 +503,7 @@ const GroceriesList: React.FC = () => {
                         <div className='custom-background'>
                             <h5><b>Type in the name of the product:</b></h5>
                             <IonInput id="input-item-name" label="Enter product" labelPlacement="floating" fill="outline" placeholder="Product Name"></IonInput>
-                            <IonButton onClick={() => addItemFromModal()} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
+                            <IonButton onClick={addItemFromModal} fill="clear" expand="full" className='foot-btn' id="add-product">Add Product</IonButton>
                         </div>
                     </IonContent>
                 </div>

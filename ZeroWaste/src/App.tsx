@@ -36,25 +36,25 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("currentRead") !== "1") {
 		sessionStorage.setItem("currentList", JSON.stringify([
 			{
-				"name": "apples",
+				"name": "Apples",
 				"info": "normal",
 				"expiryDate": "2024-01-28",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "onions",
+				"name": "Onions",
 				"info": "normal",
 				"expiryDate": "2024-01-29",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "bread",
+				"name": "Bread",
 				"info": "favourite",
 				"expiryDate": "2024-01-27",
 				"category": "others"
 			},
 			{
-				"name": "cookies",
+				"name": "Cookies",
 				"info": "favourite",
 				"expiryDate": "2024-03-25",
 				"category": "others"
@@ -65,25 +65,25 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("groceryRead") !== "1") {
 		sessionStorage.setItem("groceryList", JSON.stringify([
 			{
-				"name": "bananas",
+				"name": "Bananas",
 				"info": "favourite",
 				"selected": "0",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "onions",
+				"name": "Onions",
 				"info": "exception",
 				"selected": "0",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "soda",
+				"name": "Soda",
 				"info": "normal",
 				"selected": "0",
 				"category": "others"
 			},
 			{
-				"name": "cookies",
+				"name": "Cookies",
 				"info": "normal",
 				"selected": "0",
 				"category": "others"
@@ -94,17 +94,17 @@ const App: React.FC = () => {
 	if (sessionStorage.getItem("statisticsRead") !== "1") {
 		sessionStorage.setItem("favouriteList", JSON.stringify([
 			{
-				"name": "bananas",
+				"name": "Bananas",
 				"info": "favourite",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "apples",
+				"name": "Apples",
 				"info": "favourite",
 				"category": "vegetablesFruits"
 			},
 			{
-				"name": "bread",
+				"name": "Bread",
 				"info": "favourite",
 				"category": "others"
 			}
@@ -112,17 +112,17 @@ const App: React.FC = () => {
 	
 		sessionStorage.setItem("exceptionList", JSON.stringify([
 			{
-				"name": "milk",
+				"name": "Milk",
 				"info": "exception",
 				"category": "dairiesEggs"
 			},
 			{
-				"name": "peanuts",
+				"name": "Peanuts",
 				"info": "exception",
 				"category": "others"
 			},
 			{
-				"name": "beans",
+				"name": "Beans",
 				"info": "exception",
 				"category": "others"
 			}
